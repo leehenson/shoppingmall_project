@@ -33,3 +33,6 @@ product.html에서 제품 상세페이지 구현하기
 
 db툴 heidisql과 mariadb를 이용하여 데이터베이스와 여러 테이블들, 쿼리 만들기
 ! 유저의 테이블과 회원가입과 로그인 화면도 구현해보기 !
+
+node.js에서 express, express_session라는 모듈들을 사용하여 웹서버 구축, mysql라는 모듈을 사용하여 db연동하고
+만든 라우터들이 정상적으로 작동하는지 확인
