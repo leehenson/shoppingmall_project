@@ -1,6 +1,7 @@
 const express = require('express'); // express 웹서버 관련 모듈 불러오기
 const app = express();  // express() 함수 호출
 const session = require('express-session'); // express-session 로그인 관련 모듈 불러오기
+const fs = require('fs');   // filesystem으로 디렉토리에 접근할 수 있게 해주는 모듈 불러오기
 
 app.use(session({   // session 처리 방법
     secret: 'secret code',  // session에 대한 key(secret code)
@@ -14,6 +15,15 @@ app.use(session({   // session 처리 방법
 
 const server = app.listen(3000, () => { // 3000번 포트로 웹서버 구동
     console.log('Server Started. port 3000.');  // 웹서버 구동 시, console로 메세지를 남김
+});
+
+let sql = require('./sql.js');    // sql.js 불러오기
+
+
+fs.watchFile(__dirname + '/sql.js', (curr, prev) => {   // file 레파지토리를 감시하다가 변경되는 것을 감지
+    console.log('sql 변경시 재시작 없이 반영되도록 함.');
+    delete require.cache[require.resolve('./sql.js')];  // 이미 올라가 있는 sql.js의 cache 삭제
+    sql = require('./sql.js');  // sql.js 다시 불러오기
 });
 
 const db = {    // 데이터베이스 불러오기
@@ -35,8 +45,6 @@ app.post('/api/logout', async (request, res) => {   // client에서 server쪽으
     request.session.destroy();
     res.send('ok');
 });
-
-const sql = require('./sql.js');    // sql.js 불러오기
 
 app.post('/apirole/:alias', async (request, res) => {   // 사용자가 서버로 지정되지 않는 데이터 요청을 할 때, 경유하게 만듬
     if(!request.session.email) {

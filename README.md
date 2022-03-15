@@ -36,3 +36,5 @@ db툴 heidisql과 mariadb를 이용하여 데이터베이스와 여러 테이블
 
 node.js에서 express, express_session라는 모듈들을 사용하여 웹서버 구축, mysql라는 모듈을 사용하여 db연동하고
 만든 라우터들이 정상적으로 작동하는지 확인
+
+각 페이지마다 필요한 data들을 node.js로 받을 수 있게 query를 만들어서 넣어줌
