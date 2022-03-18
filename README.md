@@ -38,3 +38,7 @@ node.js에서 express, express_session라는 모듈들을 사용하여 웹서버
 만든 라우터들이 정상적으로 작동하는지 확인
 
 각 페이지마다 필요한 data들을 node.js로 받을 수 있게 query를 만들어서 넣어줌
+
+vue cli를 이용하여 client 구성을 하고, vue bootstrap도 함께 설치하여 bootstrap과 vue를 호환시키고, vue-router 기능을 이용하여 페이지 이동간에 라우터를 활성화 시켜줌
+
+vue async를 설치하여 vue 컴포넌트에서 app.js를 따라 sql data를 호출할 수 있도록 해줌

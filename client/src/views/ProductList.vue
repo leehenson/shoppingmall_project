@@ -162,3 +162,17 @@
       </footer>
   </div>
 </template>
+
+<script>
+export default {
+  created() {     // data가 정상적으로 들어오는지 확인
+    this.getProductList();
+  },
+  methods: {      // 메소드 호출
+    async getProductList() {    // getProductList 메소드 호출
+      let productList = await this.$api("/api/productList",{});  // url를 따라 app.js의 /api/:alias를 타고 sql productList의 data 호출
+      console.log(productList); // 데이터를 잘 받아오는지 확인
+    }
+  }
+}
+</script>
