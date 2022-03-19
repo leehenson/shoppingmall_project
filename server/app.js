@@ -29,7 +29,7 @@ fs.watchFile(__dirname + '/sql.js', (curr, prev) => {   // file 레파지토리�
 const db = {    // 데이터베이스 불러오기
     database: "dev",
     connectionLimit: 10,
-    host: "172.29.0.100",
+    host: "172.20.10.4",
     user: "root",
     password: "mariadb"
 };
@@ -62,7 +62,7 @@ app.post('/apirole/:alias', async (request, res) => {   // 사용자가 서버�
 
 app.post('/api/:alias', async (request, res) => {   // 사용자가 서버로 지정되지 않는 데이터 요청을 할 때, 경유하게 만듬
     try{
-        res.send(await req.db(request.params.alias))    // alias에 뭐가 들어올 지 모르기 때문에 경로를 설정
+        res.send(await req.db(request.params.alias));    // alias에 뭐가 들어올 지 모르기 때문에 경로를 설정
     } catch (err) {  // err라는 에러문이 뜨도록 예외처리
         res.status(500).send({
             error: err

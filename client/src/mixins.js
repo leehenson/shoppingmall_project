@@ -9,7 +9,7 @@ export default {
                 data                // data 받음
             }).catch(e => {         // 예외처리
                 console.log(e);     // 일단 console.log로 에러 표현
-            })).date;               // data retrun
+            })).data;               // data retrun
         }
     }
 }
