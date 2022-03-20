@@ -13,6 +13,10 @@ app.use(session({   // session 처리 방법
     }
 }));
 
+app.use(express.json({  // body request 요청을 할 때 파라미터를 json형태의 최대 50mb 파라미터로 전송
+    limit: '50mb'
+}));    
+
 const server = app.listen(3000, () => { // 3000번 포트로 웹서버 구동
     console.log('Server Started. port 3000.');  // 웹서버 구동 시, console로 메세지를 남김
 });
@@ -62,7 +66,7 @@ app.post('/apirole/:alias', async (request, res) => {   // 사용자가 서버�
 
 app.post('/api/:alias', async (request, res) => {   // 사용자가 서버로 지정되지 않는 데이터 요청을 할 때, 경유하게 만듬
     try{
-        res.send(await req.db(request.params.alias));    // alias에 뭐가 들어올 지 모르기 때문에 경로를 설정
+        res.send(await req.db(request.params.alias, request.body.param));    // alias에 뭐가 들어올 지 모르기 때문에 경로를 설정, request시 body에 파라미터도 함께 들어오도록 설정
     } catch (err) {  // err라는 에러문이 뜨도록 예외처리
         res.status(500).send({
             error: err
