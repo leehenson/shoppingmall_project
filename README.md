@@ -44,3 +44,5 @@ vue cli를 이용하여 client 구성을 하고, vue bootstrap도 함께 설치�
 vue async를 설치하여 vue 컴포넌트에서 app.js를 따라 sql data를 호출할 수 있도록 해줌
 
 제품 상세페이지에 database의 data들이 들어가도록 구현
+
+DB에 삽입된 데이터를 받아와서 출력할 때 줄바꿈(개행문자)가 처리가 되지 않을 땐 `style="white-space:pre-line;"`으로 쉽게 줄바꿈(개행문자)를 처리할 수 있음

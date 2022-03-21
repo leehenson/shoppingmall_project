@@ -7,3 +7,5 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 createApp(App).use(router).mixin(mixins).mount('#app')  // 선언한 컴포넌트 호출
+
+window.kakao.init("e07a063ad40152fe7caee98950e56430");  // kakao developer 애플리케이션 가져오기

@@ -5,7 +5,7 @@
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">            
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
                 <router-link class="nav-link" to="/">HOME</router-link>
@@ -31,8 +31,10 @@
               <li class="nav-item">
                 <router-link class="nav-link" to="#">Q&A</router-link>
               </li>
-              <li class="nav-item">
-                <router-link class="nav-link" to="#">LOGIN</router-link>
+              </ul>
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li>
+                <button class="btn" type="button" @click="kakaoLogin">LOGIN</button>
               </li>
               <li class="nav-item">
                 <router-link class="nav-link" to="#">CART</router-link>
@@ -43,7 +45,7 @@
               <li class="nav-item">
                 <router-link class="nav-link" to="#">SEARCH</router-link>
               </li>
-            </ul>
+            </ul>                   
           </div>
         </div>
       </nav>
@@ -95,6 +97,31 @@
         </div>
       </footer>
 </template>
+
+<script>
+export default {
+  methods: {
+    kakaoLogin() {
+      window.Kakao.Auth.login({
+        scope: 'profile, account_email, gender',
+        success: this.getProfile
+      });
+    },
+    getProfile(authObj) {
+      console.log(authObj);
+      window.Kakao.API.request({
+        url: '/v2/user/me',
+        success: res => {
+          const kakao_account = res.kakao_account;
+          console.log(kakao_account);
+
+          alert("로그인 성공");
+        }
+      });
+    }
+  }
+}
+</script>
 
 <style>
   #app {

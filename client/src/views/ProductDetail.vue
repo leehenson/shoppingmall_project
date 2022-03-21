@@ -40,8 +40,8 @@
                           </div>
                         </nav>
                           <div class="tab-content" id="nav-tabContent">
-                          <div class="tab-pane fade show active pt-3" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">간결한 디자인의 싱글 레더 자켓 제품입니다. <br><br>리얼레더의 질감, 자연스럽게 떨어지는 매력적인 제품입니다. <br><br>간결한 디테일들로 고급스러운 데일리 연출이 가능합니다. <br>- 투웨이 집업 디테일, 니켈 흑무광 부자재 사용 <br>- 속주머니 디테일, 소매 2단 스냅, 밑단 벨트 길이 조절 <br><br>[color] <br>블랙 <br><br>[Fabric] <br>PU 45%, Payon 55% <br><br>[Model] <br>171cm 62kg / M size 착용</div>
-                          <div class="tab-pane fade pt-3" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">M – 어깨 59 / 가슴 60.5 / 소매 57 / 총장 67 <br>L – 어깨 60.5 / 가슴 61.5 / 소매 58 / 총장 68.5 <br>제품 측정에 따라 1-3cm 차이가 있을 수 있습니다.</div>
+                          <div class="tab-pane fade show active pt-3" style="white-space: pre-line;" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">{{productDetail.product_description}} <br><br>[color] <br>{{productDetail.product_color}} <br><br>[Fabric] <br>{{productDetail.product_fabric}} <br><br>[Model] <br>{{productDetail.product_model}}</div>
+                          <div class="tab-pane fade pt-3" style="white-space: pre-line;" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">{{productDetail.product_sizeGuide}} <br>제품 측정에 따라 1-3cm 차이가 있을 수 있습니다.</div>
                           <div class="tab-pane fade pt-3" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">- 선주문 후 거래처 입고를 통해 상품 발송을 도와드리고 있습니다. <br>(당일 20시 이전 주문 건, 거래처 입고 후 다음날 발송) <br><br> - 영업일 기준 3-7일 정도의 배송기간이 소요되며, 입고 지연 발생 시 개별적 연락 도와드리고 있습니다. <br><br> - 배송비 3,000원 (실구매금액 100,000원 이상 구매 시 무료 배송) <br><br> - 도서산간 및 제주지역은 별도의 추가 운임비가 발생할 수 있습니다. <br><br> - 다폼목 주문시 합배송을 원칙으로 합니다. <br> (개별상품 지연기간이 7일 이상일 경우 부분 발송)</div>
                         </div>
                       </div>
@@ -55,7 +55,7 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                           <li><a class="dropdown-item" href="#">블랙</a></li>
                         </ul>
-                      </div>
+                    </div>
                   </div>
                   <div class="row">
                     <div class="col-auto dropdown pb-3">
