@@ -41,8 +41,23 @@ const db = {    // 데이터베이스 불러오기
 const dbPool = require('mysql').createPool(db); // mariadb 모듈 불러오기, createPool로 db와 연동시키기
 
 app.post('/api/login', async (request, res) => {    // client에서 server쪽으로 axios post()방식으로 login api 가져오기
-    request.session['email'] = 'hslee7231@gmail.com';
-    res.send('ok');
+    // request.session['email'] = 'hslee7231@gmail.com';
+    // res.send('ok');
+    try {
+        await req.db('signUp', request.body.param); // signUp sql 호출하고, request시 body에 파라미터도 함께 들어오도록 설정
+        if (request.body.param.length > 0) {
+            for (let key in request.body.param[0]) request.session[key] = request.body.param[0][key];    // 받아온 파리미터의 첫번째 인자를 key값에 넣어줌
+            res.send(request.body.param[0]);    // 받아왔던 파라미터를 보내줌
+        }else { // 파라미터 없이 api를 호출했을 시
+            res.send({
+                error: "Please try again or contact system manager."
+              });
+        }
+    } catch(err) {  // DB에 저장 도중 error가 났을 시
+        res.send({
+            error: "DB access error"
+        });
+    }
 });
 
 app.post('/api/logout', async (request, res) => {   // client에서 server쪽으로 axios post()방식으로 logout api가져오기

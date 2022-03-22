@@ -33,8 +33,11 @@
               </li>
               </ul>
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li>
-                <button class="btn" type="button" @click="kakaoLogin">LOGIN</button>
+              <li v-if="user.email==undefined">
+                <button class="btn" type="button" @click="kakaologin">LOGIN</button>
+              </li>
+              <li v-else>
+                <button class="btn" type="button" @click="kakaologout">LOGOUT</button>
               </li>
               <li class="nav-item">
                 <router-link class="nav-link" to="#">CART</router-link>
@@ -100,23 +103,44 @@
 
 <script>
 export default {
+  computed: {
+    user() {
+      return this.$store.state.user;  // user 정보가 바뀔 때마다 자동으로 user() 갱신
+    }
+  },
   methods: {
-    kakaoLogin() {
+    kakaologin() {
       window.Kakao.Auth.login({
-        scope: 'profile, account_email, gender',
+        scope: 'profile_nickname, profile_image, account_email, gender',
         success: this.getProfile
       });
     },
-    getProfile(authObj) {
+    getProfile(authObj) { 
       console.log(authObj);
       window.Kakao.API.request({
         url: '/v2/user/me',
         success: res => {
           const kakao_account = res.kakao_account;
           console.log(kakao_account);
-
-          alert("로그인 성공");
+          this.login(kakao_account);
+          alert("로그인 성공!");
         }
+      });
+    },
+    async login(kakao_account) {  // login겸 signup
+      await this.$api("/api/login", {
+        param: [
+          {email:kakao_account.email, nickname:kakao_account.profile.nickname},
+          {nickname:kakao_account.profile.nickname}
+        ]
+      });
+      this.$store.commit("user", kakao_account);  // 로그인 시 user정보를 지속적으로 가져와 사용 가능
+    },
+    kakaologout() { // logout
+      window.Kakao.Auth.logout((response) => {
+        console.log(response);
+        this.$store.commit("user", {});
+        alert("로그아웃");
       });
     }
   }
