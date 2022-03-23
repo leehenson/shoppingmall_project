@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light" style="background-color: white;">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Kong shop</a>
+          <a class="navbar-brand" href="/">Kong shop</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -14,7 +14,7 @@
                 <router-link class="nav-link" to="/detail">OUTER</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/create">TOP</router-link>
+                <router-link class="nav-link" to="#">TOP</router-link>
               </li>
               <li class="nav-item">
                 <router-link class="nav-link" to="#">BOTTOM</router-link>
@@ -31,14 +31,17 @@
               <li class="nav-item">
                 <router-link class="nav-link" to="#">Q&A</router-link>
               </li>
-              </ul>
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li v-if="user.email==undefined">
-                <button class="btn" type="button" @click="kakaologin">LOGIN</button>
+              <li v-if="user.email!=undefined" class="nav-item">
+                <router-link class="nav-link" to="/create">PRODUCT RESISTRATION</router-link>
               </li>
-              <li v-else>
-                <button class="btn" type="button" @click="kakaologout">LOGOUT</button>
+            </ul>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li v-if="user.email==undefined" class="nav-item">
+                <button class="btn" type="button" @click="kakaoLoin">LOGIN</button>
               </li>
+              <li v-else class="nav-item">
+                <button class="btn" type="button" @click="kakaoLogout">LOGOUT</button>
+              </li>             
               <li class="nav-item">
                 <router-link class="nav-link" to="#">CART</router-link>
               </li>
@@ -109,13 +112,13 @@ export default {
     }
   },
   methods: {
-    kakaologin() {
+    kakaoLoin() {
       window.Kakao.Auth.login({
-        scope: 'profile_nickname, profile_image, account_email, gender',
+        scope: 'profile_nickname, account_email, gender',
         success: this.getProfile
       });
     },
-    getProfile(authObj) { 
+    getProfile(authObj) {
       console.log(authObj);
       window.Kakao.API.request({
         url: '/v2/user/me',
@@ -134,13 +137,15 @@ export default {
           {nickname:kakao_account.profile.nickname}
         ]
       });
-      this.$store.commit("user", kakao_account);  // 로그인 시 user정보를 지속적으로 가져와 사용 가능
+
+      this.$store.commit("user", kakao_account);  // store에 user 정보를 갱신
     },
-    kakaologout() { // logout
+    kakaoLogout() {
       window.Kakao.Auth.logout((response) => {
         console.log(response);
         this.$store.commit("user", {});
         alert("로그아웃");
+
       });
     }
   }

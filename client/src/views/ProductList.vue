@@ -7,7 +7,7 @@
             <a @click="goToDetail(product.id);" style="cursor:pointer;"><img :src="product.path" class="card-img-top" alt="..."></a>
             <div class="card-body">
               <h5 class="card-title">{{product.product_name}}</h5>
-              <p class="card-text">{{product.product_price}}원</p>
+              <p class="card-text">{{getCurrencyFormat(product.product_price)}}원</p>
             </div>
           </div>
         </div>    
@@ -27,6 +27,9 @@ export default {
     this.getProductList();
   },
   methods: {      // 메소드 호출
+    getCurrencyFormat(value) {  // $currencyFormat 호출
+      return this.$currencyFormat(value);
+    },
     async getProductList() {    // getProductList 메소드 호출
       this.productList = await this.$api("/api/productList",{});  // url를 따라 app.js의 /api/:alias를 타고 sql productList의 data 호출
       console.log(this.productList); // 데이터를 잘 받아오는지 확인

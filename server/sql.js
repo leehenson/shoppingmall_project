@@ -24,6 +24,6 @@ module.exports = {  // database의 data query로 가져오기
         query: `select * from t_seller`     // t_seller 테이블의 데이터 가져오기
     },
     signUp: {
-        query: `insert into t_user set ? on duplicate key update ?` // 해당 정보가 없으면 insert, 있으면 update
+        query: `insert into t_user set ? on duplicate key update ?` // 데이터가 없으면 insert를 하고, 있으면 update를 함.
     }
 }
