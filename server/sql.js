@@ -27,6 +27,9 @@ module.exports = {  // database의 data query로 가져오기
         query: `INSERT INTO t_image (product_id, type, path)
         VALUES (?, ?, ?)`
     },
+    productDelete: {
+        query: `delete from t_product where id=?`  
+    },
     sellerList: {   // 셀러 리스트 쿼리
         query: `select * from t_seller`     // t_seller 테이블의 데이터 가져오기
     },

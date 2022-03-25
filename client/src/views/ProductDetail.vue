@@ -29,7 +29,7 @@
                 <div class="card-body">
                   <h5 class="card-title">{{productDetail.product_name}}</h5>
                   <h5><p class="card-text pt-3 pb-3 border-top">{{getCurrencyFormat(productDetail.product_price)}}원</p></h5>
-                  <div class="card-text pb-3 border-top">
+                  <div class="card-text pb-3 border-top mb-4">
                     <div class="row">
                       <div class="col-auto">
                         <nav>
@@ -41,7 +41,7 @@
                         </nav>
                           <div class="tab-content" id="nav-tabContent">
                           <div class="tab-pane fade show active pt-3" style="white-space: pre-line;" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">{{productDetail.product_description}} <br><br>[color] <br>{{productDetail.product_color}} <br><br>[Fabric] <br>{{productDetail.product_fabric}} <br><br>[Model] <br>{{productDetail.product_model}}</div>
-                          <div class="tab-pane fade pt-3" style="white-space: pre-line;" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">{{productDetail.product_sizeGuide}} <br>제품 측정에 따라 1-3cm 차이가 있을 수 있습니다.</div>
+                          <div class="tab-pane fade pt-3" style="white-space: pre-line;" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">{{productDetail.product_sizeGuide}} <br><br>제품 측정에 따라 1-3cm 차이가 있을 수 있습니다.</div>
                           <div class="tab-pane fade pt-3" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">- 선주문 후 거래처 입고를 통해 상품 발송을 도와드리고 있습니다. <br>(당일 20시 이전 주문 건, 거래처 입고 후 다음날 발송) <br><br> - 영업일 기준 3-7일 정도의 배송기간이 소요되며, 입고 지연 발생 시 개별적 연락 도와드리고 있습니다. <br><br> - 배송비 3,000원 (실구매금액 100,000원 이상 구매 시 무료 배송) <br><br> - 도서산간 및 제주지역은 별도의 추가 운임비가 발생할 수 있습니다. <br><br> - 다폼목 주문시 합배송을 원칙으로 합니다. <br> (개별상품 지연기간이 7일 이상일 경우 부분 발송)</div>
                         </div>
                       </div>
