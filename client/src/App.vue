@@ -32,7 +32,7 @@
                 <router-link class="nav-link" to="#">Q&A</router-link>
               </li>
               <li v-if="user.email!=undefined" class="nav-item">
-                <router-link class="nav-link" to="/create">PRODUCT RESISTRATION</router-link>
+                <router-link class="nav-link" to="/sales">PRODUCT RESISTRATION</router-link>
               </li>
             </ul>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">

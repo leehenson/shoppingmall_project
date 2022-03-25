@@ -4,6 +4,13 @@ module.exports = {  // database의 data query로 가져오기
         FROM t_product t1, t_image t2
         WHERE t1.id = t2.product_id AND t2.type = 1`    // 메인 화면에 띄울 제품 썸네일 데이터 가져오기
     },
+    productList2: { // 세일즈 리스트에 제품 등록할 제품 데이터 가져오기
+        query: `select t3.*, t4.path from (select t1.*, t2.category
+          from t_product t1, t_category t2
+          where t1.category_id = t2.id) t3
+          left join (select * from t_image where type=1) t4
+          on t3.id = t4.product_id`
+      },
     productDetail: {    // 제품 상세페이지 쿼리
         query: `SELECT t1.*, t2.path, t3.category
         FROM t_product t1, t_image t2, t_category t3
