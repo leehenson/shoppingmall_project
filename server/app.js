@@ -33,7 +33,7 @@ fs.watchFile(__dirname + '/sql.js', (curr, prev) => {   // file 레파지토리�
 const db = {    // 데이터베이스 불러오기
     database: "dev",
     connectionLimit: 10,
-    host: "172.20.10.7",
+    host: "172.20.10.4",
     user: "root",
     password: "mariadb"
 };
@@ -62,6 +62,51 @@ app.post('/api/logout', async (request, res) => {   // client에서 server쪽으
     request.session.destroy();
     res.send('ok');
 });
+
+app.post('/upload/:productId/:type/:fileName', async (request, res) => {
+
+    let {
+      productId,
+      type,
+      fileName
+    } = request.params;
+    const dir = `${__dirname}/uploads/${productId}`;
+    const file = `${dir}/${fileName}`;
+    if (!request.body.data) return fs.unlink(file, async (err) => res.send({
+      err
+    }));
+    const data = request.body.data.slice(request.body.data.indexOf(';base64,') + 8);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+    fs.writeFile(file, data, 'base64', async (error) => {
+      await req.db('productImageInsert', [{
+        product_id: productId,
+        type: type,
+        path: fileName
+      }]);
+  
+      if (error) {
+        res.send({
+          error
+        });
+      } else {
+        res.send("ok");
+      }
+    });
+  });
+  
+  app.get('/download/:productId/:fileName', (request, res) => {
+    const {
+      productId,
+      type,
+      fileName
+    } = request.params;
+    const filepath = `${__dirname}/uploads/${productId}/${fileName}`;
+    res.header('Content-Type', `image/${fileName.substring(fileName.lastIndexOf("."))}`);
+    if (!fs.existsSync(filepath)) res.send(404, {
+      error: 'Can not found file.'
+    });
+    else fs.createReadStream(filepath).pipe(res);
+  });
 
 app.post('/apirole/:alias', async (request, res) => {   // 사용자가 서버로 지정되지 않는 데이터 요청을 할 때, 경유하게 만듬
     if(!request.session.email) {

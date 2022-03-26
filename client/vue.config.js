@@ -12,6 +12,14 @@ module.exports = {  // client 8080에서 서버를 호출하기 위한 path에 a
       '^/api': {
         target,
         changeOrigin: true
+      },
+      '^/upload': {
+        target,
+        changeOrigin: true
+      },
+      '^/download': {
+        target,
+        changeOrigin: true
       }
     }
   }

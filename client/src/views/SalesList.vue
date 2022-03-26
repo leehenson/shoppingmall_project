@@ -15,7 +15,7 @@
             </thead>
             <tbody>
                 <tr :key="i" v-for="(product, i) in productList">
-                    <td><img :src="product.path" style="height:50px; width:auto;" /></td>
+                    <td><img :src="`/download/${product.id}/${product.path}`" style="height:50px; width:auto;" /></td>
                     <td>{{product.product_name}}</td>
                     <td>{{product.product_price}}</td>
                     <td>
@@ -68,7 +68,6 @@ export default {
             cancelButtonText: 'CANCEL'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                console.log(product_id)
                 await this.$api("/api/productDelete",{param:[product_id]});
                 this.getProductList();
                 this.$swal.fire('Deleted.', '', 'success')

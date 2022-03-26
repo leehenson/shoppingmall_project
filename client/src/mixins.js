@@ -11,6 +11,13 @@ export default {
                 console.log(e);     // 일단 console.log로 에러 표현
             })).data;               // data retrun
         },
+        $base64(file) {
+            return new Promise(resolve => {
+              var a = new FileReader();
+              a.onload = e => resolve(e.target.result);
+              a.readAsDataURL(file);
+            });
+        },
         $currencyFormat(value, format='#,###') {
             if (value == 0 || value == null) return 0;
 

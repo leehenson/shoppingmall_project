@@ -1,6 +1,6 @@
 module.exports = {  // database의 data query로 가져오기
     productList: {  // 제품 리스트가 있는 메인 화면 쿼리
-        query: `SELECT t1.id, t1.product_name, t1.product_price, t2.path
+        query: `SELECT t1.*, t2.path
         FROM t_product t1, t_image t2
         WHERE t1.id = t2.product_id AND t2.type = 1`    // 메인 화면에 띄울 제품 썸네일 데이터 가져오기
     },
@@ -20,15 +20,22 @@ module.exports = {  // database의 data query로 가져오기
         query: `SELECT * FROM t_image WHERE product_id = ? AND TYPE = 2`
     },
     productInsert: {    // 제품 정보 등록 쿼리
-        query: `INSERT INTO t_product (product_name, product_price, delivery_price, add_delivery_price, tags, outbound_days, seller_id, category_id)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+        query: `INSERT INTO t_product set ?`
     },
     productImageInsert: {   // 제품 이미지 등록 쿼리
-        query: `INSERT INTO t_image (product_id, type, path)
-        VALUES (?, ?, ?)`
+        query: `insert into t_image set ?`
+    },
+    imageList: {
+        query: `select * from t_image where product_id=?`
+    },
+    imageDelete: {
+        query: `delete from t_image where id=?`
     },
     productDelete: {
         query: `delete from t_product where id=?`  
+    },
+    categoryList: {   // 카테고리 리스트 쿼리
+        query: `select * from t_category`     // t_category 테이블의 데이터 가져오기
     },
     sellerList: {   // 셀러 리스트 쿼리
         query: `select * from t_seller`     // t_seller 테이블의 데이터 가져오기
