@@ -4,6 +4,26 @@ module.exports = {  // database의 data query로 가져오기
         FROM t_product t1, t_image t2
         WHERE t1.id = t2.product_id AND t2.type = 1`    // 메인 화면에 띄울 제품 썸네일 데이터 가져오기
     },
+    outerList: {  // 제품 리스트가 있는 메인 화면 쿼리
+        query: `SELECT t1.*, t2.path
+        FROM t_product t1, t_image t2
+        WHERE t1.id = t2.product_id AND t2.type = 1 AND t1.category_id = 1`    // 메인 화면에 띄울 제품 썸네일 데이터 가져오기
+    },
+    topList: {  // 제품 리스트가 있는 메인 화면 쿼리
+        query: `SELECT t1.*, t2.path
+        FROM t_product t1, t_image t2
+        WHERE t1.id = t2.product_id AND t2.type = 1 AND t1.category_id = 2`    // 메인 화면에 띄울 제품 썸네일 데이터 가져오기
+    },
+    bottomList: {  // 제품 리스트가 있는 메인 화면 쿼리
+        query: `SELECT t1.*, t2.path
+        FROM t_product t1, t_image t2
+        WHERE t1.id = t2.product_id AND t2.type = 1 AND t1.category_id = 3`    // 메인 화면에 띄울 제품 썸네일 데이터 가져오기
+    },
+    accList: {  // 제품 리스트가 있는 메인 화면 쿼리
+        query: `SELECT t1.*, t2.path
+        FROM t_product t1, t_image t2
+        WHERE t1.id = t2.product_id AND t2.type = 1 AND t1.category_id = 4`    // 메인 화면에 띄울 제품 썸네일 데이터 가져오기
+    },
     productList2: { // 세일즈 리스트에 제품 등록할 제품 데이터 가져오기
         query: `select t3.*, t4.path from (select t1.*, t2.category
           from t_product t1, t_category t2
@@ -24,6 +44,9 @@ module.exports = {  // database의 data query로 가져오기
     },
     productImageInsert: {   // 제품 이미지 등록 쿼리
         query: `insert into t_image set ?`
+    },
+    productUpdate: {    // 제품 정보 등록 쿼리
+        query: `INSERT INTO t_product set ? on duplicate key update ?`
     },
     imageList: {
         query: `select * from t_image where product_id=?`

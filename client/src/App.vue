@@ -11,45 +11,36 @@
                 <router-link class="nav-link" to="/">HOME</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/detail">OUTER</router-link>
+                <router-link class="nav-link" to="/outer">OUTER</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="#">TOP</router-link>
+                <router-link class="nav-link" to="/top">TOP</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="#">BOTTOM</router-link>
+                <router-link class="nav-link" to="/bottom">BOTTOM</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="#">ACC</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link" to="#">NOTICE</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link" to="#">REVIEW</router-link>
-              </li>
+                <router-link class="nav-link" to="/acc">ACC</router-link>
+              </li>        
               <li class="nav-item">
                 <router-link class="nav-link" to="#">Q&A</router-link>
               </li>
-              <li v-if="user.email!=undefined" class="nav-item">
+              <li v-if="user.email== 'hslee7231@gmail.com'" class="nav-item">
                 <router-link class="nav-link" to="/sales">PRODUCT RESISTRATION</router-link>
               </li>
             </ul>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">                      
               <li v-if="user.email==undefined" class="nav-item">
-                <button class="btn" type="button" @click="kakaoLoin">LOGIN</button>
+                <router-link class="nav-link" to="/login">LOGIN</router-link>
               </li>
               <li v-else class="nav-item">
-                <button class="btn" type="button" @click="kakaoLogout">LOGOUT</button>
-              </li>             
+                <router-link class="nav-link" to="" @click="kakaoLogout">LOGOUT</router-link>
+              </li>
               <li class="nav-item">
                 <router-link class="nav-link" to="#">CART</router-link>
               </li>
               <li class="nav-item">
                 <router-link class="nav-link" to="#">MYPAGE</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link" to="#">SEARCH</router-link>
               </li>
             </ul>                   
           </div>

@@ -2,7 +2,7 @@
   <main class="mt-5">
     <div class="container">
         <div class="float-end mb-2">
-            <button type="button" class="btn btn-dark" @click="goToInsert">제품등록</button>
+            <button type="button" class="btn btn-outline-dark" @click="goToInsert">제품등록</button>
         </div>
         <table class="table table-bordered">
             <thead>
@@ -19,9 +19,9 @@
                     <td>{{product.product_name}}</td>
                     <td>{{product.product_price}}</td>
                     <td>
-                        <button type="button" class="btn btn-secondary me-1" @click="goToImageInsert(product.id);">사진등록</button>
-                        <button type="button" class="btn btn-warning me-1" @click="goToUpdate(product.id);">수정</button>
-                        <button type="button" class="btn btn-danger" @click="deleteProduct(product.id);">삭제</button>
+                        <button type="button" class="btn btn-outline-secondary me-1" @click="goToImageInsert(product.id);">사진등록</button>
+                        <button type="button" class="btn btn-outline-success me-1" @click="goToUpdate(product.id);">수정</button>
+                        <button type="button" class="btn btn-outline-danger" @click="deleteProduct(product.id);">삭제</button>
                     </td>
                 </tr>
             </tbody>

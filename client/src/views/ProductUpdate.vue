@@ -20,7 +20,7 @@
             <div class="mb-3 row">
                 <label class="col-md-3 col-form-label">제품 설명</label>
                 <div class="col-md-9">
-                  <input type="textarea" class="form-control" v-model="productDetail.product_description">
+                  <textarea class="form-control" rows="3" v-model="productDetail.product_description"></textarea>                  
                 </div>
             </div>
             <div class="mb-3 row">
@@ -50,7 +50,7 @@
             <div class="mb-3 row">
                 <label class="col-md-3 col-form-label">사이즈 가이드</label>
                 <div class="col-md-9">
-                  <input type="textarea" class="form-control" v-model="productDetail.product_sizeGuide">
+                  <textarea class="form-control" rows="3" v-model="productDetail.product_sizeGuide"></textarea>               
                 </div>
             </div>
             <div class="mb-3 row">

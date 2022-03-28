@@ -2,7 +2,7 @@
   <main class="mt-3">
     <div class="container">
       <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
           <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
               <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -24,19 +24,19 @@
             </button>
           </div>
         </div>
-        <div class="col-md-7">
-            <div class="card shadow-sm">
+        <div class="col-md-6">
+            <div class="card border-0 text-start">
                 <div class="card-body">
                   <h5 class="card-title">{{productDetail.product_name}}</h5>
-                  <h5><p class="card-text pt-3 pb-3 border-top">{{getCurrencyFormat(productDetail.product_price)}}원</p></h5>
-                  <div class="card-text pb-3 border-top mb-4">
+                  <h5><p class="card-text pt-3 pb-3">{{getCurrencyFormat(productDetail.product_price)}}원</p></h5>
+                  <div class="card-text pb-3 mb-4">
                     <div class="row">
                       <div class="col-auto">
-                        <nav>
+                        <nav style="padding-left: 0px;">
                           <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">INSTRUCTION</button>
-                            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">SIZE GUIDE</button>
-                            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">SHIPPING</button>
+                            <button class="nav-link active text-body" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">INSTRUCTION</button>
+                            <button class="nav-link text-body" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">SIZE GUIDE</button>
+                            <button class="nav-link text-body" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">SHIPPING</button>
                           </div>
                         </nav>
                           <div class="tab-content" id="nav-tabContent">
@@ -47,41 +47,34 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-auto dropdown pb-3">
-                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                          - [필수] 옵션을 선택해주세요 -
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                          <li><a class="dropdown-item" href="#">블랙</a></li>
-                        </ul>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-auto dropdown pb-3">
-                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                          - [필수] 옵션을 선택해주세요 -
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                          <li><a class="dropdown-item" href="#">M</a></li>
-                          <li><a class="dropdown-item" href="#">L</a></li>
-                        </ul>
+                  <div class="card-text pb-3">
+                    <div class="row">
+                      <div class="col-auto">
+                        <label class="col-form-label">구매수량</label>
                       </div>
+                      <div class="col-auto">
+                        <div class="input-group">
+                          <span class="input-group-text" style="cursor:pointer;" @click="calculatePrice(-1);">-</span>
+                          <input type="text" class="form-control" style="width:40px;" v-model="total">
+                          <span class="input-group-text" style="cursor:pointer;" @click="calculatePrice(1);">+</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <div class="row pt-3 pb-3">
                     <div class="col-6">
-                        <h3>총 상품금액</h3>
+                      <h3>총 상품 금액</h3>
                     </div>
                     <div class="col-6" style="text-align: right;">
-                        <h3>83,000원</h3>
+                      <h3>{{getCurrencyFormat(totalPrice)}}원</h3>
                     </div>
                   </div>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="col-6 d-grid p-1">
-                        <button type="button" class="btn btn-lg btn-outline-primary">ADD CART</button>
+                        <button type="button" class="btn btn-lg btn-outline-secondary">ADD CART</button>
                     </div>
                     <div class="col-6 d-grid p-1">
-                        <button type="button" class="btn btn-lg btn-outline-primary">BUY NOW</button>
+                        <button type="button" class="btn btn-lg btn-outline-secondary">BUY NOW</button>
                     </div>
                   </div>
                 </div>
@@ -89,7 +82,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12">
+        <div class="col-6">
           <img :src="`/download/${productId}/${productDetail.path}`" class="img-fluid" style="width: 1000px;"/>
         </div>
       </div>
@@ -103,7 +96,9 @@ export default {
     return {
       productId: 0,
       productDetail: {},
-      productImage: []
+      productImage: [],
+      total: 0,
+      totalPrice: 0
     };
   },
   created() {     // data가 정상적으로 들어오는지 확인
@@ -112,6 +107,12 @@ export default {
     this.getProductImage();
   },
   methods: {      // 메소드 호출
+    calculatePrice(cnt) {
+      let total = this.total + cnt;
+      if(total < 0) total = 0;
+      this.total = total;
+      this.totalPrice = this.productDetail.product_price * this.total;
+    },
     getCurrencyFormat(value) {  // $currencyFormat 호출
       return this.$currencyFormat(value);
     },

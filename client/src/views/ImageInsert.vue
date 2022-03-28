@@ -73,7 +73,7 @@
             <div class="col-lg-6 col-md-4" :key="i" v-for="(m,i) in productImage.filter(c=>c.type==3)">
               <div class="position-relative">
                 <img :src="`/download/${productId}/${m.path}`" class="img-fluid" />
-                <div class="position-absolute top-0 end-0" style="cursor:pointer;color:white;" @click="deleteImage(m.id)">X</div>
+                <div class="position-absolute top-0 end-0" style="cursor:pointer;" @click="deleteImage(m.id)">X</div>
               </div>
             </div>
           </div>
