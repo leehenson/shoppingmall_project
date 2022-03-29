@@ -2,32 +2,39 @@
   <main class="mt-5">
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-md-4">
-          <div>
-            <h5 class="pb-3 text-start">RETURNING CUSTOMERS</h5>
-            <div class="form-floating mb-3">
-              <input type="email" class="form-control" placeholder="ID">
-              <label for="floatingInput">ID</label>
+        <div class="col-md-6">
+            <h5 class="mb-5 text-start">BASIC INFOMATION</h5>
+            <form class="text-start">
+            <div class="form-group mb-5">
+                <label class="mb-2">EMAIL ADDRESS</label>
+                <input type="text" class="form-control">
             </div>
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control" placeholder="PASSWORD">
-              <label for="floatingPassword">PASSWORD</label>
+            <div class="form-group mb-5">
+                <label class="mb-2">PASSWORD</label>
+                <input type="text" class="form-control">
             </div>
-            <div class="pt-2 float-start">
-              <button type="button" class="btn btn-dark me-1">LOG IN</button>
-              <a class="btn btn-dark me-3" href="/join" role="button">JOIN US</a>                                             
-              <img src="http://papaspick.com/web/upload/2019_web/icon/kakao_login.jpg" class="img-fluid rounded-2 cursor-pointer" style="width: 175px; height: 38px; cursor:pointer;" @click="kakaoLoin">
+            <div class="form-group mb-5">
+                <label class="mb-2">PASSWORD CONFIRM</label>
+                <input type="text" class="form-control">
             </div>
-          </div>
+            <div class="form-group mb-5">
+                <label class="mb-2">NAME</label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="form-group mb-5">
+                <label class="mb-2">ADDRESS</label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="form-group mb-5">
+                <label class="mb-2">TEL</label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="form-group mb-5">
+                <label class="mb-2">MOBILE</label>
+                <input type="text" class="form-control">
+            </div>
+            </form>
         </div>
-        <ul class="nav justify-content-center mt-3  ">
-          <li class="nav-item">
-            <a class="nav-link  text-dark" href="#">✔ FORGOT ID</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link  text-dark" href="#">✔ FORGOT PASSWORD</a>
-          </li>
-        </ul>
       </div>
     </div>
   </main>

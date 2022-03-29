@@ -10,6 +10,8 @@ import TopList from '../views/TopList.vue'
 import BottomList from '../views/BottomList.vue'
 import AccList from '../views/AccList.vue'
 import MemberLogin from '../views/MemberLogin.vue'
+import MemberJoin from '../views/MemberJoin.vue'
+
 
 
 const routes = [
@@ -67,6 +69,11 @@ const routes = [
     path: '/login',
     name: 'MemberLogin',
     component: MemberLogin
+  },
+  {
+    path: '/join',
+    name: 'MemberJoin',
+    component: MemberJoin
   }
 ]
 
