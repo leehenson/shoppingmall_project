@@ -73,10 +73,10 @@
             <div class="mb-3 row">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="col-6 d-grid p-1">
-                        <button type="button" class="btn btn-lg btn-outline-primary" @click="goToList">취소하기</button>
+                        <button type="button" class="btn btn-lg btn-outline-secondary" @click="goToList">취소하기</button>
                     </div>
                     <div class="col-6 d-grid p-1">
-                        <button type="button" class="btn btn-lg btn-outline-primary">저장하기</button>
+                        <button type="button" class="btn btn-lg btn-outline-secondary">저장하기</button>
                     </div>
                   </div>
             </div>

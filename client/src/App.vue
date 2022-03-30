@@ -103,7 +103,7 @@ export default {
     }
   },
   methods: {
-    kakaoLoin() {
+    kakaoLogin() {
       window.Kakao.Auth.login({
         scope: 'profile_nickname, account_email, gender',
         success: this.getProfile

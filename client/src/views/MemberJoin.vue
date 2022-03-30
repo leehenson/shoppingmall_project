@@ -7,15 +7,15 @@
             <form class="text-start">
             <div class="form-group mb-5">
                 <label class="mb-2">EMAIL ADDRESS</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" placeholder="(영문소문자/숫자, 4~16자)@example.com">
             </div>
             <div class="form-group mb-5">
                 <label class="mb-2">PASSWORD</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" placeholder="(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)">
             </div>
             <div class="form-group mb-5">
                 <label class="mb-2">PASSWORD CONFIRM</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" placeholder="(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)">
             </div>
             <div class="form-group mb-5">
                 <label class="mb-2">NAME</label>
@@ -26,12 +26,32 @@
                 <input type="text" class="form-control">
             </div>
             <div class="form-group mb-5">
-                <label class="mb-2">TEL</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="form-group mb-5">
                 <label class="mb-2">MOBILE</label>
                 <input type="text" class="form-control">
+            </div>
+            <div class="form-group mb-2">
+                <label>REFUND ACCOUNT INFOMATION</label>
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">예금주</span>
+                </div>
+                <input type="text" class="form-control">
+            </div>
+            <div class="input-group mb-2">
+                <label class="input-group-text">은행명</label>
+                <select class="form-select">
+                    <option selected>- 은행 선택 -</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">계좌번호</span>
+                </div>
+                <input type="text" class="form-control" placeholder="('-'와 숫자만 입력해주세요.)">
             </div>
             </form>
         </div>
@@ -48,7 +68,7 @@ export default {
     }
   },
   methods: {
-    kakaoLoin() {
+    kakaoLogin() {
       window.Kakao.Auth.login({
         scope: 'profile_nickname, account_email, gender',
         success: this.getProfile

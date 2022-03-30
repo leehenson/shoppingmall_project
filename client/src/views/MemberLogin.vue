@@ -6,8 +6,8 @@
           <div>
             <h5 class="pb-3 text-start">RETURNING CUSTOMERS</h5>
             <div class="form-floating mb-3">
-              <input type="email" class="form-control" placeholder="ID">
-              <label for="floatingInput">ID</label>
+              <input type="email" class="form-control" placeholder="EMAIL ADDRESS">
+              <label for="floatingInput">EMAIL ADDRESS</label>
             </div>
             <div class="form-floating mb-3">
               <input type="password" class="form-control" placeholder="PASSWORD">
@@ -16,7 +16,7 @@
             <div class="pt-2 float-start">
               <button type="button" class="btn btn-dark me-1">LOG IN</button>
               <a class="btn btn-dark me-3" href="/join" role="button">JOIN US</a>                                             
-              <img src="http://papaspick.com/web/upload/2019_web/icon/kakao_login.jpg" class="img-fluid rounded-2 cursor-pointer" style="width: 175px; height: 38px; cursor:pointer;" @click="kakaoLoin">
+              <img src="http://papaspick.com/web/upload/2019_web/icon/kakao_login.jpg" class="img-fluid rounded-2 cursor-pointer" style="width: 175px; height: 38px; cursor:pointer;" @click="kakaoLogin">
             </div>
           </div>
         </div>
@@ -41,7 +41,7 @@ export default {
     }
   },
   methods: {
-    kakaoLoin() {
+    kakaoLogin() {
       window.Kakao.Auth.login({
         scope: 'profile_nickname, account_email, gender',
         success: this.getProfile

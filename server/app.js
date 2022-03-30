@@ -23,7 +23,7 @@ const server = app.listen(3000, () => { // 3000번 포트로 웹서버 구동
 
 let sql = require('./sql.js');    // sql.js 불러오기
 
-
+// nodemon 모듈로 대체 가능
 fs.watchFile(__dirname + '/sql.js', (curr, prev) => {   // file 레파지토리를 감시하다가 변경되는 것을 감지
     console.log('sql 변경시 재시작 없이 반영되도록 함.');
     delete require.cache[require.resolve('./sql.js')];  // 이미 올라가 있는 sql.js의 cache 삭제
