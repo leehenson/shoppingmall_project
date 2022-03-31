@@ -20,7 +20,7 @@
             <div class="mb-3 row">
                 <label class="col-md-3 col-form-label">제품 설명</label>
                 <div class="col-md-9">
-                  <textarea class="form-control" rows="3" v-model="productDetail.product_description"></textarea>                  
+                  <textarea class="form-control" rows="7" v-model="productDetail.product_description"></textarea>                  
                 </div>
             </div>
             <div class="mb-3 row">

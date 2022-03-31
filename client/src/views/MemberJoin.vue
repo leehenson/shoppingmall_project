@@ -7,27 +7,27 @@
             <form class="text-start">
             <div class="form-group mb-5">
                 <label class="mb-2">EMAIL ADDRESS</label>
-                <input type="text" class="form-control" placeholder="(영문소문자/숫자, 4~16자)@example.com">
+                <input type="text" class="form-control" placeholder="(영문소문자/숫자, 4~16자)@example.com" v-model="t_user.email">
             </div>
             <div class="form-group mb-5">
                 <label class="mb-2">PASSWORD</label>
-                <input type="text" class="form-control" placeholder="(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)">
+                <input type="text" class="form-control" placeholder="(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)" v-model="t_user.password">
             </div>
             <div class="form-group mb-5">
                 <label class="mb-2">PASSWORD CONFIRM</label>
-                <input type="text" class="form-control" placeholder="(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)">
+                <input type="text" class="form-control" placeholder="(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)" v-model="t_user.password_confirm">
             </div>
             <div class="form-group mb-5">
                 <label class="mb-2">NAME</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" v-model="t_user.name">
             </div>
             <div class="form-group mb-5">
                 <label class="mb-2">ADDRESS</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" v-model="t_user.address">
             </div>
             <div class="form-group mb-5">
                 <label class="mb-2">MOBILE</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" v-model="t_user.phone">
             </div>
             <div class="form-group mb-2">
                 <label>REFUND ACCOUNT INFOMATION</label>
@@ -36,22 +36,28 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">예금주</span>
                 </div>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" v-model="t_user.account_holder">
             </div>
             <div class="input-group mb-2">
                 <label class="input-group-text">은행명</label>
                 <select class="form-select">
                     <option selected>- 은행 선택 -</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option :value="bank" :key=i v-for="(bank, i) in bankName">{{bank}}</option>
                 </select>
             </div>
-            <div class="input-group mb-2">
+            <div class="input-group mb-5">
                 <div class="input-group-prepend">
                     <span class="input-group-text">계좌번호</span>
                 </div>
-                <input type="text" class="form-control" placeholder="('-'와 숫자만 입력해주세요.)">
+                <input type="text" class="form-control" placeholder="('-'와 숫자만 입력해주세요.)"  v-model="t_user.bank_account_number">
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="col-6 d-grid p-1">
+                <button type="button" class="btn btn-lg btn-outline-secondary"  @click="goToLogin">취소하기</button>
+              </div>
+              <div class="col-6 d-grid p-1">
+                <button type="button" class="btn btn-lg btn-outline-secondary" @click="memberJoin">저장하기</button>
+              </div>
             </div>
             </form>
         </div>
@@ -62,48 +68,95 @@
 
 <script>
 export default {
+  data() {
+    return {
+      t_user: {
+        email: "",
+        password: "",
+        password_confirm: "",
+        name: "",
+        address: "",
+        phone: "",        
+        account_holder: "",
+        bank_name_id: 1,
+        bank_account_number: ""
+      },
+      bankName: []
+    };
+  },
   computed: {
     user() {
       return this.$store.state.user;  // user 정보가 바뀔 때마다 자동으로 user() 갱신
     }
   },
+  created() {
+    this.getBankList();
+  },
   methods: {
-    kakaoLogin() {
-      window.Kakao.Auth.login({
-        scope: 'profile_nickname, account_email, gender',
-        success: this.getProfile
-      });
+    goToLogin() {
+      this.$router.push({path:'/login'});
     },
-    getProfile(authObj) {
-      console.log(authObj);
-      window.Kakao.API.request({
-        url: '/v2/user/me',
-        success: res => {
-          const kakao_account = res.kakao_account;
-          console.log(kakao_account);
-          this.login(kakao_account);
-          this.$router.push({path:'/'});
-          alert("로그인 성공!");
-        }
+    async getBankList() {
+      let bankList = await this.$api("/api/bankList",{});
+      
+      let oBankName = {};
+      bankList.forEach(item => {
+        oBankName[item.bankName] = item.id;
       });
-    },
-    async login(kakao_account) {  // login겸 signup
-      await this.$api("/api/login", {
-        param: [
-          {email:kakao_account.email, nickname:kakao_account.profile.nickname},
-          {nickname:kakao_account.profile.nickname}
-        ]
-      });
+      console.log(oBankName);
 
-      this.$store.commit("user", kakao_account);  // store에 user 정보를 갱신
-    },
-    kakaoLogout() {
-      window.Kakao.Auth.logout((response) => {
-        console.log(response);
-        this.$store.commit("user", {});
-        alert("로그아웃");
+      let bankName = [];
+      for(let key in oBankName) {
+        bankName.push(key);
+      }
 
-      });
+      this.bankName = bankName;
+    },
+    memberJoin() {
+      if(this.t_user.email == "") {
+        return this.$swal("이메일은 필수 입력값입니다.");
+      }
+
+      if(this.t_user.password == "") {
+        return this.$swal("비밀번호는 필수 입력값입니다.");
+      }
+
+      if(this.t_user.password_confirm == "") {
+        return this.$swal("비밀번호를 다시 한번 입력해주세요.");
+      }
+
+      if(this.t_user.name == "") {
+        return this.$swal("이름은 필수 입력값입니다.");
+      }
+
+      if(this.t_user.address == "") {
+        return this.$swal("주소는 필수 입력값입니다.");
+      }
+      
+      if(this.t_user.mobile == "") {
+        return this.$swal("폰 번호는 필수 입력값입니다.");
+      }
+
+      if(this.t_user.account_holder == "") {
+        return this.$swal("예금주는 필수 입력값입니다.");
+      }
+
+      if(this.t_user.bank_account_number == "") {
+        return this.$swal("계좌번호는 필수 입력값입니다.");
+      }
+      
+      this.$swal.fire({
+            title: '정말 가입하시겠습니까?',
+            showCancelButton: true,
+            confirmButtonText: 'JOIN',
+            cancelButtonText: 'CANCEL'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await this.$api("/api/memberJoin",{param:[this.t_user]});
+                this.$swal.fire('Saved.', '', 'success');
+                this.$router.push({path:'/login'});
+            }
+        });
     }
   }
 }

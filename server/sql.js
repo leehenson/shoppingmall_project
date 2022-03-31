@@ -48,13 +48,13 @@ module.exports = {  // database의 data query로 가져오기
     productUpdate: {    // 제품 정보 등록 쿼리
         query: `INSERT INTO t_product set ? on duplicate key update ?`
     },
-    imageList: {
+    imageList: {    // 해당 제품의 이미지들을 가져오는 쿼리
         query: `select * from t_image where product_id=?`
     },
-    imageDelete: {
+    imageDelete: {  // 해당 제품의 이미지를 삭제하는 쿼리
         query: `delete from t_image where id=?`
     },
-    productDelete: {
+    productDelete: {    // 해당 제품을 삭제하는 쿼리
         query: `delete from t_product where id=?`  
     },
     categoryList: {   // 카테고리 리스트 쿼리
@@ -62,6 +62,12 @@ module.exports = {  // database의 data query로 가져오기
     },
     sellerList: {   // 셀러 리스트 쿼리
         query: `select * from t_seller`     // t_seller 테이블의 데이터 가져오기
+    },
+    memberJoin: {    // 유저 회원가입 쿼리
+        query: `INSERT INTO t_user set ?`
+    },
+    bankList: {   // 은행 리스트 가져오는 쿼리
+        query: `select * from t_bank_name`     // t_bank_name 테이블의 데이터 가져오기
     },
     signUp: {
         query: `insert into t_user set ? on duplicate key update ?` // 데이터가 없으면 insert를 하고, 있으면 update를 함.

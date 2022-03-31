@@ -20,7 +20,7 @@
             <div class="mb-3 row">
                 <label class="col-md-3 col-form-label">제품 설명</label>
                 <div class="col-md-9">
-                  <textarea class="form-control" rows="3" v-model="product.product_description"></textarea>              
+                  <textarea class="form-control" rows="7" v-model="product.product_description"></textarea>              
                 </div>
             </div>
             <div class="mb-3 row">
@@ -68,12 +68,12 @@
                 </div>
             </div>                   
             <div class="mb-3 row">
-                <div class="d-flex justify-content-between align-items-center">
+                  <div class="d-flex justify-content-between align-items-center">
                     <div class="col-6 d-grid p-1">
-                        <button type="button" class="btn btn-lg btn-outline-primary"  @click="goToList">취소하기</button>
+                      <button type="button" class="btn btn-lg btn-outline-primary"  @click="goToList">취소하기</button>
                     </div>
                     <div class="col-6 d-grid p-1">
-                        <button type="button" class="btn btn-lg btn-outline-primary" @click="productInsert">저장하기</button>
+                      <button type="button" class="btn btn-lg btn-outline-primary" @click="productInsert">저장하기</button>
                     </div>
                   </div>
             </div>
@@ -128,6 +128,7 @@ export default {
       categoryList.forEach(item => {
         oCategory[item.category] = item.id;
       });
+      console.log(oCategory);
 
       let category = [];
       for(let key in oCategory) {

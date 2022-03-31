@@ -47,7 +47,7 @@ app.post('/api/login', async (request, res) => {    // client에서 server쪽으
         await req.db('signUp', request.body.param); // signUp sql 호출하고, request시 body에 파라미터도 함께 들어오도록 설정
         if(request.body.param.length > 0) {
             for(let key in request.body.param[0]) request.session[key] = request.body.param[0][key];    // 받아온 파리미터의 첫번째 인자를 key값에 넣어줌
-            res.send(request.body.param[0]);    // 받아왔던 파라미터를 보내줌
+            res.send(request.body.param[1]);    // 받아왔던 파라미터를 보내줌
         }else { // 파라미터 없이 api를 호출했을 시
             res.send({error: "Please try again or contact system manager ."});
         }
