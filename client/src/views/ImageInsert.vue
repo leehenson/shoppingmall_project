@@ -81,7 +81,7 @@
         </div>
       </div>
       <div class="mb-3 row m-auto">
-        <button type="button" class="btn btn-lg btn-outline-secondary" @click="goToList">CONFIRM</button>
+        <button type="button" class="btn btn-lg btn-outline-dark" @click="goToList">CONFIRM</button>
       </div>
     </div>
   </main>

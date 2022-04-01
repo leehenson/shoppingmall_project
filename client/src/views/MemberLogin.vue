@@ -15,7 +15,7 @@
             </div>
             <div class="pt-2 float-start">
               <button type="button" class="btn btn-dark me-1">LOG IN</button>
-              <a class="btn btn-dark me-3" href="/join" role="button">JOIN US</a>                                             
+              <a class="btn btn-dark me-3" href="/join" role="button">JOIN US</a>
               <img src="http://papaspick.com/web/upload/2019_web/icon/kakao_login.jpg" class="img-fluid rounded-2 cursor-pointer" style="width: 175px; height: 38px; cursor:pointer;" @click="kakaoLogin">
             </div>
           </div>
@@ -63,8 +63,8 @@ export default {
     async login(kakao_account) {  // login겸 signup
       await this.$api("/api/login", {
         param: [
-          {email:kakao_account.email, nickname:kakao_account.profile.nickname},
-          {nickname:kakao_account.profile.nickname}
+          {email:kakao_account.email, name:kakao_account.profile.nickname},
+          {name:kakao_account.profile.nickname}
         ]
       });
 

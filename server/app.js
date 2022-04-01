@@ -1,5 +1,7 @@
 const express = require('express'); // express 웹서버 관련 모듈 불러오기
 const app = express();  // express() 함수 호출
+const bcrypt = require('bcryptjs');
+const port = 3000;
 const session = require('express-session'); // express-session 로그인 관련 모듈 불러오기
 const fs = require('fs');   // filesystem으로 디렉토리에 접근할 수 있게 해주는 모듈 불러오기
 
@@ -17,11 +19,12 @@ app.use(express.json({  // body request 요청을 할 때 파라미터를 json�
     limit: '50mb'
 }));    
 
-const server = app.listen(3000, () => { // 3000번 포트로 웹서버 구동
-    console.log('Server Started. port 3000.');  // 웹서버 구동 시, console로 메세지를 남김
+const server = app.listen(port, () => { // 3000번 포트로 웹서버 구동
+    console.log(`Server Started. port ${port}.`);  // 웹서버 구동 시, console로 메세지를 남김
 });
 
 let sql = require('./sql.js');    // sql.js 불러오기
+const { request } = require('http');
 
 // nodemon 모듈로 대체 가능
 fs.watchFile(__dirname + '/sql.js', (curr, prev) => {   // file 레파지토리를 감시하다가 변경되는 것을 감지
@@ -40,14 +43,14 @@ const db = {    // 데이터베이스 불러오기
 
 const dbPool = require('mysql').createPool(db); // mariadb 모듈 불러오기, createPool로 db와 연동시키기
 
-app.post('/api/login', async (request, res) => {    // client에서 server쪽으로 axios post()방식으로 login api 가져오기
+app.post('/api/login', async (request, res) => {    // client에서 server쪽으로 axios post방식으로 login api 가져오기
     // request.session['email'] = 'hslee7231@gmail.com';
     // res.send('ok');
     try {
         await req.db('signUp', request.body.param); // signUp sql 호출하고, request시 body에 파라미터도 함께 들어오도록 설정
         if(request.body.param.length > 0) {
-            for(let key in request.body.param[0]) request.session[key] = request.body.param[0][key];    // 받아온 파리미터의 첫번째 인자를 key값에 넣어줌
-            res.send(request.body.param[1]);    // 받아왔던 파라미터를 보내줌
+            for(let key in request.body.param[0]) request.session[key] = request.body.param[1][key];    // 받아온 파리미터의 첫번째 인자를 key값에 넣어줌
+            res.send(request.body.param[0]);    // 받아왔던 파라미터를 보내줌
         }else { // 파라미터 없이 api를 호출했을 시
             res.send({error: "Please try again or contact system manager ."});
         }

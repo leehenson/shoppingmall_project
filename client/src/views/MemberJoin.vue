@@ -7,15 +7,15 @@
             <form class="text-start">
             <div class="form-group mb-5">
                 <label class="mb-2">EMAIL ADDRESS</label>
-                <input type="text" class="form-control" placeholder="(영문소문자/숫자, 4~16자)@example.com" v-model="t_user.email">
+                <input type="email" class="form-control" placeholder="(영문소문자/숫자, 4~16자)@example.com" v-model="t_user.email">
             </div>
             <div class="form-group mb-5">
                 <label class="mb-2">PASSWORD</label>
-                <input type="text" class="form-control" placeholder="(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)" v-model="t_user.password">
+                <input type="password" class="form-control" placeholder="(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)" v-model="t_user.password">
             </div>
             <div class="form-group mb-5">
                 <label class="mb-2">PASSWORD CONFIRM</label>
-                <input type="text" class="form-control" placeholder="(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)" v-model="t_user.password_confirm">
+                <input type="password" class="form-control" placeholder="(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)" v-model="t_user.password_confirm">
             </div>
             <div class="form-group mb-5">
                 <label class="mb-2">NAME</label>
@@ -40,9 +40,8 @@
             </div>
             <div class="input-group mb-2">
                 <label class="input-group-text">은행명</label>
-                <select class="form-select">
-                    <option selected>- 은행 선택 -</option>
-                    <option :value="bank" :key=i v-for="(bank, i) in bankName">{{bank}}</option>
+                <select class="form-select" v-model="bank">
+                    <option :value="bank" :key="i" v-for="(bank, i) in bank_name">{{bank}}</option>
                 </select>
             </div>
             <div class="input-group mb-5">
@@ -81,7 +80,9 @@ export default {
         bank_name_id: 1,
         bank_account_number: ""
       },
-      bankName: []
+      bankList: [],
+      bank_name: [],
+      bank: ""
     };
   },
   computed: {
@@ -97,20 +98,21 @@ export default {
       this.$router.push({path:'/login'});
     },
     async getBankList() {
-      let bankList = await this.$api("/api/bankList",{});
-      
-      let oBankName = {};
+      let bankList = await this.$api("/api/bankList", {});
+      this.bankList = bankList;
+
+      let oBank = {}; 
       bankList.forEach(item => {
-        oBankName[item.bankName] = item.id;
+        oBank[item.bank_name] = item.id;
       });
-      console.log(oBankName);
 
-      let bankName = [];
-      for(let key in oBankName) {
-        bankName.push(key);
+      let bank_name = [];
+      for(let key in oBank) {
+        bank_name.push(key);
       }
+      console.log(bank_name);
 
-      this.bankName = bankName;
+      this.bank_name = bank_name;
     },
     memberJoin() {
       if(this.t_user.email == "") {
@@ -144,6 +146,12 @@ export default {
       if(this.t_user.bank_account_number == "") {
         return this.$swal("계좌번호는 필수 입력값입니다.");
       }
+
+      this.t_user.bank_name_id = this.bankList.filter(c => {
+        return (c.bank_name == this.bank);
+      })[0].id;
+
+      console.log(this.t_user.bank_name_id);
       
       this.$swal.fire({
             title: '정말 가입하시겠습니까?',
