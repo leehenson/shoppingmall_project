@@ -1,6 +1,5 @@
 const express = require('express'); // express 웹서버 관련 모듈 불러오기
 const app = express();  // express() 함수 호출
-const bcrypt = require('bcryptjs');
 const port = 3000;
 const session = require('express-session'); // express-session 로그인 관련 모듈 불러오기
 const fs = require('fs');   // filesystem으로 디렉토리에 접근할 수 있게 해주는 모듈 불러오기
@@ -17,7 +16,7 @@ app.use(session({   // session 처리 방법
 
 app.use(express.json({  // body request 요청을 할 때 파라미터를 json형태의 최대 50mb 파라미터로 전송
     limit: '50mb'
-}));    
+}));
 
 const server = app.listen(port, () => { // 3000번 포트로 웹서버 구동
     console.log(`Server Started. port ${port}.`);  // 웹서버 구동 시, console로 메세지를 남김
@@ -43,7 +42,7 @@ const db = {    // 데이터베이스 불러오기
 
 const dbPool = require('mysql').createPool(db); // mariadb 모듈 불러오기, createPool로 db와 연동시키기
 
-app.post('/api/login', async (request, res) => {    // client에서 server쪽으로 axios post방식으로 login api 가져오기
+app.post('/api/kakaoLogin', async (request, res) => {    // client에서 server쪽으로 axios post방식으로 login api 가져오기
     // request.session['email'] = 'hslee7231@gmail.com';
     // res.send('ok');
     try {
@@ -60,6 +59,10 @@ app.post('/api/login', async (request, res) => {    // client에서 server쪽으
         });
     }
 }); 
+
+app.post('/api/login', async (request, res) => {
+    
+});
 
 app.post('/api/logout', async (request, res) => {   // client에서 server쪽으로 axios post()방식으로 logout api가져오기
     request.session.destroy();
