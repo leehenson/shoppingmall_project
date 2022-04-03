@@ -67,7 +67,7 @@ module.exports = {  // database의 data query로 가져오기
         query: `INSERT INTO t_user set ?`
     },
     memberLogin: {    // 유저 회원가입 쿼리
-        query: `SELECT * FROM t_user`
+        query: `SELECT * FROM t_user WHERE email = ? AND password = ?`
     },
     bankList: {   // 은행 리스트 가져오는 쿼리
         query: `select * from t_bank_name`     // t_bank_name 테이블의 데이터 가져오기

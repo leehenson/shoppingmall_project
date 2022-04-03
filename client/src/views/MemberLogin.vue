@@ -58,14 +58,15 @@ export default {
     },
     async login(t_user) {
       await this.$api("/api/login", {
-        param: [
-          {email: t_user.email, password: t_user.password}
-        ]
-      }).then((res) => {
-        alert(res.data.message);
-      },() => {
-        alert("Login failed please check your email or password");
-      }).catch((err) => {
+        email:t_user.email,
+        password:t_user.password
+      })
+      .then(() => {
+        alert('로그인 성공!');
+      }, (err) => {
+        alert(err);
+      })
+      .catch((err) => {
         alert(err);
       });
     },

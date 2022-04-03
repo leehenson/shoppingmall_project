@@ -1,6 +1,7 @@
 const express = require('express'); // express 웹서버 관련 모듈 불러오기
 const app = express();  // express() 함수 호출
 const port = 3000;
+const bodyParser = require('body-parser');
 const session = require('express-session'); // express-session 로그인 관련 모듈 불러오기
 const fs = require('fs');   // filesystem으로 디렉토리에 접근할 수 있게 해주는 모듈 불러오기
 
@@ -17,6 +18,8 @@ app.use(session({   // session 처리 방법
 app.use(express.json({  // body request 요청을 할 때 파라미터를 json형태의 최대 50mb 파라미터로 전송
     limit: '50mb'
 }));
+
+app.use(bodyParser.urlencoded({extended: true}));
 
 const server = app.listen(port, () => { // 3000번 포트로 웹서버 구동
     console.log(`Server Started. port ${port}.`);  // 웹서버 구동 시, console로 메세지를 남김
@@ -48,7 +51,7 @@ app.post('/api/kakaoLogin', async (request, res) => {    // client에서 server�
     try {
         await req.db('signUp', request.body.param); // signUp sql 호출하고, request시 body에 파라미터도 함께 들어오도록 설정
         if(request.body.param.length > 0) {
-            for(let key in request.body.param[0]) request.session[key] = request.body.param[1][key];    // 받아온 파리미터의 첫번째 인자를 key값에 넣어줌
+            for(let key in request.body.param[0]) request.session[key] = request.body.param[0][key];    // 받아온 파리미터의 첫번째 인자를 key값에 넣어줌
             res.send(request.body.param[0]);    // 받아왔던 파라미터를 보내줌
         }else { // 파라미터 없이 api를 호출했을 시
             res.send({error: "Please try again or contact system manager ."});
@@ -61,7 +64,14 @@ app.post('/api/kakaoLogin', async (request, res) => {    // client에서 server�
 }); 
 
 app.post('/api/login', async (request, res) => {
-    
+    try {
+        await req.db('memberLogin', request.body.email, password);
+        if(row !== undefined && row === request.body.email, password);
+    } catch (err) {
+        res.send({
+            error: "DB access error"
+        });
+    }
 });
 
 app.post('/api/logout', async (request, res) => {   // client에서 server쪽으로 axios post()방식으로 logout api가져오기
