@@ -63,12 +63,14 @@ export default {
       })
       .then(() => {
         alert('로그인 성공!');
+        this.$router.push({path:'/'});
       }, (err) => {
         alert(err);
       })
       .catch((err) => {
         alert(err);
       });
+      this.$store.commit("user", t_user);  // vuex를 이용하여 상태관리하도록 store에 user 정보를 갱신
     },
     kakaoLogin() {
       window.Kakao.Auth.login({

@@ -135,11 +135,7 @@ export default {
       }
     },
     productUpdate() {
-      this.productDetail.category_id = this.categoryList.filter(c => {
-        return (c.category == this.cate);
-      })[0].id;
-
-      console.log(this.productDetail.category_id);
+      
       
       this.$swal.fire({
             title: '정말 수정하시겠습니까?',
@@ -148,7 +144,7 @@ export default {
             cancelButtonText: 'CANCEL'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await this.$api("/api/productUpdate",{param:[this.productId]});
+                await this.$api("/api/productUpdate",{param:[this.productDetail]});
                 this.$swal.fire('Saved.', '', 'success');
                 this.$router.push({path:'/sales'});
             }

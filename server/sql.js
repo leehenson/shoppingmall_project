@@ -45,8 +45,8 @@ module.exports = {  // database의 data query로 가져오기
     productImageInsert: {   // 제품 이미지 등록 쿼리
         query: `insert into t_image set ?`
     },
-    productUpdate: {    // 제품 정보 등록 쿼리
-        query: `INSERT INTO t_product set ? on duplicate key update ?`
+    productUpdate: {    // 제품 수정 쿼리
+        query: `insert into t_product set ? on duplicate key update ?`
     },
     imageList: {    // 해당 제품의 이미지들을 가져오는 쿼리
         query: `select * from t_image where product_id=?`
@@ -66,7 +66,7 @@ module.exports = {  // database의 data query로 가져오기
     memberJoin: {    // 유저 회원가입 쿼리
         query: `INSERT INTO t_user set ?`
     },
-    memberLogin: {    // 유저 회원가입 쿼리
+    memberLogin: {    // 유저 로그인 쿼리
         query: `SELECT * FROM t_user WHERE email = ? AND password = ?`
     },
     bankList: {   // 은행 리스트 가져오는 쿼리
