@@ -14,7 +14,7 @@
               <label for="floatingPassword">PASSWORD</label>
             </div>
             <div class="pt-2 float-start">
-              <button type="button" class="btn btn-dark me-1" @click="submitLogin">LOG IN</button>
+              <button type="button" class="btn btn-dark me-1" @click="login">LOG IN</button>
               <a class="btn btn-dark me-3" href="/join" role="button">JOIN US</a>
               <img src="http://papaspick.com/web/upload/2019_web/icon/kakao_login.jpg" class="img-fluid rounded-2 cursor-pointer" style="width: 175px; height: 38px; cursor:pointer;" @click="kakaoLogin">
             </div>
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -49,28 +50,28 @@ export default {
     }
   },
   methods: {
-    submitLogin() {
-      const t_user = {};
-      t_user.email = this.t_user.email;
-      t_user.password = this.t_user.password;
-       this.login(t_user);
-      console.log(t_user);
-    },
-    async login(t_user) {
-      await this.$api("/api/login", {
-        email:t_user.email,
-        password:t_user.password
-      })
-      .then(() => {
-        alert('로그인 성공!');
+    login() {
+      const args = {
+        email: this.t_user.email,
+        password: this.t_user.password,
+      };
+      console.log(args);
+
+     axios.post("/api/login", args)
+      .then((res) => {
+        alert("로그인에 성공했습니다.");
         this.$router.push({path:'/'});
-      }, (err) => {
-        alert(err);
+        this.t_user = res.data;
       })
-      .catch((err) => {
-        alert(err);
+      .catch(() => {
+        alert("로그인에 실패했습니다. 계정 정보를 확인해주세요.");
+      })
+
+      this.$store.commit("user", args);  // vuex를 이용하여 상태관리하도록 store에 user 정보를 갱신
+
+      axios.get("/api/account").then((res) => {
+        this.t_user = res.data;
       });
-      this.$store.commit("user", t_user);  // vuex를 이용하여 상태관리하도록 store에 user 정보를 갱신
     },
     kakaoLogin() {
       window.Kakao.Auth.login({

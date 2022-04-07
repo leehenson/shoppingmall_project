@@ -1,7 +1,6 @@
 const express = require('express'); // express 웹서버 관련 모듈 불러오기
 const app = express();  // express() 함수 호출
 const port = 3000;
-const bodyParser = require('body-parser');
 const session = require('express-session'); // express-session 로그인 관련 모듈 불러오기
 const fs = require('fs');   // filesystem으로 디렉토리에 접근할 수 있게 해주는 모듈 불러오기
 
@@ -19,9 +18,7 @@ app.use(express.json({  // body request 요청을 할 때 파라미터를 json�
     limit: '50mb'
 }));
 
-app.use(bodyParser.urlencoded({extended: true}));
-
-const server = app.listen(port, () => { // 3000번 포트로 웹서버 구동
+app.listen(port, () => { // 3000번 포트로 웹서버 구동
     console.log(`Server Started. port ${port}.`);  // 웹서버 구동 시, console로 메세지를 남김
 });
 
@@ -63,21 +60,15 @@ app.post('/api/kakaoLogin', async (request, res) => {    // client에서 server�
     }
 }); 
 
-app.post('/api/login', async (request, res) => {
-    try {
-        await req.db('memberLogin', request.body.email, password);
-        if(row !== undefined && row === request.body.email, password);
-    } catch (err) {
-        res.send({
-            error: "DB access error"
-        });
-    }
-});
-
 app.post('/api/logout', async (request, res) => {   // client에서 server쪽으로 axios post()방식으로 logout api가져오기
     request.session.destroy();
     res.send('ok');
 });
+
+app.put("/api/productUpdate", async (request, res) => {
+    await req.db('productUpdate', request.body.param);
+    res.send(await req.db('productDetail'));
+})
 
 app.post('/upload/:productId/:type/:fileName', async (request, res) => {
 

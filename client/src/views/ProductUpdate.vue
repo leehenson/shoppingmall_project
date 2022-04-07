@@ -81,8 +81,9 @@
       </main>
 </template>
 <script>
+import axios from 'axios';
 export default {
-    data() {  // 받아온 data를 template 코드에 쓸 수 있게 data 정의
+  data() {  // 받아온 data를 template 코드에 쓸 수 있게 data 정의
     return {
       productId: 0,
       productDetail: {},
@@ -144,7 +145,7 @@ export default {
             cancelButtonText: 'CANCEL'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await this.$api("/api/productUpdate",{param:[this.productDetail]});
+                await axios.put("/api/productUpdate");
                 this.$swal.fire('Saved.', '', 'success');
                 this.$router.push({path:'/sales'});
             }
