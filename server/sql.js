@@ -36,6 +36,10 @@ module.exports = {  // database의 data query로 가져오기
         FROM t_product t1, t_image t2, t_category t3
         WHERE t1.id = ? AND t1.id = t2.product_id AND t2.type = 3 AND t1.category_id = t3.id`
     },
+    productDetail2: {    // 제품 상세페이지 쿼리
+        query: `SELECT t1.product_name, t1.product_price, t1.product_description, t1.product_color, t1.product_fabric, t1.product_model, t1.product_size, t1.product_sizeGuide, t1.tags
+        FROM t_product t1 WHERE t1.id = ?`
+    },
     productMainImages: {    // 제품 이미지 쿼리
         query: `SELECT * FROM t_image WHERE product_id = ? AND TYPE = 2`
     },
@@ -46,7 +50,7 @@ module.exports = {  // database의 data query로 가져오기
         query: `insert into t_image set ?`
     },
     productUpdate: {    // 제품 수정 쿼리
-        query: `UPDATE t_user SET ?`
+        query: `UPDATE SET ? WHERE id = ?`
     },
     imageList: {    // 해당 제품의 이미지들을 가져오는 쿼리
         query: `select * from t_image where product_id=?`

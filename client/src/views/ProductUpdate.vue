@@ -54,14 +54,6 @@
                 </div>
             </div>
             <div class="mb-3 row">
-                <label class="col-md-3 col-form-label">제품 카테고리</label>
-                <div class="col-md-9">
-                  <select class="form-select" v-model="productDetail.category">
-                      <option :value="cate" :key="i" v-for="(cate, i) in category">{{cate}}</option>
-                  </select>
-                </div>
-            </div>
-            <div class="mb-3 row">
                 <label class="col-md-3 col-form-label">태그</label>
                 <div class="col-md-9">
                   <input type="text" class="form-control" v-model="productDetail.tags">
@@ -81,15 +73,11 @@
       </main>
 </template>
 <script>
-import axios from 'axios';
 export default {
   data() {  // 받아온 data를 template 코드에 쓸 수 있게 data 정의
     return {
       productId: 0,
       productDetail: {},
-      categoryList: [],
-      category: [],
-      cate: ""
     };
   },
   computed: {
@@ -106,31 +94,13 @@ export default {
   created() {     // data가 정상적으로 들어오는지 확인
     this.productId = this.$route.query.product_id;  // path에 있는 product_id 값을 불러옴
     this.getProductDetail();
-    this.getCategoryList();
   },
   methods: {
     goToList() {
       this.$router.push({path:'/sales'});
     },
-    async getCategoryList() {
-      let categoryList = await this.$api("/api/categoryList", {});
-      this.categoryList = categoryList;
-
-      let oCategory = {}; 
-      categoryList.forEach(item => {
-        oCategory[item.category] = item.id;
-      });
-
-      let category = [];
-      for(let key in oCategory) {
-        category.push(key);
-      }
-      console.log(category);
-
-      this.category = category;
-    },
     async getProductDetail() {    // getProductDetail 메소드 호출
-      let productDetail = await this.$api("/api/productDetail",{param:[this.productId]});  // url를 따라 app.js의 /api/:alias를 타고 productId의 파라미터를 받아 해당 sql productDatail의 data 호출
+      let productDetail = await this.$api("/api/productDetail2",{param:[this.productId]});  // url를 따라 app.js의 /api/:alias를 타고 productId의 파라미터를 받아 해당 sql productDatail의 data 호출
       if (productDetail.length > 0) { // productDetail의 데이터를 가져왔을 때
         this.productDetail = productDetail[0];  // productDetail의 첫번째만 가져옴
       }
@@ -145,7 +115,7 @@ export default {
             cancelButtonText: 'CANCEL'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await axios.put("/api/productUpdate");
+                await this.$api("/api/productUpdate", {param:[this.productDetail]}, {where:this.productId});
                 this.$swal.fire('Saved.', '', 'success');
                 this.$router.push({path:'/sales'});
             }

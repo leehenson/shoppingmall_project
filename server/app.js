@@ -65,11 +65,6 @@ app.post('/api/logout', async (request, res) => {   // client에서 server쪽으
     res.send('ok');
 });
 
-app.put("/api/productUpdate", async (request, res) => {
-    await req.db('productUpdate', request.body.param);
-    res.send(await req.db('productDetail'));
-})
-
 app.post('/upload/:productId/:type/:fileName', async (request, res) => {
 
     let {
@@ -139,7 +134,6 @@ app.post('/api/:alias', async (request, res) => {   // 사용자가 서버로 �
     }
 });
 
-
 const req = {   // query라는 함수를 통해 mariadb의 원하는 쿼리를 실행하고 데이터를 가져오기
     async db(alias, param = [], where = '') {   
         return new Promise((resolve, reject) => dbPool.query(sql[alias].query + where, param, (error, rows) => {
@@ -153,3 +147,32 @@ const req = {   // query라는 함수를 통해 mariadb의 원하는 쿼리를 �
         }));
     }
 };
+
+const datebse = {
+    async run(query, params) {
+        return new Promise((resolve, reject) => {
+            dbPool.getConnection()
+                .then(conn => {
+                    conn.query(query, params)
+                        .then((rows) => {
+                            resolve(rows);
+                            conn.end(); // (필수) connection 종료
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            conn.end(); // (필수) connection 종료
+                            reject(err);
+                        })
+
+                }).catch(err => {
+                    //not connected
+                    console.log(err);
+                    reject(err);
+                });
+        });
+    }
+}
+
+app.post("/api/productUpdate:id", async (request, res) => {
+    await database.run(`UPDATE SET ? WHERE id = ?`)
+});
