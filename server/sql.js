@@ -50,7 +50,7 @@ module.exports = {  // database의 data query로 가져오기
         query: `insert into t_image set ?`
     },
     productUpdate: {    // 제품 수정 쿼리
-        query: `UPDATE SET ? WHERE id = ?`
+        query: `UPDATE t_product SET ? WHERE id = ?`
     },
     imageList: {    // 해당 제품의 이미지들을 가져오는 쿼리
         query: `select * from t_image where product_id=?`

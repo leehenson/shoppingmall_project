@@ -1,6 +1,8 @@
 const express = require('express'); // express 웹서버 관련 모듈 불러오기
 const app = express();  // express() 함수 호출
 const port = 3000;
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const session = require('express-session'); // express-session 로그인 관련 모듈 불러오기
 const fs = require('fs');   // filesystem으로 디렉토리에 접근할 수 있게 해주는 모듈 불러오기
 
@@ -17,6 +19,11 @@ app.use(session({   // session 처리 방법
 app.use(express.json({  // body request 요청을 할 때 파라미터를 json형태의 최대 50mb 파라미터로 전송
     limit: '50mb'
 }));
+
+app.use(cookieParser)();
+app.use(bodyParser.json());
+
+const jwtKey = "abc1234567";
 
 app.listen(port, () => { // 3000번 포트로 웹서버 구동
     console.log(`Server Started. port ${port}.`);  // 웹서버 구동 시, console로 메세지를 남김
@@ -35,7 +42,7 @@ fs.watchFile(__dirname + '/sql.js', (curr, prev) => {   // file 레파지토리�
 const db = {    // 데이터베이스 불러오기
     database: "dev",
     connectionLimit: 10,
-    host: "172.20.10.4",
+    host: "172.30.1.26",
     user: "root",
     password: "mariadb"
 };
@@ -110,6 +117,27 @@ app.post('/upload/:productId/:type/:fileName', async (request, res) => {
     else fs.createReadStream(filepath).pipe(res);
   });
 
+app.get('/api/account', (request, res) => {
+    if(request.cookies && request.cookies.token) {
+        jwt.verify(request.cookies.token, jwtKey, (err, decoded) => {
+            if (err) {
+                return res.sendStatus(401);
+            }
+            res.send(decoded);
+        })
+    }
+    else {
+        res.sendStatus(401);
+    }
+});
+
+app.post('/api/login', async (reqeust, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    
+    await database.run("SELECT * FROM t_user where id = ?", )
+});
+
 app.post('/apirole/:alias', async (request, res) => {   // 사용자가 서버로 지정되지 않는 데이터 요청을 할 때, 경유하게 만듬
     if(!request.session.email) {
         return res.status(401).send({error:'You need to login.'});
@@ -148,7 +176,7 @@ const req = {   // query라는 함수를 통해 mariadb의 원하는 쿼리를 �
     }
 };
 
-const datebse = {
+const database = {
     async run(query, params) {
         return new Promise((resolve, reject) => {
             dbPool.getConnection()
@@ -172,7 +200,3 @@ const datebse = {
         });
     }
 }
-
-app.post("/api/productUpdate:id", async (request, res) => {
-    await database.run(`UPDATE SET ? WHERE id = ?`)
-});

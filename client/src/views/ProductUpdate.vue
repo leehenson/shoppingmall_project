@@ -115,7 +115,7 @@ export default {
             cancelButtonText: 'CANCEL'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await this.$api("/api/productUpdate", {param:[this.productDetail]}, {where:this.productId});
+                await this.$api("/api/productUpdate", {param:[this.productDetail, this.productId]});
                 this.$swal.fire('Saved.', '', 'success');
                 this.$router.push({path:'/sales'});
             }
