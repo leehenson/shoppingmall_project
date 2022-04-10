@@ -20,7 +20,7 @@ app.use(express.json({  // body request 요청을 할 때 파라미터를 json�
     limit: '50mb'
 }));
 
-app.use(cookieParser)();
+app.use(cookieParser());
 app.use(bodyParser.json());
 
 const jwtKey = "abc1234567";
@@ -42,12 +42,24 @@ fs.watchFile(__dirname + '/sql.js', (curr, prev) => {   // file 레파지토리�
 const db = {    // 데이터베이스 불러오기
     database: "dev",
     connectionLimit: 10,
-    host: "172.30.1.26",
+    host: "172.20.10.4",
     user: "root",
     password: "mariadb"
 };
 
 const dbPool = require('mysql').createPool(db); // mariadb 모듈 불러오기, createPool로 db와 연동시키기
+
+app.post('/api/login', async (request, res) => {
+    const [member] = await req.db('memberLogin', request.body.param);
+    console.log(member);
+
+    if(member) {
+        res.send(member);
+    }
+    else {
+        res.send(404);
+    }
+});
 
 app.post('/api/kakaoLogin', async (request, res) => {    // client에서 server쪽으로 axios post방식으로 login api 가져오기
     // request.session['email'] = 'hslee7231@gmail.com';
@@ -131,13 +143,6 @@ app.get('/api/account', (request, res) => {
     }
 });
 
-app.post('/api/login', async (reqeust, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
-    
-    await database.run("SELECT * FROM t_user where id = ?", )
-});
-
 app.post('/apirole/:alias', async (request, res) => {   // 사용자가 서버로 지정되지 않는 데이터 요청을 할 때, 경유하게 만듬
     if(!request.session.email) {
         return res.status(401).send({error:'You need to login.'});
@@ -162,7 +167,7 @@ app.post('/api/:alias', async (request, res) => {   // 사용자가 서버로 �
     }
 });
 
-const req = {   // query라는 함수를 통해 mariadb의 원하는 쿼리를 실행하고 데이터를 가져오기
+const req = {
     async db(alias, param = [], where = '') {   
         return new Promise((resolve, reject) => dbPool.query(sql[alias].query + where, param, (error, rows) => {
             if (error) {
@@ -175,28 +180,3 @@ const req = {   // query라는 함수를 통해 mariadb의 원하는 쿼리를 �
         }));
     }
 };
-
-const database = {
-    async run(query, params) {
-        return new Promise((resolve, reject) => {
-            dbPool.getConnection()
-                .then(conn => {
-                    conn.query(query, params)
-                        .then((rows) => {
-                            resolve(rows);
-                            conn.end(); // (필수) connection 종료
-                        })
-                        .catch(err => {
-                            console.log(err);
-                            conn.end(); // (필수) connection 종료
-                            reject(err);
-                        })
-
-                }).catch(err => {
-                    //not connected
-                    console.log(err);
-                    reject(err);
-                });
-        });
-    }
-}

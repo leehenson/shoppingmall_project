@@ -24,7 +24,7 @@
           <li class="nav-item">
             <a class="nav-link  text-dark" href="#">✔ FORGOT ID</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item"> 
             <a class="nav-link  text-dark" href="#">✔ FORGOT PASSWORD</a>
           </li>
         </ul>
@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   data() {
     return {
@@ -50,28 +49,17 @@ export default {
     }
   },
   methods: {
-    login() {
-      const args = {
-        email: this.t_user.email,
-        password: this.t_user.password,
-      };
-      console.log(args);
-
-     axios.post("/api/login", args)
-      .then((res) => {
-        alert("로그인에 성공했습니다.");
+    async login() {
+      await this.$api('/api/login', {param:[this.t_user.email, this.t_user.password]})
+      .then(() => {
+        alert("로그인 성공!");
         this.$router.push({path:'/'});
-        this.t_user = res.data;
-      })
-      .catch(() => {
-        alert("로그인에 실패했습니다. 계정 정보를 확인해주세요.");
-      })
 
-      this.$store.commit("user", args);  // vuex를 이용하여 상태관리하도록 store에 user 정보를 갱신
-
-      axios.get("/api/account").then((res) => {
-        this.t_user = res.data;
+      }).catch(() => {
+        alert("계정 정보를 확인해주세요.");
       });
+
+      this.$store.commit("user", this.t_user);  // vuex를 이용하여 상태관리하도록 store에 user 정보를 갱신
     },
     kakaoLogin() {
       window.Kakao.Auth.login({
