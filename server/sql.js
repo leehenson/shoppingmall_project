@@ -70,6 +70,9 @@ module.exports = {  // database의 data query로 가져오기
     memberJoin: {    // 유저 회원가입 쿼리
         query: `INSERT INTO t_user set ?`
     },
+    memberJoin1: {    // 유저 회원가입 쿼리
+        query: `SELECT email FROM t_user WHERE email = ?`
+    },
     memberLogin: {    // 유저 로그인 쿼리
         query: `SELECT * FROM t_user WHERE email = ? AND password = ?`
     },

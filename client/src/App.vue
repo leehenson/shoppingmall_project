@@ -103,29 +103,6 @@ export default {
     }
   },
   methods: {
-    submitLogin() {
-      const t_user = {};
-      t_user.email = this.t_user.email;
-      t_user.password = this.t_user.password;
-       this.login(t_user);
-      console.log(t_user);
-    },
-    async login(t_user) {
-      await this.$api("/api/login", {
-        email:t_user.email,
-        password:t_user.password
-      })
-      .then(() => {
-        alert('로그인 성공!');
-        this.$router.push({path:'/'});
-      }, (err) => {
-        alert(err);
-      })
-      .catch((err) => {
-        alert(err);
-      });
-      this.$store.commit("user", t_user.email);  // vuex를 이용하여 상태관리하도록 store에 user 정보를 갱신
-    },
     kakaoLogin() {
       window.Kakao.Auth.login({
         scope: 'profile_nickname, account_email, gender',

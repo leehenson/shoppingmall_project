@@ -14,10 +14,6 @@
                 <input type="password" class="form-control" placeholder="(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)" v-model="t_user.password">
             </div>
             <div class="form-group mb-5">
-                <label class="mb-2">PASSWORD CONFIRM</label>
-                <input type="password" class="form-control" placeholder="(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)" v-model="t_user.password_confirm">
-            </div>
-            <div class="form-group mb-5">
                 <label class="mb-2">NAME</label>
                 <input type="text" class="form-control" v-model="t_user.name">
             </div>
@@ -72,7 +68,6 @@ export default {
       t_user: {
         email: "",
         password: "",
-        password_confirm: "",
         name: "",
         address: "",
         phone: "",        
@@ -123,10 +118,6 @@ export default {
         return this.$swal("비밀번호는 필수 입력값입니다.");
       }
 
-      if(this.t_user.password_confirm == "") {
-        return this.$swal("비밀번호를 다시 한번 입력해주세요.");
-      }
-
       if(this.t_user.name == "") {
         return this.$swal("이름은 필수 입력값입니다.");
       }
@@ -160,7 +151,7 @@ export default {
             cancelButtonText: 'CANCEL'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await this.$api("/api/memberJoin",{param:[this.t_user]});
+                await this.$api("/api/memberJoin",{user: this.t_user});
                 this.$swal.fire('Saved.', '', 'success');
                 this.$router.push({path:'/login'});
             }

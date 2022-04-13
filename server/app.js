@@ -2,7 +2,7 @@ const express = require('express'); // express 웹서버 관련 모듈 불러오
 const app = express();  // express() 함수 호출
 const port = 3000;
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
+const bcrypt = require('bcryptjs');
 const session = require('express-session'); // express-session 로그인 관련 모듈 불러오기
 const fs = require('fs');   // filesystem으로 디렉토리에 접근할 수 있게 해주는 모듈 불러오기
 
@@ -20,10 +20,7 @@ app.use(express.json({  // body request 요청을 할 때 파라미터를 json�
     limit: '50mb'
 }));
 
-app.use(cookieParser());
 app.use(bodyParser.json());
-
-const jwtKey = "abc1234567";
 
 app.listen(port, () => { // 3000번 포트로 웹서버 구동
     console.log(`Server Started. port ${port}.`);  // 웹서버 구동 시, console로 메세지를 남김
@@ -49,9 +46,48 @@ const db = {    // 데이터베이스 불러오기
 
 const dbPool = require('mysql').createPool(db); // mariadb 모듈 불러오기, createPool로 db와 연동시키기
 
+app.post('/api/memberJoin', async (request, res) => {
+    const signUp = await req.db('memberJoin1', request.body.user.email);
+    if (signUp == undefined) {
+        const salt = bcrypt.genSaltSync();
+        const encryptedPassword = bcrypt.hashSync(request.body.user.password, salt);
+        const signUp2 = req.db('memberJoin', request.body.user);
+        if (signUp2) throw err;
+        res.json({
+            success: true,
+            message: "회원가입 성공!"
+        })
+    }
+    else {
+        res.json({
+            success: false,
+            message: "회원가입 실패."
+        })
+    }
+    
+    // dbPool.query('SELECT email FROM t_user WHERE email = "' + user.email + '"', (err, row) => {
+    //     if (row[0] == undefined) {
+    //         const salt = bcrypt.genSaltSync();
+    //         const encryptedPassword = bcrypt.hashSync(user.password, salt);
+    //         connection.query('INSERT INTO t_user (email, password, name, address, phone, account_holder, bank_name_id, bank_account_number) VALUES ("' + user.email + '", "' + user.password + '", "' + user.name + '", "' + user.address + '", "' + user.phone + '", "' + user.account_holder + '", "' + user.bank_name_id + '", "' + user.bank_account_number + '")', user, function (err, row2) {
+    //             if (err) throw err;
+    //         });
+    //         res.json({
+    //             success: true,
+    //             message: "회원가입 성공!"
+    //         })
+    //     }
+    //     else {
+    //         res.json({
+    //             success: false,
+    //             message: "회원가입 실패."
+    //         })
+    //     }
+    // })
+});
+
 app.post('/api/login', async (request, res) => {
     const [member] = await req.db('memberLogin', request.body.param);
-    console.log(member);
 
     if(member) {
         res.send(member);
@@ -128,20 +164,6 @@ app.post('/upload/:productId/:type/:fileName', async (request, res) => {
     });
     else fs.createReadStream(filepath).pipe(res);
   });
-
-app.get('/api/account', (request, res) => {
-    if(request.cookies && request.cookies.token) {
-        jwt.verify(request.cookies.token, jwtKey, (err, decoded) => {
-            if (err) {
-                return res.sendStatus(401);
-            }
-            res.send(decoded);
-        })
-    }
-    else {
-        res.sendStatus(401);
-    }
-});
 
 app.post('/apirole/:alias', async (request, res) => {   // 사용자가 서버로 지정되지 않는 데이터 요청을 할 때, 경유하게 만듬
     if(!request.session.email) {
