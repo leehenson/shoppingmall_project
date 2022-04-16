@@ -151,9 +151,14 @@ export default {
             cancelButtonText: 'CANCEL'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await this.$api("/api/memberJoin",{user: this.t_user});
-                this.$swal.fire('Saved.', '', 'success');
-                this.$router.push({path:'/login'});
+                await this.$api("/api/memberJoin",{user: this.t_user})
+                .then(() => {
+                  this.$swal.fire('Saved.', '', 'success')
+                  this.$router.push({path:'/login'});
+
+                }).catch(() => {
+                  alert("이메일이 중복됩니다. 다른 이메일을 사용해 주세요.");
+                });
             }
         });
     }

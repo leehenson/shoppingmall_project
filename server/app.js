@@ -27,7 +27,6 @@ app.listen(port, () => { // 3000번 포트로 웹서버 구동
 });
 
 let sql = require('./sql.js');    // sql.js 불러오기
-const { request } = require('http');
 
 // nodemon 모듈로 대체 가능
 fs.watchFile(__dirname + '/sql.js', (curr, prev) => {   // file 레파지토리를 감시하다가 변경되는 것을 감지
@@ -47,54 +46,45 @@ const db = {    // 데이터베이스 불러오기
 const dbPool = require('mysql').createPool(db); // mariadb 모듈 불러오기, createPool로 db와 연동시키기
 
 app.post('/api/memberJoin', async (request, res) => {
-    const signUp = await req.db('memberJoin1', request.body.user.email);
-    if (signUp == undefined) {
+    const signUp = await req.db('memberJoin', request.body.user.email);
+    if (signUp == 0) {
         const salt = bcrypt.genSaltSync();
         const encryptedPassword = bcrypt.hashSync(request.body.user.password, salt);
-        const signUp2 = req.db('memberJoin', request.body.user);
-        if (signUp2) throw err;
+        dbPool.query('INSERT INTO t_user (email, password, name, address, phone, account_holder, bank_name_id, bank_account_number) VALUES ("' + request.body.user.email + '", "' + encryptedPassword + '", "' + request.body.user.name + '", "' + request.body.user.address + '", "' + request.body.user.phone + '", "' + request.body.user.account_holder + '", "' + request.body.user.bank_name_id + '", "' + request.body.user.bank_account_number + '")', (err, row2) => {
+            if (err) throw err;
+        });
         res.json({
             success: true,
             message: "회원가입 성공!"
         })
     }
     else {
-        res.json({
-            success: false,
-            message: "회원가입 실패."
-        })
+        res.send(401);
     }
-    
-    // dbPool.query('SELECT email FROM t_user WHERE email = "' + user.email + '"', (err, row) => {
-    //     if (row[0] == undefined) {
-    //         const salt = bcrypt.genSaltSync();
-    //         const encryptedPassword = bcrypt.hashSync(user.password, salt);
-    //         connection.query('INSERT INTO t_user (email, password, name, address, phone, account_holder, bank_name_id, bank_account_number) VALUES ("' + user.email + '", "' + user.password + '", "' + user.name + '", "' + user.address + '", "' + user.phone + '", "' + user.account_holder + '", "' + user.bank_name_id + '", "' + user.bank_account_number + '")', user, function (err, row2) {
-    //             if (err) throw err;
-    //         });
-    //         res.json({
-    //             success: true,
-    //             message: "회원가입 성공!"
-    //         })
-    //     }
-    //     else {
-    //         res.json({
-    //             success: false,
-    //             message: "회원가입 실패."
-    //         })
-    //     }
-    // })
 });
 
 app.post('/api/login', async (request, res) => {
-    const [member] = await req.db('memberLogin', request.body.param);
-
-    if(member) {
-        res.send(member);
-    }
-    else {
-        res.send(404);
-    }
+    await dbPool.query('SELECT email, password FROM t_user WHERE email = "' + request.body.user.email + '"', (err, row) => {
+        if (err) {
+            res.json({
+                success: false,
+                message: 'Login failed please check your email or pasword'
+            })
+        }
+        if (row[0] !== undefined && row[0].email === request.body.user.email) {
+            bcrypt.compare(request.body.user.password, row[0].password, (err, res2) => {
+                if (res2) {
+                    res.json({
+                        success: true,
+                        message: 'Login successful'
+                    })
+                }
+                else {
+                    res.send(401);
+                }
+            })
+        }
+    })
 });
 
 app.post('/api/kakaoLogin', async (request, res) => {    // client에서 server쪽으로 axios post방식으로 login api 가져오기

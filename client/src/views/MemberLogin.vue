@@ -50,16 +50,14 @@ export default {
   },
   methods: {
     async login() {
-      await this.$api('/api/login', {param:[this.t_user.email, this.t_user.password]})
+      await this.$api('/api/login', {user: this.t_user})
       .then(() => {
         alert("로그인 성공!");
         this.$router.push({path:'/'});
-
+        this.$store.commit("user", this.t_user);  // vuex를 이용하여 상태관리하도록 store에 user 정보를 갱신
       }).catch(() => {
         alert("계정 정보를 확인해주세요.");
       });
-
-      this.$store.commit("user", this.t_user);  // vuex를 이용하여 상태관리하도록 store에 user 정보를 갱신
     },
     kakaoLogin() {
       window.Kakao.Auth.login({
