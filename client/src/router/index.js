@@ -11,6 +11,7 @@ import BottomList from '../views/BottomList.vue'
 import AccList from '../views/AccList.vue'
 import MemberLogin from '../views/MemberLogin.vue'
 import MemberJoin from '../views/MemberJoin.vue'
+import MemberCart from '../views/MemberCart.vue'
 
 
 
@@ -74,6 +75,11 @@ const routes = [
     path: '/join',
     name: 'MemberJoin',
     component: MemberJoin
+  },
+  {
+    path: '/cart',
+    name: 'MemberCart',
+    component: MemberCart
   }
 ]
 

@@ -36,8 +36,8 @@
               <li v-else class="nav-item">
                 <router-link class="nav-link" to="" @click="kakaoLogout">LOGOUT</router-link>
               </li>
-              <li class="nav-item">
-                <router-link class="nav-link" to="#">CART</router-link>
+              <li v-if="user.email!==undefined" class="nav-item">
+                <router-link class="nav-link" to="/cart">CART</router-link>
               </li>
               <li class="nav-item">
                 <router-link class="nav-link" to="#">MYPAGE</router-link>
