@@ -49,30 +49,30 @@ export default {
       console.log(this.productList); // 데이터를 잘 받아오는지 확인
     },
     goToInsert() {
-        this.$router.push({path:'/create'});
+      this.$router.push({path:'/create'});
     },
     goToDetail(product_id) {  // 제품 이미지 클릭시 제품 상세페이지로 router되도록 설정
       this.$router.push({path:'/detail', query:{product_id:product_id}}); // path중 /detail이 들어가면 product_id를 파라미터로 받아 라우터 시킴
     },
     goToUpdate(product_id) {
-        this.$router.push({path:'/update', query:{product_id:product_id}});
+      this.$router.push({path:'/update', query:{product_id:product_id}});
     },
     goToImageInsert(product_id) {
-        this.$router.push({path:'/image_insert', query:{product_id:product_id}});
+      this.$router.push({path:'/image_insert', query:{product_id:product_id}});
     },
     deleteProduct(product_id) {
-        this.$swal.fire({
-            title: '정말 삭제하시겠습니까?',
-            showCancelButton: true,
-            confirmButtonText: 'DELETE',
-            cancelButtonText: 'CANCEL'
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                await this.$api("/api/productDelete",{param:[product_id]});
-                this.getProductList();
-                this.$swal.fire('Deleted.', '', 'success')
-            }
-        });
+      this.$swal.fire({
+        title: '정말 삭제하시겠습니까?',
+        showCancelButton: true,
+        confirmButtonText: 'DELETE',
+        cancelButtonText: 'CANCEL'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await this.$api("/api/productDelete",{param:[product_id]});
+          this.getProductList();
+          this.$swal.fire('Deleted.', '', 'success')
+        }
+      });
     }   
   }
 }

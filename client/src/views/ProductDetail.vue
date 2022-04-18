@@ -126,6 +126,9 @@ export default {
     async getProductImage() {    // getProductImage 메소드 호출
       this.productImage = await this.$api("/api/productMainImages",{param:[this.productId]});  // url를 따라 app.js의 /api/:alias를 타고 productId의 파라미터를 받아 해당 sql productMainImages의 data 호출
       console.log('this.productImage',this.productImage)
+    },
+    addCart() {
+
     }
   }
 }
