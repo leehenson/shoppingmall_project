@@ -1,7 +1,10 @@
 <template>
   <main class="mt-5">
     <div class="container">
-      <div class="row">
+      <div v-if="productList == 0" class="row">
+          <h5 class="m-4">등록된 상품이 없습니다.</h5>
+      </div>
+      <div v-else class="row">
         <div class="col-xl-3 col-lg-4 col-md-6" :key="i" v-for="(product, i) in productList">
           <div class="card text-start" style="width: 18rem; border: 0px;">
             <a @click="goToDetail(product.id);" style="cursor:pointer;"><img :src="`/download/${product.id}/${product.path}`" class="card-img-top" alt="..."></a>
