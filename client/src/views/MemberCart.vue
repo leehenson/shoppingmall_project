@@ -90,21 +90,7 @@ export default {
     },
     goToImageInsert(product_id) {
       this.$router.push({path:'/image_insert', query:{product_id:product_id}});
-    },
-    deleteProduct(product_id) {
-      this.$swal.fire({
-        title: '정말 삭제하시겠습니까?',
-        showCancelButton: true,
-        confirmButtonText: 'DELETE',
-        cancelButtonText: 'CANCEL'
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          await this.$api("/api/productDelete",{param:[product_id]});
-          this.getProductList();
-          this.$swal.fire('Deleted.', '', 'success')
-        }
-      });
-    }   
+    }
   }
 }
 </script>

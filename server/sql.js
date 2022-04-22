@@ -75,5 +75,8 @@ module.exports = {  // database의 data query로 가져오기
     },
     signUp: {
         query: `insert into t_user set ? on duplicate key update ?` // 데이터가 없으면 insert를 하고, 있으면 update를 함.
+    },
+    cartInsert: {
+        query: `INSERT INTO t_cart (product_id, user_email, quantity) VALUES (?, ?, ?)`
     }
 }

@@ -71,7 +71,7 @@
                   </div>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="col-6 d-grid p-1">
-                        <button type="button" class="btn btn-lg btn-outline-dark">ADD CART</button>
+                        <button type="button" class="btn btn-lg btn-outline-dark" @click="addCart">ADD CART</button>
                     </div>
                     <div class="col-6 d-grid p-1">
                         <button type="button" class="btn btn-lg btn-outline-dark">BUY NOW</button>
@@ -127,8 +127,8 @@ export default {
       this.productImage = await this.$api("/api/productMainImages",{param:[this.productId]});  // url를 따라 app.js의 /api/:alias를 타고 productId의 파라미터를 받아 해당 sql productMainImages의 data 호출
       console.log('this.productImage',this.productImage)
     },
-    addCart() {
-
+    async addCart() {
+      await this.$api("/api/cartInsert", {param:[this.productId, this.$store.state.user, this.total]});
     }
   }
 }
