@@ -128,7 +128,21 @@ export default {
       console.log('this.productImage',this.productImage)
     },
     async addCart() {
-      await this.$api("/api/cartInsert", {param:[this.productId, this.$store.state.user, this.total]});
+      if(this.total == 0) {
+        return this.$swal("1개 이상의 수량을 선택해 주십시오.");
+      }
+      this.$swal.fire({
+            title: '장바구니에 담으시겠습니까? <br/> 바로 장바구니로 이동됩니다.',
+            showCancelButton: true,
+            confirmButtonText: 'ADD CART',
+            cancelButtonText: 'CANCEL'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await this.$api("/api/cartInsert", {param:[this.productId, this.$store.state.user.email, this.total]});
+                this.$swal.fire('Saved.', '', 'success');
+                this.$router.push({path:'/cart'});
+            }
+        });
     }
   }
 }

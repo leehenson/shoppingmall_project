@@ -105,9 +105,38 @@ export default {
         this.productDetail = productDetail[0];  // productDetail의 첫번째만 가져옴
       }
     },
-    productUpdate() {
+    productUpdate() {    
+      if(this.product.product_name == "") {
+        return this.$swal("제품명은 필수 입력값입니다.");
+      }
+
+      if(this.product.product_price == "" || this.product.product_price == 0) {
+        return this.$swal("제품가격을 입력하세요.");
+      }
+
+      if(this.product.product_description == "") {
+        return this.$swal("제품설명은 필수 입력값입니다.");
+      }
+
+      if(this.product.product_color == "") {
+        return this.$swal("색상은 필수 입력값입니다.");
+      }
+
+      if(this.product.product_fabric == "") {
+        return this.$swal("소재는 필수 입력값입니다.");
+      }
       
-      
+      if(this.product.product_model == "") {
+        return this.$swal("모델 착용 정보는 필수 입력값입니다.");
+      }
+
+      if(this.product.product_size == "") {
+        return this.$swal("사이즈는 필수 입력값입니다.");
+      }
+
+      if(this.product.product_sizeGuide == "") {
+        return this.$swal("사이즈 가이드는 필수 입력값입니다.");
+      }  
       this.$swal.fire({
             title: '정말 수정하시겠습니까?',
             showCancelButton: true,

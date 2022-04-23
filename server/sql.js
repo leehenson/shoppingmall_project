@@ -78,5 +78,10 @@ module.exports = {  // database의 data query로 가져오기
     },
     cartInsert: {
         query: `INSERT INTO t_cart (product_id, user_email, quantity) VALUES (?, ?, ?)`
+    },
+    cartList: {
+        query: `SELECT t1.id, t1.product_name, t1.product_price, t2.path, t3.quantity, t4.email
+        FROM t_product t1, t_image t2, t_cart t3, t_user t4
+        WHERE t1.id = t2.product_id AND t1.id = t3.product_id AND t3.user_email = t4.email AND t2.type = 1`
     }
 }
