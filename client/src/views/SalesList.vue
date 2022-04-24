@@ -17,7 +17,7 @@
                 <tr :key="i" v-for="(product, i) in productList">
                     <td><img :src="`/download/${product.id}/${product.path}`" style="height:50px; width:auto;" /></td>
                     <td>{{product.product_name}}</td>
-                    <td>{{product.product_price}}</td>
+                    <td>{{getCurrencyFormat(product.product_price)}}</td>
                     <td>
                         <button type="button" class="btn btn-outline-secondary me-1" @click="goToImageInsert(product.id);">사진등록</button>
                         <button type="button" class="btn btn-outline-success me-1" @click="goToUpdate(product.id);">수정</button>

@@ -93,7 +93,7 @@ export default {
         console.log(response);
         this.$store.commit("user", {});
         alert("로그아웃");
-
+        this.$router.go();
       });
     }
   }
