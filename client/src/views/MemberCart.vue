@@ -1,52 +1,48 @@
 <template>
   <main class="mt-5">
     <div class="container">
-      <div class="row">
+      <div v-if="cartList == 0" class="row">
           <h5 class="m-4">장바구니가 비어있습니다.</h5>
       </div>
-      <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>
+      <div v-else>
+        <table class="table table-bordered">
+              <thead>
+                  <tr>
+                      <th>이미지</th>
+                      <th>상품정보</th>
+                      <th>판매가</th>
+                      <th>수량</th>
+                      <th>합계</th>
+                      <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr :key="i" v-for="(product, i) in cartList">
+                    <td><img :src="`/download/${product.id}/${product.path}`" style="height:50px; width:auto;" /></td>
+                    <td>{{product.product_name}}</td>
+                    <td>{{getCurrencyFormat(product.product_price)}}</td>
+                    <td>
                       <div>
-                        <input class="form-check-input" type="checkbox" id="checkboxNoLabel">
+                        {{product.quantity}}개
                       </div>
-                    </th>
-                    <th>이미지</th>
-                    <th>상품정보</th>
-                    <th>판매가</th>
-                    <th>수량</th>
-                    <th>합계</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr :key="i" v-for="(product, i) in cartList">
-                  <td><input class="form-check-input" type="checkbox" id="checkboxNoLabel"></td>
-                  <td><img :src="`/download/${product.id}/${product.path}`" style="height:50px; width:auto;" /></td>
-                  <td>{{product.product_name}}</td>
-                  <td>{{getCurrencyFormat(product.product_price)}}</td>
-                  <td>
-                    <div>
-                      {{product.quantity}}개
-                    </div>
-                  </td>
-                  <td>
-                    <div>
-                      {{getCurrencyFormat(product.product_price * product.quantity)}}원
-                    </div>
-                  </td>
-                  <td>
-                    <div>
-                      <button type="button" class="btn btn-outline-danger" @click="deleteCart(product.cart_id);">삭제</button>
-                    </div>
-                  </td>
-                </tr>
-            </tbody>
-        </table>
-      <div class="col-12 mt-5">
-          <button type="button" class="btn btn btn-dark me-1">전체상품주문</button>
-          <button type="button" class="btn btn-outline-dark">선택상품주문</button>
+                    </td>
+                    <td>
+                      <div>
+                        {{getCurrencyFormat(product.product_price * product.quantity)}}원
+                      </div>
+                    </td>
+                    <td>
+                      <div>
+                        <button type="button" class="btn btn-outline-danger" @click="deleteCart(product.cart_id);">삭제</button>
+                      </div>
+                    </td>
+                  </tr>
+              </tbody>
+          </table>
+          <dir>총 장바구니 상품금액 {{}}</dir>
+        <div class="col-12 mt-5">
+            <button type="button" class="btn btn btn-dark me-1">상품주문</button>
+        </div>
       </div>
     </div>
   </main>
