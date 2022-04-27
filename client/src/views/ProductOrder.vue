@@ -1,10 +1,7 @@
 <template>
   <main class="mt-5">
     <div class="container">
-      <div v-if="cartList == 0" class="row">
-          <h5 class="m-4">장바구니가 비어있습니다.</h5>
-      </div>
-      <div v-else>
+      <div>
         <table class="table table-bordered">
               <thead>
                   <tr>
@@ -39,9 +36,57 @@
                   </tr>
               </tbody>
           </table>
+          <div class="col-md-6">
+                <h5 class="text-start ms-4 mb-3">주문자 입력</h5>
+                <div class="mb-3 row">
+                    <label class="col-md-3 col-form-label">주문자 명</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-md-3 col-form-label">휴대전화번호</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-md-3 col-form-label">이메일</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h5 class="text-start ms-4 mb-3">배송지 정보</h5>
+                <div class="mb-3 row">
+                    <label class="col-md-3 col-form-label">배송지</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-md-3 col-form-label">받으시는 분</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-md-3 col-form-label">휴대전화번호</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                <label class="col-md-3 col-form-label">배송시 요청사항</label>
+                <div class="col-md-9">
+                  <textarea class="form-control" rows="4"></textarea>
+                </div>
+            </div>
+            </div>
           <h4 class="mt-5">총 상품금액 {{getCurrencyFormat(total)}}원 + 배송비 {{getCurrencyFormat(deliveryPrice)}}원 = 총 결제금액 {{getCurrencyFormat(paymentAmount)}}원</h4>
         <div class="col-12 mt-5">
-            <button type="button" class="btn btn btn-dark me-1"  @click="goToOrder">상품주문</button>
+            <button type="button" class="btn btn btn-dark me-1">주문하기</button>
         </div>
       </div>
     </div>
@@ -90,9 +135,6 @@ export default {
 
       let paymentAmount = total + deliveryPrice;
       this.paymentAmount = paymentAmount;
-    },
-    goToOrder() {
-        this.$router.push({path:'/order'});
     },
     deleteCart(cart_id) {
       this.$swal.fire({

@@ -12,6 +12,7 @@ import AccList from '../views/AccList.vue'
 import MemberLogin from '../views/MemberLogin.vue'
 import MemberJoin from '../views/MemberJoin.vue'
 import MemberCart from '../views/MemberCart.vue'
+import ProductOrder from '../views/ProductOrder.vue'
 
 
 
@@ -80,6 +81,11 @@ const routes = [
     path: '/cart',
     name: 'MemberCart',
     component: MemberCart
+  },
+  {
+    path: '/order',
+    name: 'ProductOrder',
+    component: ProductOrder
   }
 ]
 

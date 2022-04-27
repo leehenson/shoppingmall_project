@@ -38,7 +38,7 @@ fs.watchFile(__dirname + '/sql.js', (curr, prev) => {   // file 레파지토리�
 const db = {    // 데이터베이스 불러오기
     database: "dev",
     connectionLimit: 10,
-    host: "192.168.1.126",
+    host: "172.20.10.4",
     user: "root",
     password: "mariadb"
 };
