@@ -138,7 +138,7 @@ export default {
             cancelButtonText: 'CANCEL'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await this.$api("/api/cartInsert", {param:[this.productId, this.$store.state.user.email, this.total]});
+                await this.$api("/api/cartInsert", {param:[this.productId, this.$store.state.user.email, this.total, this.totalPrice]});
                 this.$swal.fire('Saved.', '', 'success');
                 this.$router.push({path:'/cart'});
             }

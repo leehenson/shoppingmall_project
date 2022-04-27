@@ -28,7 +28,7 @@
                     </td>
                     <td>
                       <div>
-                        {{getCurrencyFormat(product.product_price * product.quantity)}}원
+                        {{getCurrencyFormat(product.totalPrice)}}원
                       </div>
                     </td>
                     <td>
@@ -39,7 +39,7 @@
                   </tr>
               </tbody>
           </table>
-          <dir>총 장바구니 상품금액 {{}}</dir>
+          <h3 class="mt-5">총 상품금액 {{getCurrencyFormat(total)}}원 + 배송비 {{getCurrencyFormat(deliveryPrice)}}원 = 총 결제금액 {{getCurrencyFormat(paymentAmount)}}원</h3>
         <div class="col-12 mt-5">
             <button type="button" class="btn btn btn-dark me-1">상품주문</button>
         </div>
@@ -53,8 +53,11 @@ export default {
   data() {  // 받아온 data를 template 코드에 쓸 수 있게 data 정의
     return {
       cartList: {},
-      totalPrice: 0,
-      cartId:""
+      cartId:"",
+      total: 0,
+      cartItem: 0,
+      deliveryPrice: 0,
+      paymentAmount: 0
     };
   },
   created() {     // data가 정상적으로 들어오는지 확인
@@ -66,8 +69,27 @@ export default {
       return this.$currencyFormat(value);
     },
     async getCartList() {    // getCartList 메소드 호출
-      this.cartList = await this.$api("/api/cartList",{param:[this.cartId]});  // url를 따라 app.js의 /api/:alias를 타고 sql cartList의 data 호출
+      let cartList = await this.$api("/api/cartList",{param:[this.cartId]});  // url를 따라 app.js의 /api/:alias를 타고 sql cartList의 data 호출
+      this.cartList = cartList
       console.log(this.cartList); // 데이터를 잘 받아오는지 확인
+
+      let total = 0;
+      cartList.forEach(item => {
+        total += item.totalPrice;
+      });
+      this.total = total;
+
+      let deliveryPrice = 0;
+      if (total >= 100000) {
+        deliveryPrice = 0;
+      }
+      else {
+        deliveryPrice = 3000;
+      }
+      this.deliveryPrice = deliveryPrice
+
+      let paymentAmount = total + deliveryPrice;
+      this.paymentAmount = paymentAmount;
     },
     deleteCart(cart_id) {
       this.$swal.fire({
