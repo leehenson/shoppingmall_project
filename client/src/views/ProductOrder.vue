@@ -1,92 +1,89 @@
 <template>
   <main class="mt-5">
     <div class="container">
+      <h4 class="mb-3">주문내역</h4>
       <div>
-        <table class="table table-bordered">
-              <thead>
-                  <tr>
-                      <th>이미지</th>
-                      <th>상품정보</th>
-                      <th>판매가</th>
-                      <th>수량</th>
-                      <th>합계</th>
-                      <th></th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr :key="i" v-for="(product, i) in cartList">
-                    <td><img :src="`/download/${product.id}/${product.path}`" style="height:50px; width:auto;" /></td>
-                    <td>{{product.product_name}}</td>
-                    <td>{{getCurrencyFormat(product.product_price)}}</td>
-                    <td>
-                      <div>
-                        {{product.quantity}}개
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        {{getCurrencyFormat(product.totalPrice)}}원
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        <button type="button" class="btn btn-outline-danger" @click="deleteCart(product.cart_id);">삭제</button>
-                      </div>
-                    </td>
-                  </tr>
-              </tbody>
-          </table>
+        <table class="table table-bordered mb-5">
+          <thead>
+            <tr>
+              <th>이미지</th>
+              <th>상품정보</th>
+              <th>판매가</th>
+              <th>수량</th>
+              <th>합계</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr :key="i" v-for="(product, i) in cartList">
+              <td><img :src="`/download/${product.id}/${product.path}`" style="height:50px; width:auto;" /></td>
+              <td>{{product.product_name}}</td>
+              <td>{{getCurrencyFormat(product.product_price)}}</td>
+              <td>
+                <div>
+                  {{product.quantity}}개
+                </div>
+              </td>
+              <td>
+                <div>
+                  {{getCurrencyFormat(product.totalPrice)}}원
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row">
           <div class="col-md-6">
-                <h5 class="text-start ms-4 mb-3">주문자 입력</h5>
-                <div class="mb-3 row">
-                    <label class="col-md-3 col-form-label">주문자 명</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label class="col-md-3 col-form-label">휴대전화번호</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label class="col-md-3 col-form-label">이메일</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
+            <h5 class="text-start ms-4 mb-3">주문자 입력</h5>
+            <div class="mb-3 row">
+              <label class="col-md-3 col-form-label">주문자 명</label>
+              <div class="col-md-9">
+                <input type="text" class="form-control">
+              </div>
             </div>
-            <div class="col-md-6">
-                <h5 class="text-start ms-4 mb-3">배송지 정보</h5>
-                <div class="mb-3 row">
-                    <label class="col-md-3 col-form-label">배송지</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label class="col-md-3 col-form-label">받으시는 분</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label class="col-md-3 col-form-label">휴대전화번호</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                <label class="col-md-3 col-form-label">배송시 요청사항</label>
-                <div class="col-md-9">
-                  <textarea class="form-control" rows="4"></textarea>
-                </div>
+            <div class="mb-3 row">
+              <label class="col-md-3 col-form-label">휴대전화번호</label>
+              <div class="col-md-9">
+                <input type="text" class="form-control">
+              </div>
             </div>
+            <div class="mb-3 row">
+              <label class="col-md-3 col-form-label">이메일</label>
+              <div class="col-md-9">
+                <input type="text" class="form-control">
+              </div>
             </div>
-          <h4 class="mt-5">총 상품금액 {{getCurrencyFormat(total)}}원 + 배송비 {{getCurrencyFormat(deliveryPrice)}}원 = 총 결제금액 {{getCurrencyFormat(paymentAmount)}}원</h4>
+          </div>
+          <div class="col-md-6">
+            <h5 class="text-start ms-4 mb-3">배송지 정보</h5>
+            <div class="mb-3 row">
+              <label class="col-md-3 col-form-label">배송지</label>
+              <div class="col-md-9">
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label class="col-md-3 col-form-label">받으시는 분</label>
+              <div class="col-md-9">
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label class="col-md-3 col-form-label">휴대전화번호</label>
+              <div class="col-md-9">
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label class="col-md-3 col-form-label">배송시 요청사항</label>
+              <div class="col-md-9">
+                <textarea class="form-control" rows="4"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h4 class="mt-5">총 상품금액 {{getCurrencyFormat(total)}}원 + 배송비 {{getCurrencyFormat(deliveryPrice)}}원 = 총 결제금액 {{getCurrencyFormat(paymentAmount)}}원</h4>
         <div class="col-12 mt-5">
-            <button type="button" class="btn btn btn-dark me-1">주문하기</button>
+          <button type="button" class="btn btn btn-dark me-1">결제하기</button>
         </div>
       </div>
     </div>
