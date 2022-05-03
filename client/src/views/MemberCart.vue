@@ -41,7 +41,7 @@
           </table>
           <h4 class="mt-5">총 상품금액 {{getCurrencyFormat(total)}}원 + 배송비 {{getCurrencyFormat(deliveryPrice)}}원 = 총 결제금액 {{getCurrencyFormat(paymentAmount)}}원</h4>
         <div class="col-12 mt-5">
-            <button type="button" class="btn btn btn-dark me-1"  @click="goToOrder">상품주문</button>
+            <button type="button" class="btn btn btn-dark me-1" @click="goToOrder">상품주문</button>
         </div>
       </div>
     </div>

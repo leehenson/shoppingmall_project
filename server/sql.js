@@ -87,4 +87,13 @@ module.exports = {  // database의 data query로 가져오기
     cartDelete: {    // 해당 제품을 장바구니에서 삭제하는 쿼리
         query: `DELETE FROM t_cart WHERE cart_id=?`
     },
+    userInfo: {    // 회원 정보를 가져오는 쿼리
+        query: `SELECT * FROM t_user WHERE email = ?`
+    },
+    sellerInfo: {    // 회원 정보를 가져오는 쿼리
+        query: `SELECT * FROM t_seller`
+    },
+    orderPayment: {    // 회원 정보를 가져오는 쿼리
+        query: `INSERT INTO t_order (address, name, phone, requested_term, name_of_depositor, product_id, user_email, quantity, totalPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    },
 }
