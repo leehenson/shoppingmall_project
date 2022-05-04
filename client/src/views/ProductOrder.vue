@@ -29,6 +29,9 @@
                 </div>
               </td>
             </tr>
+            <tr>
+              <th colspan="6" style="text-align: right; font-size: large;">총 상품금액 {{getCurrencyFormat(total)}}원 + 배송비 {{getCurrencyFormat(deliveryPrice)}}원 = 총 결제금액 {{getCurrencyFormat(paymentAmount)}}원</th>
+            </tr>
           </tbody>
         </table>
         <div class="row justify-content-evenly">
@@ -73,7 +76,6 @@
             </div>
           </div>
         </div>
-        <h4 class="mt-5">총 상품금액 {{getCurrencyFormat(total)}}원 + 배송비 {{getCurrencyFormat(deliveryPrice)}}원 = 총 결제금액 {{getCurrencyFormat(paymentAmount)}}원</h4>
         <div class="col-12 mt-5">
           <button type="button" class="btn btn btn-dark me-1"  @click="orderPayment">결제하기</button>
         </div>
@@ -89,7 +91,6 @@ export default {
       cartList: {},
       cartId:"",
       total: 0,
-      cartItem: 0,
       deliveryPrice: 0,
       paymentAmount: 0,
       userInfo: {},
@@ -123,6 +124,7 @@ export default {
       let cartList = await this.$api("/api/cartList",{param:[this.cartId]});  // url를 따라 app.js의 /api/:alias를 타고 sql cartList의 data 호출
       this.cartList = cartList
       console.log(this.cartList); // 데이터를 잘 받아오는지 확인
+      console.log(this.cartList[0].id); // 데이터를 잘 받아오는지 확인
 
       let total = 0;
       cartList.forEach(item => {
@@ -143,6 +145,7 @@ export default {
       this.paymentAmount = paymentAmount;
     },
     async orderPayment() {
+
       this.$swal.fire({
             title: '결제를 하시겠습니까?',
             showCancelButton: true,
@@ -150,8 +153,9 @@ export default {
             cancelButtonText: 'CANCEL'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await this.$api("/api/orderPayment", {param:[this.userInfo.address, this.userInfo.name, this.userInfo.phone, this.orderInfo.requested_term, this.orderInfo.name_of_depositor, this.cartList.id, this.$store.state.user.email, this.total, this.totalPrice]});
-                this.$swal.fire('Saved.', '', 'success');
+                await this.$api("/api/orderPayment", {param:[this.userInfo.address, this.userInfo.name, this.userInfo.phone, this.orderInfo.requested_term, this.orderInfo.name_of_depositor, this.$store.state.user.email, this.paymentAmount, this.cartList[0].id, this.cartList[0].quantity]});
+                // await this.$api("/api/orderPayment", {param:[this.userInfo.address, this.userInfo.name, this.userInfo.phone, this.orderInfo.requested_term, this.orderInfo.name_of_depositor, this.$store.state.user.email, this.paymentAmount, this.cartList[0].id, this.cartList[0].quantity, this.cartList[1].id, this.cartList[1].quantity, this.cartList[2].id, this.cartList[2].quantity, this.cartList[3].id, this.cartList[3].quantity, this.cartList[4].id, this.cartList[4].quantity, this.cartList[5].id, this.cartList[5].quantity, this.cartList[6].id, this.cartList[6].quantity, this.cartList[7].id, this.cartList[7].quantity, this.cartList[8].id, this.cartList[8].quantity, this.cartList[9].id, this.cartList[9].quantity]});
+                this.$swal.fire('Complete.', '', 'success');
                 this.$router.push({path:'/cart'});
             }
         });

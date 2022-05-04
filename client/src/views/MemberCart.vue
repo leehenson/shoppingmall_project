@@ -6,40 +6,42 @@
       </div>
       <div v-else>
         <table class="table table-bordered">
-              <thead>
-                  <tr>
-                      <th>이미지</th>
-                      <th>상품정보</th>
-                      <th>판매가</th>
-                      <th>수량</th>
-                      <th>합계</th>
-                      <th></th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr :key="i" v-for="(product, i) in cartList">
-                    <td><img :src="`/download/${product.id}/${product.path}`" style="height:50px; width:auto;" /></td>
-                    <td>{{product.product_name}}</td>
-                    <td>{{getCurrencyFormat(product.product_price)}}</td>
-                    <td>
-                      <div>
-                        {{product.quantity}}개
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        {{getCurrencyFormat(product.totalPrice)}}원
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        <button type="button" class="btn btn-outline-danger" @click="deleteCart(product.cart_id);">삭제</button>
-                      </div>
-                    </td>
-                  </tr>
-              </tbody>
-          </table>
-          <h4 class="mt-5">총 상품금액 {{getCurrencyFormat(total)}}원 + 배송비 {{getCurrencyFormat(deliveryPrice)}}원 = 총 결제금액 {{getCurrencyFormat(paymentAmount)}}원</h4>
+          <thead>
+            <tr>
+              <th>이미지</th>
+              <th>상품정보</th>
+              <th>판매가</th>
+              <th>수량</th>
+              <th>합계</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr :key="i" v-for="(product, i) in cartList">
+              <td><img :src="`/download/${product.id}/${product.path}`" style="height:50px; width:auto;" /></td>
+              <td>{{product.product_name}}</td>
+              <td>{{getCurrencyFormat(product.product_price)}}</td>
+              <td>
+                <div>
+                  {{product.quantity}}개
+                </div>
+              </td>
+              <td>
+                <div>
+                  {{getCurrencyFormat(product.totalPrice)}}원
+                </div>
+              </td>
+              <td>
+                <div>
+                  <button type="button" class="btn btn-outline-danger" @click="deleteCart(product.cart_id);">삭제</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th colspan="6" style="text-align: right; font-size: large;">총 상품금액 {{getCurrencyFormat(total)}}원 + 배송비 {{getCurrencyFormat(deliveryPrice)}}원 = 총 결제금액 {{getCurrencyFormat(paymentAmount)}}원</th>
+            </tr>
+          </tbody>
+        </table>
         <div class="col-12 mt-5">
             <button type="button" class="btn btn btn-dark me-1" @click="goToOrder">상품주문</button>
         </div>

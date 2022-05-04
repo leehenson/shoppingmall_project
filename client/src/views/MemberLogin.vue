@@ -92,10 +92,10 @@ export default {
       window.Kakao.Auth.logout((response) => {
         console.log(response);
         this.$store.commit("user", {});
-        alert("로그아웃");
         this.$router.go();
+        alert("로그아웃");
       });
     }
   }
 }
-</script>
+</script> 
