@@ -153,8 +153,9 @@ export default {
             cancelButtonText: 'CANCEL'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await this.$api("/api/orderPayment", {param:[this.userInfo.address, this.userInfo.name, this.userInfo.phone, this.orderInfo.requested_term, this.orderInfo.name_of_depositor, this.$store.state.user.email, this.paymentAmount, this.cartList[0].id, this.cartList[0].quantity]});
-                // await this.$api("/api/orderPayment", {param:[this.userInfo.address, this.userInfo.name, this.userInfo.phone, this.orderInfo.requested_term, this.orderInfo.name_of_depositor, this.$store.state.user.email, this.paymentAmount, this.cartList[0].id, this.cartList[0].quantity, this.cartList[1].id, this.cartList[1].quantity, this.cartList[2].id, this.cartList[2].quantity, this.cartList[3].id, this.cartList[3].quantity, this.cartList[4].id, this.cartList[4].quantity, this.cartList[5].id, this.cartList[5].quantity, this.cartList[6].id, this.cartList[6].quantity, this.cartList[7].id, this.cartList[7].quantity, this.cartList[8].id, this.cartList[8].quantity, this.cartList[9].id, this.cartList[9].quantity]});
+                await this.$api("/api/orderPayment", {param:[this.userInfo.address, this.userInfo.name, this.userInfo.phone, this.orderInfo.requested_term, this.orderInfo.name_of_depositor, this.$store.state.user.email, this.paymentAmount]});
+                this.$api("/api/cartCopy", {param:[this.$store.state.user.email]});
+                this.$api("/api/deleteCart", {param:[this.$store.state.user.email]});
                 this.$swal.fire('Complete.', '', 'success');
                 this.$router.push({path:'/cart'});
             }

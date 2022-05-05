@@ -94,9 +94,12 @@ module.exports = {  // database의 data query로 가져오기
         query: `SELECT * FROM t_seller`
     },
     orderPayment: {    // 회원 정보를 가져오는 쿼리
-        query: `INSERT INTO t_order (address, name, phone, requested_term, name_of_depositor, product_id, user_email, quantity, totalPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        query: `INSERT INTO t_order (address, name, phone, requested_term, name_of_depositor, user_email, totalPrice) VALUES (?, ?, ?, ?, ?, ?, ?)`
     },
-    orderPayment: {    // 회원 정보를 가져오는 쿼리
-        query: `INSERT INTO t_order (address, name, phone, requested_term, name_of_depositor, user_email, totalPrice, product_id_1, quantity_1, product_id_2, quantity_2, product_id_3, quantity_3, product_id_4, quantity_4, product_id_5, quantity_5, product_id_6, quantity_6, product_id_7, quantity_7, product_id_8, quantity_8, product_id_9, quantity_9, product_id_10, quantity_10) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    cartCopy: {    // 회원 정보를 가져오는 쿼리
+        query: `INSERT INTO t_orders SELECT * FROM t_cart WHERE user_email = ?`
+    },
+    deleteCart: {    // 회원 정보를 가져오는 쿼리
+        query: `DELETE FROM t_cart WHERE user_email = ?`
     }
 }
