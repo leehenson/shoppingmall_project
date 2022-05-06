@@ -1,6 +1,8 @@
 <template>
   <main class="mt-3">
         <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
             <h2 class="text-center mb-3">제품 수정</h2>
             <div class="mb-3 row">
                 <label class="col-md-3 col-form-label">제품명</label>
@@ -69,6 +71,8 @@
                     </div>
                   </div>
             </div>
+          </div>
+          </div>
         </div>
       </main>
 </template>

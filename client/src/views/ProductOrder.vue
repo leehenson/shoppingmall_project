@@ -77,7 +77,7 @@
           </div>
         </div>
         <div class="col-12 mt-5">
-          <button type="button" class="btn btn btn-dark me-1"  @click="orderPayment">결제하기</button>
+          <button type="button" class="btn btn-outline-dark"  @click="orderPayment">결제하기</button>
         </div>
       </div>
     </div>
@@ -124,7 +124,6 @@ export default {
       let cartList = await this.$api("/api/cartList",{param:[this.cartId]});  // url를 따라 app.js의 /api/:alias를 타고 sql cartList의 data 호출
       this.cartList = cartList
       console.log(this.cartList); // 데이터를 잘 받아오는지 확인
-      console.log(this.cartList[0].id); // 데이터를 잘 받아오는지 확인
 
       let total = 0;
       cartList.forEach(item => {

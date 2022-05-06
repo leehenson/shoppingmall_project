@@ -97,9 +97,17 @@ module.exports = {  // database의 data query로 가져오기
         query: `INSERT INTO t_order (address, name, phone, requested_term, name_of_depositor, user_email, totalPrice) VALUES (?, ?, ?, ?, ?, ?, ?)`
     },
     cartCopy: {    // 회원 정보를 가져오는 쿼리
-        query: `INSERT INTO t_orders SELECT * FROM t_cart WHERE user_email = ?`
+        query: `INSERT INTO t_orders (product_id, user_email, quantity, totalPrice, orders_id)
+        SELECT t1.product_id, t1.user_email, t1.quantity, t1.totalPrice, t2.id
+        FROM t_cart t1, t_order t2
+        WHERE t1.user_email = ?`
     },
     deleteCart: {    // 회원 정보를 가져오는 쿼리
         query: `DELETE FROM t_cart WHERE user_email = ?`
-    }
+    },
+    orderList: {
+        query: `SELECT t1.id, t1.product_name, t1.product_price, t2.path, t3.quantity, t3.totalPrice, t3.orders_id, t3.delivery_status, t3.created_date, t4.email
+        FROM t_product t1, t_image t2, t_orders t3, t_user t4
+        WHERE t1.id = t2.product_id AND t1.id = t3.product_id AND t3.user_email = t4.email AND t2.type = 1 AND t4.email = ?`
+    },
 }

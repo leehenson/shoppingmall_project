@@ -13,7 +13,8 @@ import MemberLogin from '../views/MemberLogin.vue'
 import MemberJoin from '../views/MemberJoin.vue'
 import MemberCart from '../views/MemberCart.vue'
 import ProductOrder from '../views/ProductOrder.vue'
-
+import MemberPage from '../views/MemberPage.vue'
+import MemberPageOrder from '../views/MemberPageOrder.vue'
 
 
 const routes = [
@@ -86,6 +87,16 @@ const routes = [
     path: '/order',
     name: 'ProductOrder',
     component: ProductOrder
+  },
+  {
+    path: '/mypage',
+    name: 'MemberPage',
+    component: MemberPage
+  },
+  {
+    path: '/mypage_order',
+    name: 'MemberPageOrder',
+    component: MemberPageOrder
   }
 ]
 

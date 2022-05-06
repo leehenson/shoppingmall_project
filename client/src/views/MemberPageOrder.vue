@@ -1,23 +1,26 @@
 <template>
   <main class="mt-5">
     <div class="container">
-      <div v-if="cartList == 0" class="row">
-          <h5 class="m-4">장바구니가 비어있습니다.</h5>
-      </div>
-      <div v-else>
+      <!-- <div v-if="cartList == 0" class="row">
+          <h5 class="m-4">주문내역이 없습니다.</h5>
+      </div> -->
+      <div>
         <table class="table table-bordered">
           <thead>
             <tr>
+              <th>주문일자[주문번호]</th>
               <th>이미지</th>
               <th>상품정보</th>
               <th>판매가</th>
               <th>수량</th>
               <th>합계</th>
-              <th></th>
+              <th>주문처리상태</th>
+              <th>취소/교환/반품</th>
             </tr>
           </thead>
           <tbody>
-            <tr :key="i" v-for="(product, i) in cartList">
+            <tr :key="i" v-for="(product, i) in orderList">
+              <td class="align-middle">{{product.created_date}} [{{product.orders_id}}]</td>
               <td><img :src="`/download/${product.id}/${product.path}`" style="height:auto; width:80px;" /></td>
               <td class="align-middle">{{product.product_name}}</td>
               <td class="align-middle">{{getCurrencyFormat(product.product_price)}}</td>
@@ -32,19 +35,20 @@
                 </div>
               </td>
               <td class="align-middle">
-                <div>
-                  <button type="button" class="btn btn-outline-danger" @click="deleteCart(product.cart_id);">삭제</button>
+                <div v-if="product.delivery_status == 1">상품 준비중</div>
+                <div v-else-if="product.delivery_status == 2">
+                    <div class="mb-2">배송중</div>
+                    <button type="button" class="btn btn-outline-dark">배송 조회</button>
+                </div>
+                <div v-else-if="product.delivery_status == 3">
+                    <div class="mb-2">배송 완료</div>
+                    <button type="button" class="btn btn-outline-dark">배송 조회</button>
                 </div>
               </td>
-            </tr>
-            <tr class="align-middle">
-              <th colspan="6" style="text-align: right; font-size: large;">총 상품금액 {{getCurrencyFormat(total)}}원 + 배송비 {{getCurrencyFormat(deliveryPrice)}}원 = 총 결제금액 {{getCurrencyFormat(paymentAmount)}}원</th>
+              <td></td>
             </tr>
           </tbody>
         </table>
-        <div class="col-12 mt-5">
-            <button type="button" class="btn btn-outline-dark" @click="goToOrder">상품주문</button>
-        </div>
       </div>
     </div>
   </main>
@@ -54,7 +58,7 @@
 export default {
   data() {  // 받아온 data를 template 코드에 쓸 수 있게 data 정의
     return {
-      cartList: {},
+      orderList: {},
       cartId:"",
       total: 0,
       cartItem: 0,
@@ -71,12 +75,12 @@ export default {
       return this.$currencyFormat(value);
     },
     async getCartList() {    // getCartList 메소드 호출
-      let cartList = await this.$api("/api/cartList",{param:[this.cartId]});  // url를 따라 app.js의 /api/:alias를 타고 sql cartList의 data 호출
-      this.cartList = cartList
-      console.log(this.cartList); // 데이터를 잘 받아오는지 확인
+      let orderList = await this.$api("/api/orderList",{param:[this.cartId]});  // url를 따라 app.js의 /api/:alias를 타고 sql cartList의 data 호출
+      this.orderList = orderList
+      console.log(this.orderList); // 데이터를 잘 받아오는지 확인
 
       let total = 0;
-      cartList.forEach(item => {
+      orderList.forEach(item => {
         total += item.totalPrice;
       });
       this.total = total;
@@ -95,21 +99,7 @@ export default {
     },
     goToOrder() {
         this.$router.push({path:'/order'});
-    },
-    deleteCart(cart_id) {
-      this.$swal.fire({
-        title: '정말 삭제하시겠습니까?',
-        showCancelButton: true,
-        confirmButtonText: 'DELETE',
-        cancelButtonText: 'CANCEL'
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          await this.$api("/api/cartDelete",{param:[cart_id]});
-          this.getCartList();
-          this.$swal.fire('Deleted.', '', 'success')
-        }
-      });
-    }   
+    }
   }
 }
 </script>

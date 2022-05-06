@@ -40,7 +40,7 @@
                 <router-link class="nav-link" to="/cart">CART</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="#">MYPAGE</router-link>
+                <router-link class="nav-link" to="/mypage">MYPAGE</router-link>
               </li>
             </ul>                   
           </div>
