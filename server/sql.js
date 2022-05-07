@@ -106,8 +106,11 @@ module.exports = {  // database의 data query로 가져오기
         query: `DELETE FROM t_cart WHERE user_email = ?`
     },
     orderList: {
-        query: `SELECT t1.id, t1.product_name, t1.product_price, t2.path, t3.quantity, t3.totalPrice, t3.orders_id, t3.delivery_status, t3.created_date, t4.email
+        query: `SELECT t1.id, t1.product_name, t1.product_price, t2.path, t3.cart_id, t3.quantity, t3.totalPrice, t3.orders_id, t3.delivery_status, t3.created_date, t3.transport_document_number, t4.email
         FROM t_product t1, t_image t2, t_orders t3, t_user t4
         WHERE t1.id = t2.product_id AND t1.id = t3.product_id AND t3.user_email = t4.email AND t2.type = 1 AND t4.email = ?`
+    },
+    orderCancle: {
+        query: `UPDATE t_orders SET delivery_status = 3 WHERE cart_id = ?`
     },
 }

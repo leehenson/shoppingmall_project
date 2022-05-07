@@ -156,7 +156,7 @@ export default {
                 this.$api("/api/cartCopy", {param:[this.$store.state.user.email]});
                 this.$api("/api/deleteCart", {param:[this.$store.state.user.email]});
                 this.$swal.fire('Complete.', '', 'success');
-                this.$router.push({path:'/cart'});
+                this.$router.push({path:'/'});
             }
         });
     }

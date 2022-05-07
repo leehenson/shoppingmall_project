@@ -1,10 +1,10 @@
 <template>
   <main class="mt-5">
     <div class="container">
-      <!-- <div v-if="cartList == 0" class="row">
+      <div v-if="orderList == 0" class="row">
           <h5 class="m-4">주문내역이 없습니다.</h5>
-      </div> -->
-      <div>
+      </div>
+      <div v-else>
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -15,13 +15,13 @@
               <th>수량</th>
               <th>합계</th>
               <th>주문처리상태</th>
-              <th>취소/교환/반품</th>
+              <th>취소</th>
             </tr>
           </thead>
           <tbody>
             <tr :key="i" v-for="(product, i) in orderList">
               <td class="align-middle">{{product.created_date}} [{{product.orders_id}}]</td>
-              <td><img :src="`/download/${product.id}/${product.path}`" style="height:auto; width:80px;" /></td>
+              <td class="align-middle"><img :src="`/download/${product.id}/${product.path}`" style="height:auto; width:80px;" /></td>
               <td class="align-middle">{{product.product_name}}</td>
               <td class="align-middle">{{getCurrencyFormat(product.product_price)}}</td>
               <td class="align-middle">
@@ -35,17 +35,31 @@
                 </div>
               </td>
               <td class="align-middle">
-                <div v-if="product.delivery_status == 1">상품 준비중</div>
-                <div v-else-if="product.delivery_status == 2">
+                <div v-if="product.delivery_status == 1">입금 확인중</div>
+                <div v-else-if="product.delivery_status == 2">입금 완료</div>
+                <div v-else-if="product.delivery_status == 3">취소</div>
+                <div v-else-if="product.delivery_status == 4">상품 준비중</div>
+                <div v-else-if="product.delivery_status == 5">
                     <div class="mb-2">배송중</div>
-                    <button type="button" class="btn btn-outline-dark">배송 조회</button>
+                    <div>CJ 대한통운</div>
+                    <div style="cursor:pointer; text-decoration: underline;" @click="goToDelivery(product.transport_document_number)">[{{product.transport_document_number}}]</div>
                 </div>
-                <div v-else-if="product.delivery_status == 3">
+                <div v-else>
                     <div class="mb-2">배송 완료</div>
-                    <button type="button" class="btn btn-outline-dark">배송 조회</button>
+                    <div>CJ 대한통운</div>
+                    <div style="cursor:pointer; text-decoration: underline;" @click="goToDelivery(product.transport_document_number)">[{{product.transport_document_number}}]</div>
                 </div>
               </td>
-              <td></td>
+              <td class="align-middle">
+                <div v-if="product.delivery_status == 1">
+                  <div style="font-size: 10px;" class="mb-1">상품 준비중부터는<br>취소 및 교환, 환불이<br>불가능합니다.</div>
+                  <button class="btn btn-outline-danger" @click="goToCancle">취소</button>
+                </div>
+                <div v-else-if="product.delivery_status == 2">
+                  <button class="btn btn-outline-danger">취소</button>
+                </div>
+                <div v-else>-</div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -59,7 +73,7 @@ export default {
   data() {  // 받아온 data를 template 코드에 쓸 수 있게 data 정의
     return {
       orderList: {},
-      cartId:"",
+      user_email:"",
       total: 0,
       cartItem: 0,
       deliveryPrice: 0,
@@ -67,7 +81,7 @@ export default {
     };
   },
   created() {     // data가 정상적으로 들어오는지 확인
-    this.cartId = this.$store.state.user.email;
+    this.user_email = this.$store.state.user.email;
     this.getCartList();
   },
   methods: {      // 메소드 호출
@@ -75,7 +89,7 @@ export default {
       return this.$currencyFormat(value);
     },
     async getCartList() {    // getCartList 메소드 호출
-      let orderList = await this.$api("/api/orderList",{param:[this.cartId]});  // url를 따라 app.js의 /api/:alias를 타고 sql cartList의 data 호출
+      let orderList = await this.$api("/api/orderList",{param:[this.user_email]});  // url를 따라 app.js의 /api/:alias를 타고 sql cartList의 data 호출
       this.orderList = orderList
       console.log(this.orderList); // 데이터를 잘 받아오는지 확인
 
@@ -99,6 +113,14 @@ export default {
     },
     goToOrder() {
         this.$router.push({path:'/order'});
+    },
+    goToDelivery(delivery_address) {
+        window.open("http://nplus.doortodoor.co.kr/web/detail.jsp?slipno="+(delivery_address));
+    },
+    async goToCancle() {
+      const cart_id = this.orderList.map(v => v.cart_id)
+      console.log(cart_id);
+      await this.$api("/api/orderCancle",{param:[cart_id]});
     }
   }
 }
