@@ -20,7 +20,7 @@
           </thead>
           <tbody>
             <tr :key="i" v-for="(product, i) in orderList">
-              <td class="align-middle">{{product.created_date}} [{{product.orders_id}}]</td>
+              <td class="align-middle">{{product.created_date}} [{{product.order_id}}]</td>
               <td class="align-middle"><img :src="`/download/${product.id}/${product.path}`" style="height:auto; width:80px;" /></td>
               <td class="align-middle">{{product.product_name}}</td>
               <td class="align-middle">{{getCurrencyFormat(product.product_price)}}</td>
@@ -53,7 +53,7 @@
               <td class="align-middle">
                 <div v-if="product.delivery_status == 1">
                   <div style="font-size: 10px;" class="mb-1">상품 준비중부터는<br>취소 및 교환, 환불이<br>불가능합니다.</div>
-                  <button class="btn btn-outline-danger" @click="goToCancle">취소</button>
+                  <button class="btn btn-outline-danger" @click="goToCancle(product.cart_id)">취소</button>
                 </div>
                 <div v-else-if="product.delivery_status == 2">
                   <button class="btn btn-outline-danger">취소</button>
@@ -117,10 +117,19 @@ export default {
     goToDelivery(delivery_address) {
         window.open("http://nplus.doortodoor.co.kr/web/detail.jsp?slipno="+(delivery_address));
     },
-    async goToCancle() {
-      const cart_id = this.orderList.map(v => v.cart_id)
-      console.log(cart_id);
-      await this.$api("/api/orderCancle",{param:[cart_id]});
+    async goToCancle(cart_id) {
+      this.$swal.fire({
+        title: '취소를 하시겠습니까?',
+        showCancelButton: true,
+        confirmButtonText: 'YES',
+        cancelButtonText: 'CANCEL'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await this.$api("/api/orderCancle",{param:[cart_id]});
+          this.$swal.fire('Saved.', '', 'success');
+          this.$router.go();
+        }
+      });
     }
   }
 }
