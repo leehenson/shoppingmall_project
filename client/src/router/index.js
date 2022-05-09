@@ -15,6 +15,7 @@ import MemberCart from '../views/MemberCart.vue'
 import ProductOrder from '../views/ProductOrder.vue'
 import MemberPage from '../views/MemberPage.vue'
 import MemberPageOrder from '../views/MemberPageOrder.vue'
+import MemberProfile from '../views/MemberProfile.vue'
 
 
 const routes = [
@@ -97,6 +98,11 @@ const routes = [
     path: '/mypage_order',
     name: 'MemberPageOrder',
     component: MemberPageOrder
+  },
+  {
+    path: '/mypage_profile',
+    name: 'MemberProfile',
+    component: MemberProfile
   }
 ]
 

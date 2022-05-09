@@ -36,8 +36,8 @@
             </div>
             <div class="input-group mb-2">
                 <label class="input-group-text">은행명</label>
-                <select class="form-select" v-model="bank">
-                    <option :value="bank" :key="i" v-for="(bank, i) in bank_name">{{bank}}</option>
+                <select class="form-select" v-model="t_user.bank_name">
+                    <option :key="i" v-for="(bank, i) in bankList">{{bank.bank_name}}</option>
                 </select>
             </div>
             <div class="input-group mb-5">
@@ -72,12 +72,12 @@ export default {
         address: "",
         phone: "",        
         account_holder: "",
-        bank_name_id: 1,
+        bank_name: "",
         bank_account_number: ""
       },
       bankList: [],
-      bank_name: [],
-      bank: ""
+      // bank_name: [],
+      // bank: ""
     };
   },
   computed: {
@@ -96,18 +96,18 @@ export default {
       let bankList = await this.$api("/api/bankList", {});
       this.bankList = bankList;
 
-      let oBank = {}; 
-      bankList.forEach(item => {
-        oBank[item.bank_name] = item.id;
-      });
+      // let oBank = {}; 
+      // bankList.forEach(item => {
+      //   oBank[item.bank_name] = item.id;
+      // });
 
-      let bank_name = [];
-      for(let key in oBank) {
-        bank_name.push(key);
-      }
-      console.log(bank_name);
+      // let bank_name = [];
+      // for(let key in oBank) {
+      //   bank_name.push(key);
+      // }
+      // console.log(bank_name);
 
-      this.bank_name = bank_name;
+      // this.bank_name = bank_name;
     },
     memberJoin() {
       if(this.t_user.email == "") {
@@ -138,11 +138,11 @@ export default {
         return this.$swal("계좌번호는 필수 입력값입니다.");
       }
 
-      this.t_user.bank_name_id = this.bankList.filter(c => {
-        return (c.bank_name == this.bank);
-      })[0].id;
+      // this.t_user.bank_name_id = this.bankList.filter(c => {
+      //   return (c.bank_name == this.bank);
+      // })[0].id;
 
-      console.log(this.t_user.bank_name_id);
+      // console.log(this.t_user.bank_name_id);
       
       this.$swal.fire({
             title: '정말 가입하시겠습니까?',

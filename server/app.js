@@ -50,7 +50,7 @@ app.post('/api/memberJoin', async (request, res) => {
     if (signUp == 0) {
         const salt = bcrypt.genSaltSync();
         const encryptedPassword = bcrypt.hashSync(request.body.user.password, salt);
-        dbPool.query('INSERT INTO t_user (email, password, name, address, phone, account_holder, bank_name_id, bank_account_number) VALUES ("' + request.body.user.email + '", "' + encryptedPassword + '", "' + request.body.user.name + '", "' + request.body.user.address + '", "' + request.body.user.phone + '", "' + request.body.user.account_holder + '", "' + request.body.user.bank_name_id + '", "' + request.body.user.bank_account_number + '")', (err, row2) => {
+        dbPool.query('INSERT INTO t_user (email, password, name, address, phone, account_holder, bank_name, bank_account_number) VALUES ("' + request.body.user.email + '", "' + encryptedPassword + '", "' + request.body.user.name + '", "' + request.body.user.address + '", "' + request.body.user.phone + '", "' + request.body.user.account_holder + '", "' + request.body.user.bank_name + '", "' + request.body.user.bank_account_number + '")', (err, row2) => {
             if (err) throw err;
         });
         res.json({
@@ -61,6 +61,18 @@ app.post('/api/memberJoin', async (request, res) => {
     else {
         res.send(401);
     }
+});
+
+app.post('/api/userInfoUpdate', async (request, res) => {
+    const salt = bcrypt.genSaltSync();
+    const encryptedPassword = bcrypt.hashSync(request.body.user.password, salt);
+    dbPool.query('UPDATE t_user SET email = "' + request.body.user.email + '", password = "' + encryptedPassword + '", name = "' + request.body.user.name + '", address = "' + request.body.user.address + '", phone = "' + request.body.user.phone + '", account_holder = "' + request.body.user.account_holder + '", bank_name = "' + request.body.user.bank_name + '", bank_account_number = "' + request.body.user.bank_account_number + '" WHERE email = "' + request.body.user.email +'"', (err, row2) => {
+        if (err) throw err;
+    });
+    res.json({
+        success: true,
+        message: "회원가입 성공!"
+    })
 });
 
 app.post('/api/login', async (request, res) => {

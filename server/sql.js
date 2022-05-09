@@ -71,7 +71,7 @@ module.exports = {  // database의 data query로 가져오기
         query: `SELECT email FROM t_user WHERE email = ?`
     },
     bankList: {   // 은행 리스트 가져오는 쿼리
-        query: `select * from t_bank_name`     // t_bank_name 테이블의 데이터 가져오기
+        query: `SELECT bank_name FROM t_bank_name`     // t_bank_name 테이블의 데이터 가져오기
     },
     signUp: {
         query: `insert into t_user set ? on duplicate key update ?` // 데이터가 없으면 insert를 하고, 있으면 update를 함.
