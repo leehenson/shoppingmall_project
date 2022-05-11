@@ -62,6 +62,17 @@ export default {
       paymentAmount: 0
     };
   },
+  computed: {
+    user() {
+      return this.$store.state.user;  // user 정보가 바뀔 때마다 자동으로 user() 갱신
+    }
+  },
+  mounted() {
+    if(this.user.email == undefined) {  // user email이 없으면 초기화면으로 돌아가게 함
+      alert("로그인을 해야 이용할 수 있습니다.");
+      this.$router.push({path:'/'});
+    }
+  },
   created() {     // data가 정상적으로 들어오는지 확인
     this.cartId = this.$store.state.user.email;
     this.getCartList();

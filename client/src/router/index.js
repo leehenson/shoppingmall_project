@@ -17,6 +17,7 @@ import MemberPage from '../views/MemberPage.vue'
 import MemberPageOrder from '../views/MemberPageOrder.vue'
 import MemberProfile from '../views/MemberProfile.vue'
 import ManagementPage from '../views/ManagementPage.vue'
+import MemberManagement from '../views/MemberManagement.vue'
 
 
 const routes = [
@@ -109,6 +110,11 @@ const routes = [
     path: '/management',
     name: 'ManagementPage',
     component: ManagementPage
+  },
+  {
+    path: '/user_management',
+    name: 'MemberManagement',
+    component: MemberManagement
   }
 ]
 

@@ -114,4 +114,7 @@ module.exports = {  // database의 data query로 가져오기
     orderCancle: {
         query: `UPDATE t_orders SET delivery_status = 3 WHERE cart_id = ?`
     },
+    userManagement: {
+        query: `SELECT * FROM t_user`
+    },
 }

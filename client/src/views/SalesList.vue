@@ -1,31 +1,32 @@
 <template>
   <main class="mt-5">
     <div class="container">
-        <div class="float-end mb-2">
-            <button type="button" class="btn btn-outline-dark" @click="goToInsert">제품등록</button>
-        </div>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>이미지</th>
-                    <th>제품명</th>
-                    <th>제품가격</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr :key="i" v-for="(product, i) in productList">
-                    <td><img :src="`/download/${product.id}/${product.path}`" style="height:auto; width:80px;" /></td>
-                    <td class="align-middle">{{product.product_name}}</td>
-                    <td class="align-middle">{{getCurrencyFormat(product.product_price)}}</td>
-                    <td class="align-middle">
-                        <button type="button" class="btn btn-outline-secondary me-1" @click="goToImageInsert(product.id);">사진등록</button>
-                        <button type="button" class="btn btn-outline-success me-1" @click="goToUpdate(product.id);">수정</button>
-                        <button type="button" class="btn btn-outline-danger" @click="deleteProduct(product.id);">삭제</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+      <h4 class="text-center mb-5">Product Management</h4>
+      <div class="float-end mb-2">
+          <button type="button" class="btn btn-outline-dark" @click="goToInsert">제품등록</button>
+      </div>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>이미지</th>
+            <th>제품명</th>
+            <th>제품가격</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr :key="i" v-for="(product, i) in productList">
+            <td><img :src="`/download/${product.id}/${product.path}`" style="height:auto; width:80px;" /></td>
+            <td class="align-middle">{{product.product_name}}</td>
+            <td class="align-middle">{{getCurrencyFormat(product.product_price)}}</td>
+            <td class="align-middle">
+              <button type="button" class="btn btn-outline-secondary me-1" @click="goToImageInsert(product.id);">사진등록</button>
+              <button type="button" class="btn btn-outline-success me-1" @click="goToUpdate(product.id);">수정</button>
+              <button type="button" class="btn btn-outline-danger" @click="deleteProduct(product.id);">삭제</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </main>
 </template>
