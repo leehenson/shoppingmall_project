@@ -10,7 +10,7 @@
                 <h5 class="text-start p-2">✔ User Management</h5>
                 <div class="text-start p-2">회원들을 관리하는 공간입니다.</div>
             </div>
-            <div class="col-sm-3 border m-3 p-4" @click="goToProfile();" style="cursor:pointer;">
+            <div class="col-sm-3 border m-3 p-4" @click="goToOrderManagement();" style="cursor:pointer;">
                 <h5 class="text-start p-2">✔ Order Management</h5>
                 <div class="text-start p-2">주문을 관리하는 공간입니다.</div>
             </div>
@@ -42,8 +42,8 @@ export default {
     goToUserManagement() {  // 제품 이미지 클릭시 제품 상세페이지로 router되도록 설정
       this.$router.push({path:'/user_management'}); // path중 /detail이 들어가면 product_id를 파라미터로 받아 라우터 시킴
     },
-    goToProfile() {  // 제품 이미지 클릭시 제품 상세페이지로 router되도록 설정
-      this.$router.push({path:'/user_management'}); // path중 /detail이 들어가면 product_id를 파라미터로 받아 라우터 시킴
+    goToOrderManagement() {  // 제품 이미지 클릭시 제품 상세페이지로 router되도록 설정
+      this.$router.push({path:'/order_management'}); // path중 /detail이 들어가면 product_id를 파라미터로 받아 라우터 시킴
     }
   }
 }

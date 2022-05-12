@@ -1,6 +1,7 @@
 <template>
   <main class="mt-5">
     <div class="container">
+      <h4 class="text-center mb-5">User Management</h4>
       <div>
         <table class="table table-bordered">
           <thead>
@@ -17,19 +18,12 @@
           <tbody>
             <tr :key="i" v-for="(user, i) in userInfo">
               <td class="align-middle">{{user.email}}</td>
-              <td class="align-middle"><img :src="`/download/${product.id}/${product.path}`" style="height:auto; width:80px;" /></td>
-              <td class="align-middle">{{product.product_name}}</td>
-              <td class="align-middle">{{getCurrencyFormat(product.product_price)}}</td>
-              <td class="align-middle">
-                <div>
-                  {{product.quantity}}개
-                </div>
-              </td>
-              <td class="align-middle">
-                <div>
-                  {{getCurrencyFormat(product.totalPrice)}}원
-                </div>
-              </td>
+              <td class="align-middle">{{user.name}}</td>
+              <td class="align-middle">{{user.address}}</td>
+              <td class="align-middle">{{user.phone}}</td>
+              <td class="align-middle">{{user.account_holder}}</td>
+              <td class="align-middle">{{user.bank_name}}</td>
+              <td class="align-middle">{{user.bank_account_number}}</td>
             </tr>
           </tbody>
         </table>
@@ -54,24 +48,7 @@ export default {
       let userInfo = await this.$api("/api/userManagement");  // url를 따라 app.js의 /api/:alias를 타고 sql cartList의 data 호출
       this.userInfo = userInfo
       console.log(this.userInfo); // 데이터를 잘 받아오는지 확인
-    },
-    goToOrder() {
-        this.$router.push({path:'/order'});
-    },
-    // async goToCancle() {
-    //   this.$swal.fire({
-    //     title: '취소를 하시겠습니까?',
-    //     showCancelButton: true,
-    //     confirmButtonText: 'YES',
-    //     cancelButtonText: 'CANCEL'
-    //   }).then(async (result) => {
-    //     if (result.isConfirmed) {
-    //       await this.$api("/api/orderCancle",{param:[cart_id]});
-    //       this.$swal.fire('Saved.', '', 'success');
-    //       this.$router.go();
-    //     }
-    //   });
-    // }
+    }
   }
 }
 </script>

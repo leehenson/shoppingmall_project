@@ -117,4 +117,12 @@ module.exports = {  // database의 data query로 가져오기
     userManagement: {
         query: `SELECT * FROM t_user`
     },
+    orderManagement: {
+        query: `SELECT DISTINCT t1.product_name, t2.quantity, t2.order_id, t3.email, t4.*
+        FROM t_product t1, t_orders t2, t_user t3, t_order t4
+        WHERE t1.id = t2.product_id AND t2.user_email = t3.email`
+    },
+    statusList: {   // 상태 리스트 가져오는 쿼리
+        query: `SELECT status FROM t_status`     // t_status 테이블의 데이터 가져오기
+    },
 }
