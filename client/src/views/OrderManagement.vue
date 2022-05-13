@@ -1,11 +1,11 @@
 <template>
   <main class="mt-5">
     <div class="container">
-      <h4 class="text-center mb-5">Order Management</h4>
       <div v-if="orderList == 0" class="row">
           <h5 class="m-4">주문내역이 없습니다.</h5>
       </div>
       <div v-else>
+        <h4 class="text-center mb-5">Order Management</h4>
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -36,7 +36,7 @@
               <td class="align-middle">{{order.name_of_depositor}}</td>
               <td class="align-middle">{{order.totalPrice}}</td>
               <td class="align-middle">
-                <select class="form-select" v-model="orderList.delivery_status">
+                <select class="form-select" v-model="order.status">
                     <option :key="i" v-for="(status, i) in statusList">{{status.status}}</option>
                 </select>
               </td>
@@ -62,7 +62,6 @@ export default {
   created() {     // data가 정상적으로 들어오는지 확인
     this.getOrderList();
     this.getStatusList();
-    console.log(this.orderList);
   },
   methods: {      // 메소드 호출
     getCurrencyFormat(value) {  // $currencyFormat 호출
