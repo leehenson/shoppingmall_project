@@ -35,11 +35,11 @@
                 </div>
               </td>
               <td class="align-middle">
-                <div v-if="product.delivery_status == 1">입금 확인중</div>
-                <div v-else-if="product.delivery_status == 2">입금 완료</div>
-                <div v-else-if="product.delivery_status == 3">취소</div>
-                <div v-else-if="product.delivery_status == 4">상품 준비중</div>
-                <div v-else-if="product.delivery_status == 5">
+                <div v-if="product.delivery_status == '입금확인중'">입금 확인중</div>
+                <div v-else-if="product.delivery_status == '입금완료'">입금 완료</div>
+                <div v-else-if="product.delivery_status == '취소'">취소</div>
+                <div v-else-if="product.delivery_status == '상품준비'">상품 준비중</div>
+                <div v-else-if="product.delivery_status == '배송중'">
                     <div class="mb-2">배송중</div>
                     <div>CJ 대한통운</div>
                     <div style="cursor:pointer; text-decoration: underline;" @click="goToDelivery(product.transport_document_number)">[{{product.transport_document_number}}]</div>
@@ -51,11 +51,11 @@
                 </div>
               </td>
               <td class="align-middle">
-                <div v-if="product.delivery_status == 1">
+                <div v-if="product.delivery_status == '입금확인중'">
                   <div style="font-size: 10px;" class="mb-1">상품 준비중부터는<br>취소 및 교환, 환불이<br>불가능합니다.</div>
                   <button class="btn btn-outline-danger" @click="goToCancle(product.cart_id)">취소</button>
                 </div>
-                <div v-else-if="product.delivery_status == 2">
+                <div v-else-if="product.delivery_status == '입금완료'">
                   <button class="btn btn-outline-danger">취소</button>
                 </div>
                 <div v-else>-</div>

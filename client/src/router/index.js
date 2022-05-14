@@ -19,6 +19,7 @@ import MemberProfile from '../views/MemberProfile.vue'
 import ManagementPage from '../views/ManagementPage.vue'
 import MemberManagement from '../views/MemberManagement.vue'
 import OrderManagement from '../views/OrderManagement.vue'
+import OrderDetail from '../views/OrderDetail.vue'
 
 
 const routes = [
@@ -121,6 +122,11 @@ const routes = [
     path: '/order_management',
     name: 'OrderManagement',
     component: OrderManagement
+  },
+  {
+    path: '/order_detail',
+    name: 'OrderDetail',
+    component: OrderDetail
   }
 ]
 

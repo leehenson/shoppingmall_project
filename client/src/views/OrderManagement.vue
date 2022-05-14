@@ -10,38 +10,24 @@
           <thead>
             <tr>
               <th>주문일자[주문번호]</th>
-              <th>상품정보</th>
-              <th>수량</th>
               <th>주문자 이메일</th>
-              <th>받으시는 분</th>
-              <th>휴대전화번호</th>
-              <th>배송지</th>
-              <th>요청사항</th>
               <th>입금자명</th>
               <th>결제금액</th>
               <th>주문처리상태</th>
               <th>운송장번호</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             <tr :key="i" v-for="(order, i) in orderList">
-              <td class="align-middle">{{order.created_date}} [{{order.order_id}}]</td>
-              <td class="align-middle">{{order.product_name}}</td>
-              <td class="align-middle">{{order.quantity}}</td>
+              <td class="align-middle">{{order.created_date}} [{{order.id}}]</td>
               <td class="align-middle">{{order.user_email}}</td>
-              <td class="align-middle">{{order.name}}</td>
-              <td class="align-middle">{{order.phone}}</td>
-              <td class="align-middle">{{order.address}}</td>
-              <td class="align-middle">{{order.requested_term}}</td>
               <td class="align-middle">{{order.name_of_depositor}}</td>
-              <td class="align-middle">{{order.totalPrice}}</td>
-              <td class="align-middle">
-                <select class="form-select" v-model="order.status">
-                    <option :key="i" v-for="(status, i) in statusList">{{status.status}}</option>
-                </select>
-              </td>
-              <td class="align-middle">
-                <input type="text" class="form-control" v-model="orderList.transport_document_number">
+              <td class="align-middle">{{getCurrencyFormat(order.payment_amount)}}</td>
+              <td class="align-middle">{{order.status}}</td>
+              <td class="align-middle">CJ대한통운<br>{{order.transport_document_number}}</td>
+              <td>
+                <button class="btn btn-outline-dark" @click="goToDetail(order.order_id);">주문 상세</button>
               </td>
             </tr>
           </tbody>
@@ -76,6 +62,9 @@ export default {
       let statusList = await this.$api("/api/statusList");
       this.statusList = statusList;
     },
+    goToDetail(order_id) {  // 제품 이미지 클릭시 제품 상세페이지로 router되도록 설정
+      this.$router.push({path:'/order_detail', query:{order_id:order_id}}); // path중 /detail이 들어가면 product_id를 파라미터로 받아 라우터 시킴
+    }
     // async goToCancle(cart_id) {
     //   this.$swal.fire({
     //     title: '취소를 하시겠습니까?',

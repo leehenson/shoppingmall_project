@@ -94,11 +94,11 @@ module.exports = {  // database의 data query로 가져오기
         query: `SELECT * FROM t_seller`
     },
     orderPayment: {    // 회원 정보를 가져오는 쿼리
-        query: `INSERT INTO t_order (address, name, phone, requested_term, name_of_depositor, user_email, totalPrice) VALUES (?, ?, ?, ?, ?, ?, ?)`
+        query: `INSERT INTO t_order (address, name, phone, requested_term, name_of_depositor, user_email, payment_amount) VALUES (?, ?, ?, ?, ?, ?, ?)`
     },
     cartCopy: {    // 회원 정보를 가져오는 쿼리
         query: `INSERT INTO t_orders (cart_id, product_id, user_email, quantity, totalPrice, order_id)
-        SELECT t1.cart_id, t1.product_id, t1.user_email, t1.quantity, t1.totalPrice, MAX(t2.id)
+        SELECT t1.cart_id, t1.product_id, t1.user_email, t1.quantity, t1.totalPrice, MAX(t2.order_id)
         FROM t_cart t1, t_order t2
         WHERE t1.user_email = ?
         GROUP BY t1.cart_id`
@@ -107,9 +107,9 @@ module.exports = {  // database의 data query로 가져오기
         query: `DELETE FROM t_cart WHERE user_email = ?`
     },
     orderList: {
-        query: `SELECT t1.id, t1.product_name, t1.product_price, t2.path, t3.cart_id, t3.quantity, t5.totalPrice, t3.order_id, t5.delivery_status, t5.created_date, t5.transport_document_number, t4.email
-        FROM t_product t1, t_image t2, t_orders t3, t_user t4, t_order t5
-        WHERE t1.id = t2.product_id AND t1.id = t3.product_id AND t3.user_email = t4.email AND t2.type = 1 AND t4.email = ?`
+        query: `SELECT t1.id, t1.product_name, t1.product_price, t2.path, t3.quantity, t3.totalPrice, t5.payment_amount, t3.order_id, t5.delivery_status, t5.created_date, t5.transport_document_number, t4.email, t6.*
+        FROM t_product t1, t_image t2, t_orders t3, t_user t4, t_order t5, t_status t6
+        WHERE t1.id = t2.product_id AND t1.id = t3.product_id AND t3.user_email = t4.email AND t2.type = 1 AND t5.delivery_status = t6.status AND t4.email = ?`
     },
     orderCancle: {
         query: `UPDATE t_orders SET delivery_status = 3 WHERE cart_id = ?`
@@ -118,11 +118,19 @@ module.exports = {  // database의 data query로 가져오기
         query: `SELECT * FROM t_user`
     },
     orderManagement: {
-        query: `SELECT t1.product_name, t2.quantity, t2.order_id, t3.email, t4.*, t5.*
-        FROM t_product t1, t_orders t2, t_user t3, t_order t4, t_status t5
-        WHERE t1.id = t2.product_id AND t2.user_email = t3.email AND t4.delivery_status = t5.id`
+        query: `SELECT t1.created_date, t1.order_id, t1.user_email, t1.name_of_depositor, t1.payment_amount, t1.delivery_status, t1.transport_document_number, t2.*
+        FROM t_order t1, t_status t2
+        WHERE t1.delivery_status = t2.status`
     },
     statusList: {   // 상태 리스트 가져오는 쿼리
         query: `SELECT status FROM t_status`     // t_status 테이블의 데이터 가져오기
     },
+    orderDetail: {
+        query: `SELECT t1.id, t1.product_name, t1.product_price, t2.path, t3.quantity, t3.totalPrice, t3.order_id, t5.*, t4.email, t6.*
+        FROM t_product t1, t_image t2, t_orders t3, t_user t4, t_order t5, t_status t6
+        WHERE t1.id = t2.product_id AND t1.id = t3.product_id AND t3.user_email = t4.email AND t2.type = 1 AND t5.delivery_status = t6.status AND t5.order_id = ?`
+    },
+    orderUpdate: {
+        query: `UPDATE t_order SET delivery_status = ?, transport_document_number = ? WHERE order_id = ?`
+    }
 }
