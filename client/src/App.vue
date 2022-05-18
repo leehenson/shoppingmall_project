@@ -25,7 +25,7 @@
               <li class="nav-item">
                 <router-link class="nav-link" to="#">Q&A</router-link>
               </li>
-              <li v-if="user.email!==undefined" class="nav-item">
+              <li v-if="sellerInfo[0].admin === 2" class="nav-item">
                 <router-link class="nav-link" to="/management">MANAGEMENT</router-link>
               </li>
             </ul>
@@ -99,10 +99,20 @@
 
 <script>
 export default {
+  data() {
+    return {
+      sellerInfo: {
+        admin: 0
+      }
+    };
+  },
   computed: {
     user() {
       return this.$store.state.user;  // user 정보가 바뀔 때마다 자동으로 user() 갱신
     }
+  },
+  created() {
+    this.getSellerInfo();
   },
   methods: {
     kakaoLogin() {
@@ -140,6 +150,10 @@ export default {
         alert("로그아웃");
 
       });
+    },
+    async getSellerInfo() {
+      let sellerInfo = await this.$api('/api/sellerInfo', {param:[this.user.email]})
+      this.sellerInfo = sellerInfo
     }
   }
 }
