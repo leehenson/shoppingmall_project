@@ -22,10 +22,10 @@
               <li class="nav-item">
                 <router-link class="nav-link" to="/acc">ACC</router-link>
               </li>        
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <router-link class="nav-link" to="#">Q&A</router-link>
-              </li>
-              <li v-if="sellerInfo[0].admin === 2" class="nav-item">
+              </li> -->
+              <li v-if="user.email==='seller'" class="nav-item">
                 <router-link class="nav-link" to="/management">MANAGEMENT</router-link>
               </li>
             </ul>
@@ -51,46 +51,35 @@
   <router-view/>
   <footer class="container py-5 mt-5">
         <div class="row">
-          <div class="col-12 col-md">
+          <div class="col-md-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mb-2" role="img" viewBox="0 0 24 24"><title>Product</title><circle cx="12" cy="12" r="10"></circle><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"></path></svg>
-            <small class="d-block mb-3 text-muted">© 2017–2021</small>
+            <small class="d-block mb-3 text-muted">© 2022-2022</small>
           </div>
-          <div class="col-6 col-md">
-            <h5>Features</h5>
+          <div class="col-md-2">
             <ul class="list-unstyled text-small">
-              <li><a class="link-secondary" href="#">Cool stuff</a></li>
-              <li><a class="link-secondary" href="#">Random feature</a></li>
-              <li><a class="link-secondary" href="#">Team feature</a></li>
-              <li><a class="link-secondary" href="#">Stuff for developers</a></li>
-              <li><a class="link-secondary" href="#">Another one</a></li>
-              <li><a class="link-secondary" href="#">Last time</a></li>
+              <li><a class="link-secondary" href="#">ABOUT US</a></li>
+              <li><a class="link-secondary" href="#">AGREEMENT</a></li>
+              <li><a class="link-secondary" href="#">GUIDE</a></li>
+              <li><a class="link-secondary" href="#">PRIVACY POLICY</a></li>
             </ul>
           </div>
-          <div class="col-6 col-md">
-            <h5>Resources</h5>
+          <div class="col-md-3">
             <ul class="list-unstyled text-small">
-              <li><a class="link-secondary" href="#">Resource name</a></li>
-              <li><a class="link-secondary" href="#">Resource</a></li>
-              <li><a class="link-secondary" href="#">Another resource</a></li>
-              <li><a class="link-secondary" href="#">Final resource</a></li>
+              <li>070-0000-0000</li>
+              <li>(KAKAO TALK @콩샵)</li>
+              <li>MON - FRI (13 - 17시)</li>
+              <li>농협 301-0000-0000-11</li>
+              <li>예금주 : 홍길동(콩샵)</li>
+              <li>CONTACT.kongshop@gmail.com</li>
             </ul>
           </div>
-          <div class="col-6 col-md">
-            <h5>Resources</h5>
-            <ul class="list-unstyled text-small">
-              <li><a class="link-secondary" href="#">Business</a></li>
-              <li><a class="link-secondary" href="#">Education</a></li>
-              <li><a class="link-secondary" href="#">Government</a></li>
-              <li><a class="link-secondary" href="#">Gaming</a></li>
-            </ul>
-          </div>
-          <div class="col-6 col-md">
-            <h5>About</h5>
-            <ul class="list-unstyled text-small">
-              <li><a class="link-secondary" href="#">Team</a></li>
-              <li><a class="link-secondary" href="#">Locations</a></li>
-              <li><a class="link-secondary" href="#">Privacy</a></li>
-              <li><a class="link-secondary" href="#">Terms</a></li>
+          <div class="col-md-5">
+            <ul class="list-unstyled text-small text-start">
+              <li>COMPANY. kong shop (콩샵)</li>
+              <li>OWNER.홍길동 BUSINESS NUMBER.0000000000</li>
+              <li>MAIL-ORDER LICENSE.제2022-서울서초-0000호</li>
+              <li>ADDRESS.10000 서울특별시 서초구 ○○로 000-0 (○○동) 2층 콩샵</li>
+              <li>Copyright ©kong shop All rights reserved.</li>
             </ul>
           </div>
         </div>
@@ -99,20 +88,10 @@
 
 <script>
 export default {
-  data() {
-    return {
-      sellerInfo: {
-        admin: 0
-      }
-    };
-  },
   computed: {
     user() {
       return this.$store.state.user;  // user 정보가 바뀔 때마다 자동으로 user() 갱신
     }
-  },
-  created() {
-    this.getSellerInfo();
   },
   methods: {
     kakaoLogin() {
@@ -150,10 +129,6 @@ export default {
         alert("로그아웃");
 
       });
-    },
-    async getSellerInfo() {
-      let sellerInfo = await this.$api('/api/sellerInfo', {param:[this.user.email]})
-      this.sellerInfo = sellerInfo
     }
   }
 }

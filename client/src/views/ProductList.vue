@@ -37,7 +37,7 @@ export default {
       this.productList = await this.$api("/api/productList",{});  // url를 따라 app.js의 /api/:alias를 타고 sql productList의 data 호출
       console.log(this.productList); // 데이터를 잘 받아오는지 확인
     },
-    goToDetail(product_id) {  // 제품 이미지 클릭시 제품 상세페이지로 router되도록 설정
+    goToDetail(product_id) {  // 제품 이미지 클릭시 product_id를 받아 제품 상세페이지로 router되도록 설정
       this.$router.push({path:'/detail', query:{product_id:product_id}}); // path중 /detail이 들어가면 product_id를 파라미터로 받아 라우터 시킴
     }
   }

@@ -20,14 +20,14 @@
             </div>
           </div>
         </div>
-        <ul class="nav justify-content-center mt-3  ">
+        <!-- <ul class="nav justify-content-center mt-3  ">
           <li class="nav-item">
             <a class="nav-link  text-dark" href="#">✔ FORGOT ID</a>
           </li>
           <li class="nav-item"> 
             <a class="nav-link  text-dark" href="#">✔ FORGOT PASSWORD</a>
           </li>
-        </ul>
+        </ul> -->
       </div>
     </div>
   </main>

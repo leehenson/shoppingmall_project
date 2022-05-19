@@ -88,7 +88,7 @@
 </template>
 <script>
 export default {
-    data() {
+    data() {  // 받아온 data를 template 코드에 쓸 수 있게 data 정의
         return {
             productId: 0,
             productName: "",
@@ -101,7 +101,7 @@ export default {
       return this.$store.state.user;  // user 정보가 바뀔 때마다 자동으로 user() 갱신
     }
   },
-  created() {     // data가 정상적으로 들어오는지 확인
+  created() {     // created 단계에서 해당 메소드를 실행시켜 data를 받아오게 설정
     this.productId = this.$route.query.product_id;  // path에 있는 product_id 값을 불러옴
     this.getProductDetail();
     this.getProductImage();
@@ -113,20 +113,20 @@ export default {
     }
   },
   methods: {
-      goToList() {
+      goToList() {  // confirm 버튼을 누르면 /sales 화면으로 라우팅되게 함
           this.$router.push({path:'/sales'});
       },
       async getProductDetail() {    // getProductDetail 메소드 호출
       let productDetail = await this.$api("/api/productDetail",{param:[this.productId]});  // url를 따라 app.js의 /api/:alias를 타고 productId의 파라미터를 받아 해당 sql productDatail의 data 호출
-      if (productDetail.length > 0) { // productDetail의 데이터를 가져왔을 때
+      if (productDetail.length > 0) { // productDetail의 데이터를 가져왔을 때 data가 있으면
         this.productDetail = productDetail[0];  // productDetail의 첫번째만 가져옴
       }
     },
     async getProductImage() {    // getProductImage 메소드 호출
-      this.productImage = await this.$api("/api/imageList",{param:[this.productId]});  // url를 따라 app.js의 /api/:alias를 타고 productId의 파라미터를 받아 해당 sql productMainImages의 data 호출
-      console.log('this.productImage',this.productImage)
+      this.productImage = await this.$api("/api/imageList",{param:[this.productId]});  // url를 따라 app.js의 /api/:alias를 타고 productId의 파라미터를 받아 해당 sql imageList의 data 호출
+      console.log(this.productImage)
     },
-    deleteImage(id) {
+    deleteImage(id) { //
       this.$swal.fire({
         title: '정말 삭제 하시겠습니까?',
         showCancelButton: true,
