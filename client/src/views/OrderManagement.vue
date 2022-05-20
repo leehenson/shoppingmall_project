@@ -45,25 +45,25 @@ export default {
       statusList: []
     };
   },
-  created() {     // data가 정상적으로 들어오는지 확인
+  created() { // created 단계에서 해당 메소드들을 실행시켜 data를 미리 호출
     this.getOrderList();
     this.getStatusList();
   },
   methods: {      // 메소드 호출
-    getCurrencyFormat(value) {  // $currencyFormat 호출
+    getCurrencyFormat(value) {  // 가격의 ,을 새겨주는 $currencyFormat 호출
       return this.$currencyFormat(value);
     },
-    async getOrderList() {    // getCartList 메소드 호출
-      let orderList = await this.$api("/api/orderManagement");  // url를 따라 app.js의 /api/:alias를 타고 sql cartList의 data 호출
+    async getOrderList() {    // getOrderList 메소드 호출
+      let orderList = await this.$api("/api/orderManagement");  // url를 따라 app.js의 /api/:alias를 타고 sql orderManagement를 통해 data 호출
       this.orderList = orderList
       console.log(this.orderList); // 데이터를 잘 받아오는지 확인
     },
     async getStatusList() {
-      let statusList = await this.$api("/api/statusList");
+      let statusList = await this.$api("/api/statusList");  // url를 따라 app.js의 /api/:alias를 타고 sql statusList를 통해 data 호출
       this.statusList = statusList;
     },
-    goToDetail(order_id) {  // 제품 이미지 클릭시 제품 상세페이지로 router되도록 설정
-      this.$router.push({path:'/order_detail', query:{order_id:order_id}}); // path중 /detail이 들어가면 product_id를 파라미터로 받아 라우터 시킴
+    goToDetail(order_id) {
+      this.$router.push({path:'/order_detail', query:{order_id:order_id}}); // 해당 order_id를 path 주소에 넣어 해당 회원의 주문 상세페이지로 라우팅
     }
     // async goToCancle(cart_id) {
     //   this.$swal.fire({

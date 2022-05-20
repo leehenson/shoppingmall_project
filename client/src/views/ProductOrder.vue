@@ -98,49 +98,49 @@ export default {
       orderInfo: {}
     };
   },
-  created() {     // data가 정상적으로 들어오는지 확인
-    this.cartId = this.$store.state.user.email;
-    this.getCartList();
-    this.getUserInfo();
-    this.getSellerInfo();
+  created() {
+    this.cartId = this.$store.state.user.email; // store의 유저 이메일을 cartId로 선언
+    this.getCartList(); // created 단계에서 getCartList를 실행시켜 data 미리 호출
+    this.getUserInfo(); // created 단계에서 getUserInfo를 실행시켜 data 미리 호출
+    this.getSellerInfo(); // created 단계에서 getSellerInfo를 실행시켜 data 미리 호출
   },
   methods: {      // 메소드 호출
-    getCurrencyFormat(value) {  // $currencyFormat 호출
+    getCurrencyFormat(value) {  // 가격의 ,을 새겨주는 $currencyFormat 호출
       return this.$currencyFormat(value);
     },
-    async getUserInfo() {    // getCartList 메소드 호출
-      let userInfo = await this.$api("/api/userInfo",{param:[this.cartId]});  // url를 따라 app.js의 /api/:alias를 타고 sql t_user data 호출
+    async getUserInfo() {    // getUserInfo 메소드 호출
+      let userInfo = await this.$api("/api/userInfo",{param:[this.cartId]});  // url를 따라 app.js의 /api/:alias를 타고 cartId를 파라미터로 보내고, sql userInfo를 통해 data 호출
       if (userInfo.length > 0) { // UserInfo의 데이터를 가져왔을 때
         this.userInfo = userInfo[0];  // UserInfo의 첫번째만 가져옴
       }
     },
     async getSellerInfo() {    // getSellerInfo 메소드 호출
-      let sellerInfo = await this.$api("/api/sellerInfo");  // url를 따라 app.js의 /api/:alias를 타고 sql t_user data 호출
+      let sellerInfo = await this.$api("/api/sellerInfo");  // url를 따라 app.js의 /api/:alias를 타고 sql sellerInfo를 통해 data 호출
       if (sellerInfo.length > 0) { // sellerInfo의 데이터를 가져왔을 때
         this.sellerInfo = sellerInfo[0];  // sellerInfo의 첫번째만 가져옴
       }
     },
     async getCartList() {    // getCartList 메소드 호출
-      let cartList = await this.$api("/api/cartList",{param:[this.cartId]});  // url를 따라 app.js의 /api/:alias를 타고 sql cartList의 data 호출
+      let cartList = await this.$api("/api/cartList",{param:[this.cartId]});  // url를 따라 app.js의 /api/:alias를 타고 cartId를 파라미터로 보내고, sql cartList를 통해 data 호출
       this.cartList = cartList
       console.log(this.cartList); // 데이터를 잘 받아오는지 확인
 
       let total = 0;
       cartList.forEach(item => {
-        total += item.totalPrice;
+        total += item.totalPrice; // 주문내역에 담긴 제품들 모두 합친 가격
       });
       this.total = total;
 
       let deliveryPrice = 0;
-      if (total >= 100000) {
+      if (total >= 100000) {  // total의 가격이 10만원이 넘어가면 배송료는 0
         deliveryPrice = 0;
       }
       else {
-        deliveryPrice = 3000;
+        deliveryPrice = 3000; // 그 외에는 배송료 3000원
       }
       this.deliveryPrice = deliveryPrice
 
-      let paymentAmount = total + deliveryPrice;
+      let paymentAmount = total + deliveryPrice;  // total 가격과 배송료를 모두 합친 총 결제 금액
       this.paymentAmount = paymentAmount;
     },
     async orderPayment() {
@@ -152,11 +152,11 @@ export default {
             cancelButtonText: 'CANCEL'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await this.$api("/api/orderPayment", {param:[this.userInfo.address, this.userInfo.name, this.userInfo.phone, this.orderInfo.requested_term, this.orderInfo.name_of_depositor, this.$store.state.user.email, this.paymentAmount]});
-                this.$api("/api/cartCopy", {param:[this.$store.state.user.email]});
-                this.$api("/api/deleteCart", {param:[this.$store.state.user.email]});
+                await this.$api("/api/orderPayment", {param:[this.userInfo.address, this.userInfo.name, this.userInfo.phone, this.orderInfo.requested_term, this.orderInfo.name_of_depositor, this.$store.state.user.email, this.paymentAmount]});  // 해당 data들을 파라미터로 보내고, sql orderPayment를 통해 data Insert
+                this.$api("/api/cartCopy", {param:[this.$store.state.user.email]}); // 상태관리중인 email data를 파라미터로 보내고, sql cartCopy를 통해 data 복사
+                this.$api("/api/deleteCart", {param:[this.$store.state.user.email]}); // 상태관리중인 email data를 파라미터로 보내고, sql deleteCart 통해 data 삭제
                 this.$swal.fire('Complete.', '', 'success');
-                this.$router.push({path:'/'});
+                this.$router.push({path:'/'});  // 메인페이지로 라우팅
             }
         });
     }

@@ -39,13 +39,12 @@ export default {
       userInfo: {}
     };
   },
-  created() {     // data가 정상적으로 들어오는지 확인
-    this.user_email = this.$store.state.user.email;
-    this.getUserInfo();
+  created() {
+    this.getUserInfo(); // created 단계에서 getUserInfo를 실행시켜 data를 미리 호출
   },
   methods: {      // 메소드 호출
-    async getUserInfo() {    // getCartList 메소드 호출
-      let userInfo = await this.$api("/api/userManagement");  // url를 따라 app.js의 /api/:alias를 타고 sql cartList의 data 호출
+    async getUserInfo() {    // getUserInfo 메소드 호출
+      let userInfo = await this.$api("/api/userManagement");  // url를 따라 app.js의 /api/:alias를 타고 sql userManagement를 통해 data 호출
       this.userInfo = userInfo
       console.log(this.userInfo); // 데이터를 잘 받아오는지 확인
     }

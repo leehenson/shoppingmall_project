@@ -89,47 +89,47 @@ export default {
       this.$router.push({path:'/'});
     }
   },
-  created() {     // data가 정상적으로 들어오는지 확인
-    this.user_email = this.$store.state.user.email;
-    this.getUserInfo();
-    this.getBankList();
+  created() {
+    this.user_email = this.$store.state.user.email; // 상태관리 되어있는 email를 user_email로 선언
+    this.getUserInfo(); // created 단계에서 getUserInfo를 실행시켜 data를 미리 호출
+    this.getBankList(); // created 단계에서 getBankList를 실행시켜 data를 미리 호출
   },
   methods: {
     goToList() {
-      this.$router.push({path:'/mypage'});
+      this.$router.push({path:'/mypage'});  // 해당 메소드가 실행될 시 /mymage로 라우팅
     },
     async getUserInfo() {    // getUserInfo 메소드 호출
-      let userInfo = await this.$api("/api/userInfo",{param:[this.user_email]});  // url를 따라 app.js의 /api/:alias를 타고 user_email의 파라미터를 받아 해당 sql userInfo의 data 호출
+      let userInfo = await this.$api("/api/userInfo",{param:[this.user_email]});  // url를 따라 app.js의 /api/:alias를 타고 user_email를 파라미터로 받아 해당 sql userInfo의 data 호출
       if (userInfo.length > 0) { // userInfo 데이터를 가져왔을 때
         this.userInfo = userInfo[0];  // userInfo 첫번째만 가져옴
       }
     },
     async getBankList() {
-      let bankList = await this.$api("/api/bankList", {});
+      let bankList = await this.$api("/api/bankList", {});  // sql bankList를 통해 bank data 호출
       this.bankList = bankList;
     },
     productUpdate() {    
-      if(this.userInfo.password == "") {
+      if(this.userInfo.password == "") {  // 비밀번호에 값이 없을 시 해당 alert 출력
         return this.$swal("비밀번호는 필수 입력값입니다.");
       }
 
-      if(this.userInfo.name == "") {
+      if(this.userInfo.name == "") {  // 이름에 값이 없을 시 해당 alert 출력
         return this.$swal("이름은 필수 입력값입니다.");
       }
 
-      if(this.userInfo.address == "") {
+      if(this.userInfo.address == "") { // 주소에 값이 없을 시 해당 alert 출력
         return this.$swal("주소는 필수 입력값입니다.");
       }
       
-      if(this.userInfo.phone == "") {
+      if(this.userInfo.phone == "") { // 휴대폰 번호에 값이 없을 시 해당 alert 출력
         return this.$swal("핸드폰 번호는 필수 입력값입니다.");
       }
 
-      if(this.userInfo.account_holder == "") {
+      if(this.userInfo.account_holder == "") {  // 예금주에 값이 없을 시 해당 alert 출력
         return this.$swal("예금주는 필수 입력값입니다.");
       }
       
-      if(this.userInfo.bank_account_number == "") {
+      if(this.userInfo.bank_account_number == "") { // 계좌번호에 값이 없을 시 해당 alert 출력
         return this.$swal("계좌번호는 필수 입력값입니다.");
       }
       this.$swal.fire({
@@ -139,9 +139,9 @@ export default {
             cancelButtonText: 'CANCEL'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await this.$api("/api/userInfoUpdate", {user: this.userInfo});
+                await this.$api("/api/userInfoUpdate", {user: this.userInfo});  // userInfo의 데이터를 받아 sql userInfoUpdate를 통해 회원정보 수정
                 this.$swal.fire('Saved.', '', 'success');
-                this.$router.push({path:'/mypage'});
+                this.$router.push({path:'/mypage'});  // /mypage로 라우팅
             }
         });
     }

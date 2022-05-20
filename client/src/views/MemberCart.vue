@@ -73,41 +73,41 @@ export default {
       this.$router.push({path:'/'});
     }
   },
-  created() {     // data가 정상적으로 들어오는지 확인
-    this.cartId = this.$store.state.user.email;
-    this.getCartList();
+  created() {
+    this.cartId = this.$store.state.user.email; // store의 유저 이메일을 cartId로 선언
+    this.getCartList(); // created 단계에서 getCartList()를 실행시켜 cartList 데이터를 미리 호출
   },
   methods: {      // 메소드 호출
-    getCurrencyFormat(value) {  // $currencyFormat 호출
+    getCurrencyFormat(value) {  // 가격의 ,을 새겨주는 $currencyFormat 호출
       return this.$currencyFormat(value);
     },
     async getCartList() {    // getCartList 메소드 호출
-      let cartList = await this.$api("/api/cartList",{param:[this.cartId]});  // url를 따라 app.js의 /api/:alias를 타고 sql cartList의 data 호출
+      let cartList = await this.$api("/api/cartList",{param:[this.cartId]});  // url를 따라 app.js의 /api/:alias를 타고 sql cartList로 data 호출
       this.cartList = cartList
       console.log(this.cartList); // 데이터를 잘 받아오는지 확인
 
       let total = 0;
       cartList.forEach(item => {
-        total += item.totalPrice;
+        total += item.totalPrice; // 장바구니에 담긴 제품들 모두 합친 가격
       });
       this.total = total;
 
       let deliveryPrice = 0;
-      if (total >= 100000) {
+      if (total >= 100000) {  // total의 가격이 10만원이 넘어가면 배송료는 0
         deliveryPrice = 0;
       }
       else {
-        deliveryPrice = 3000;
+        deliveryPrice = 3000; // 그 외에는 배송료 3000원
       }
       this.deliveryPrice = deliveryPrice
 
-      let paymentAmount = total + deliveryPrice;
+      let paymentAmount = total + deliveryPrice;  // total 가격과 배송료를 모두 합친 총 결제 금액
       this.paymentAmount = paymentAmount;
     },
     goToOrder() {
-        this.$router.push({path:'/order'});
+        this.$router.push({path:'/order'}); // /order로 라우팅
     },
-    deleteCart(cart_id) {
+    deleteCart(cart_id) { // cart_id를 받아 sweetAlert2를 통해 cartList 데이터 삭제
       this.$swal.fire({
         title: '정말 삭제하시겠습니까?',
         showCancelButton: true,

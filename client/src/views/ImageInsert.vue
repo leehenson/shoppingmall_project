@@ -126,7 +126,7 @@ export default {
       this.productImage = await this.$api("/api/imageList",{param:[this.productId]});  // url를 따라 app.js의 /api/:alias를 타고 productId의 파라미터를 받아 해당 sql imageList의 data 호출
       console.log(this.productImage)
     },
-    deleteImage(id) { //
+    deleteImage(id) { // productImage의 id를 받고, sweetAlert2를 활용하여 이미지 삭제에 대해 alert를 띄움
       this.$swal.fire({
         title: '정말 삭제 하시겠습니까?',
         showCancelButton: true,
@@ -134,25 +134,25 @@ export default {
         cancelButtonText: `취소`
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await this.$api("/api/imageDelete",{param:[id]});
-          this.getProductImage();
+          await this.$api("/api/imageDelete",{param:[id]}); // productImage의 id를 imageDelete sql에 파라미터로 보내 productImage 데이터 delete
+          this.getProductImage(); // delete후 getProductImage 갱신
           this.$swal.fire('삭제되었습니다!', '', 'success');
         } 
       });
     },
-    async uploadFile(files, type) {
+    async uploadFile(files, type) { // 이미지 files와 type을 받아 업로드하는 메소드
       let name = "";
       let data = null;
-      if (files) {
-        name = files[0].name;
-        data = await this.$base64(files[0]);
+      if (files) {  // files이 있다면
+        name = files[0].name; // 0번쨰 파일의 이름
+        data = await this.$base64(files[0]);  // files를 $base64를 통해 비동기적으로 읽음
       }
-      const { error } = await this.$api(`/upload/${this.productId}/${type}/${name}`, { data });
-      if (error) {
+      const { error } = await this.$api(`/upload/${this.productId}/${type}/${name}`, { data }); // 데이터의 productId와 type, name, data를 api로 전송
+      if (error) {  // 문제 발생 시
         return this.$swal("이미지 업로드 실패했습니다. 다시 시도하세요.");
       }
-      this.$swal("이미지가 업로드 되었습니다.");
-      setTimeout(() => {
+      this.$swal("이미지가 업로드 되었습니다.");  // 문제 없을 시
+      setTimeout(() => {  // 1초 후 getProudctImage() 호출
         this.getProductImage();
       }, 1000);
     }

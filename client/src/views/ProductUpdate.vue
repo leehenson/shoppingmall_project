@@ -95,13 +95,13 @@ export default {
       this.$router.push({path:'/'});
     }
   },
-  created() {     // data가 정상적으로 들어오는지 확인
+  created() {
     this.productId = this.$route.query.product_id;  // path에 있는 product_id 값을 불러옴
-    this.getProductDetail();
+    this.getProductDetail();  // created 단계에서 getProductDetail를 실행시켜 data 미리 호출
   },
   methods: {
     goToList() {
-      this.$router.push({path:'/sales'});
+      this.$router.push({path:'/sales'}); // /sales로 라우팅
     },
     async getProductDetail() {    // getProductDetail 메소드 호출
       let productDetail = await this.$api("/api/productDetail2",{param:[this.productId]});  // url를 따라 app.js의 /api/:alias를 타고 productId의 파라미터를 받아 해당 sql productDatail의 data 호출
@@ -110,35 +110,35 @@ export default {
       }
     },
     productUpdate() {    
-      if(this.productDetail.product_name == "") {
+      if(this.productDetail.product_name == "") { // 제품명에 값이 없을 시 해당 alert 출력
         return this.$swal("제품명은 필수 입력값입니다.");
       }
 
-      if(this.productDetail.product_price == "" || this.productDetail.product_price == 0) {
+      if(this.productDetail.product_price == "" || this.productDetail.product_price == 0) { // 제품가격에 값이 없거나 0일 시 해당 alert 출력
         return this.$swal("제품가격을 입력하세요.");
       }
 
-      if(this.productDetail.product_description == "") {
+      if(this.productDetail.product_description == "") {  // 제품 설명에 값이 없거나 0일 시 해당 alert 출력
         return this.$swal("제품설명은 필수 입력값입니다.");
       }
 
-      if(this.productDetail.product_color == "") {
+      if(this.productDetail.product_color == "") {  // 색상에 값이 없거나 0일 시 해당 alert 출력
         return this.$swal("색상은 필수 입력값입니다.");
       }
 
-      if(this.productDetail.product_fabric == "") {
+      if(this.productDetail.product_fabric == "") { // 소재에 값이 없거나 0일 시 해당 alert 출력
         return this.$swal("소재는 필수 입력값입니다.");
       }
       
-      if(this.productDetail.product_model == "") {
+      if(this.productDetail.product_model == "") {  // 모델 착용 정보에 값이 없거나 0일 시 해당 alert 출력
         return this.$swal("모델 착용 정보는 필수 입력값입니다.");
       }
 
-      if(this.productDetail.product_size == "") {
+      if(this.productDetail.product_size == "") { // 사이즈에 값이 없거나 0일 시 해당 alert 출력
         return this.$swal("사이즈는 필수 입력값입니다.");
       }
 
-      if(this.productDetail.product_sizeGuide == "") {
+      if(this.productDetail.product_sizeGuide == "") {  // 사이즈 가이드에 값이 없거나 0일 시 해당 alert 출력
         return this.$swal("사이즈 가이드는 필수 입력값입니다.");
       }  
       this.$swal.fire({
@@ -148,9 +148,9 @@ export default {
             cancelButtonText: 'CANCEL'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await this.$api("/api/productUpdate", {param:[this.productDetail, this.productId]});
+                await this.$api("/api/productUpdate", {param:[this.productDetail, this.productId]});  // productDetail, productId data를 파라미터로 보내고, sql productUpdate를 통해 data 수정
                 this.$swal.fire('Saved.', '', 'success');
-                this.$router.push({path:'/sales'});
+                this.$router.push({path:'/sales'}); // /sales로 라우팅
             }
         });
     }

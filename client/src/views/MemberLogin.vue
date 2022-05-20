@@ -50,12 +50,12 @@ export default {
   },
   methods: {
     async login() {
-      await this.$api('/api/login', {user: this.t_user})
+      await this.$api('/api/login', {user: this.t_user})  // t_user 데이터를 login sql를 통해 확인
       .then(() => {
-        alert("로그인 성공!");
-        this.$router.push({path:'/'});
+        alert("로그인 성공!");  // api가 정상적으로 작동할 시 해당 alert를 띄움
+        this.$router.push({path:'/'});  // 메인페이지로 라우팅
         this.$store.commit("user", this.t_user);  // vuex를 이용하여 상태관리하도록 store에 user 정보를 갱신
-      }).catch(() => {
+      }).catch(() => {  // api 오류 발생 시 해당 alert 띄움
         alert("계정 정보를 확인해주세요.");
       });
     },
@@ -71,15 +71,15 @@ export default {
         url: '/v2/user/me',
         success: res => { // 성공시 콜백함수
           const kakao_account = res.kakao_account;  // 로그인한 유저의 계정 정보를 받아오기
-          console.log(kakao_account);
-          this.kakao_login(kakao_account);
-          this.$router.push({path:'/'});
-          alert("로그인 성공!");
+          console.log(kakao_account); // 계정 정보 확인
+          this.kakao_login(kakao_account);  // 계정 정보를 kakao_login으로 보냄
+          this.$router.push({path:'/'});  // 메인페이지로 라우팅
+          alert("로그인 성공!");  // 해당 alert 호출
         }
       });
     },
     async kakao_login(kakao_account) {  // login겸 signup
-      await this.$api("/api/kakaoLogin", {
+      await this.$api("/api/kakaoLogin", {  // 게정 정보를 kakaoLogin sql 파라미터로 보냄
         param: [
           {email:kakao_account.email, name:kakao_account.profile.nickname},
           {name:kakao_account.profile.nickname}
@@ -91,8 +91,8 @@ export default {
     kakaoLogout() {
       window.Kakao.Auth.logout((response) => {
         console.log(response);
-        this.$store.commit("user", {});
-        this.$router.go();
+        this.$store.commit("user", {}); // store에 user 정보의 data를 빈값으로 만듬
+        // this.$router.go();
         alert("로그아웃");
       });
     }

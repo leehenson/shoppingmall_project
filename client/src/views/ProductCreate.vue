@@ -108,7 +108,7 @@ export default {
     }
   },
   created() {
-    this.getCategoryList();
+    this.getCategoryList(); // created 단계에서 getCategoryList를 실행시켜 data 미리 호출
   },
   mounted() {
     if(this.user.email == undefined) {  // user email이 없으면 초기화면으로 돌아가게 함
@@ -118,74 +118,74 @@ export default {
   },
   methods: {
     goToList() {
-      this.$router.push({path:'/sales'});
+      this.$router.push({path:'/sales'}); // 해당 메소드 실행 시, /sales로 라우팅
     },
     async getCategoryList() {
-      let categoryList = await this.$api("/api/categoryList", {});
+      let categoryList = await this.$api("/api/categoryList", {});  // sql categoryList를 통해 data 호출
       this.categoryList = categoryList;
 
-      let oCategory = {}; 
+      let oCategory = {}; // oCategory를 오브젝트로 선언
       categoryList.forEach(item => {
-        oCategory[item.category] = item.id;
+        oCategory[item.category] = item.id; // oCategory에 categoryList data를 forEach를 통해 넣어주고, item.id로 선언
       });
 
-      let category = [];
+      let category = [];  // category를 배열로 선언
       for(let key in oCategory) {
-        category.push(key);
+        category.push(key); // category에 oCategory의 key값을 넣어줌
       }
       console.log(category);
 
       this.category = category;
     },
     productInsert() {
-      if(this.product.product_name == "") {
+      if(this.product.product_name == "") { // 제품명에 값이 없을 시 해당 alert 출력
         return this.$swal("제품명은 필수 입력값입니다.");
       }
 
-      if(this.product.product_price == "" || this.product.product_price == 0) {
+      if(this.product.product_price == "" || this.product.product_price == 0) { // 제품가격에 값이 없거나 0일 시 해당 alert 출력
         return this.$swal("제품가격을 입력하세요.");
       }
 
-      if(this.product.product_description == "") {
+      if(this.product.product_description == "") {  // 제품설명에 값이 없을 시 해당 alert 출력
         return this.$swal("제품설명은 필수 입력값입니다.");
       }
 
-      if(this.product.product_color == "") {
+      if(this.product.product_color == "") {  // 색상에 값이 없을 시 해당 alert 출력
         return this.$swal("색상은 필수 입력값입니다.");
       }
 
-      if(this.product.product_fabric == "") {
+      if(this.product.product_fabric == "") { // 소재에 값이 없을 시 해당 alert 출력
         return this.$swal("소재는 필수 입력값입니다.");
       }
       
-      if(this.product.product_model == "") {
+      if(this.product.product_model == "") {  // 모델 착용 정보에 값이 없을 시 해당 alert 출력
         return this.$swal("모델 착용 정보는 필수 입력값입니다.");
       }
 
-      if(this.product.product_size == "") {
+      if(this.product.product_size == "") { // 사이즈에 값이 없을 시 해당 alert 출력
         return this.$swal("사이즈는 필수 입력값입니다.");
       }
 
-      if(this.product.product_sizeGuide == "") {
+      if(this.product.product_sizeGuide == "") {  // 사이즈 가이드에 값이 없을 시 해당 alert 출력
         return this.$swal("사이즈 가이드는 필수 입력값입니다.");
       }
 
-      this.product.category_id = this.categoryList.filter(c => {
+      this.product.category_id = this.categoryList.filter(c => {  // product의 category_id는 category와 cate가 같은 값을 가지는 categoryList의 data의 0번째 id 선언
         return (c.category == this.cate);
       })[0].id;
 
       console.log(this.product.category_id);
       
-      this.$swal.fire({
+      this.$swal.fire({ // 위의 조건들이 충족 시 sweetAlert2 실행
             title: '정말 등록하시겠습니까?',
             showCancelButton: true,
             confirmButtonText: 'REGISTRATION',
             cancelButtonText: 'CANCEL'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await this.$api("/api/productInsert",{param:[this.product]});
+                await this.$api("/api/productInsert",{param:[this.product]}); // product data를 파라미터로 보내고, sql productInsert를 통해 data Insert
                 this.$swal.fire('Saved.', '', 'success');
-                this.$router.push({path:'/sales'});
+                this.$router.push({path:'/sales'}); // /sales로 라우팅
             }
         });
     }

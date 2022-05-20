@@ -101,19 +101,19 @@ export default {
       totalPrice: 0
     };
   },
-  created() {     // data가 정상적으로 들어오는지 확인
+  created() {
     this.productId = this.$route.query.product_id;  // path에 있는 product_id 값을 불러옴
-    this.getProductDetail();
-    this.getProductImage();
+    this.getProductDetail();  // created 단계에서 getProductDetail를 실행시켜 data 미리 호출
+    this.getProductImage(); // created 단계에서 getProductImage를 실행시켜 data 미리 호출
   },
   methods: {      // 메소드 호출
     calculatePrice(cnt) {
-      let total = this.total + cnt;
-      if(total < 0) total = 0;
+      let total = this.total + cnt; // cnt를 받아 수량(total)을 나타냄 (total 초기값 = 0)
+      if(total < 0) total = 0;  // total이 0보다 작을 땐 total은 무조건 0
       this.total = total;
-      this.totalPrice = this.productDetail.product_price * this.total;
+      this.totalPrice = this.productDetail.product_price * this.total;  // totalPrice는 제품 가격 * 수량
     },
-    getCurrencyFormat(value) {  // $currencyFormat 호출
+    getCurrencyFormat(value) {  // 가격의 ,을 새겨주는 $currencyFormat 호출
       return this.$currencyFormat(value);
     },
     async getProductDetail() {    // getProductDetail 메소드 호출
@@ -125,10 +125,10 @@ export default {
     },
     async getProductImage() {    // getProductImage 메소드 호출
       this.productImage = await this.$api("/api/productMainImages",{param:[this.productId]});  // url를 따라 app.js의 /api/:alias를 타고 productId의 파라미터를 받아 해당 sql productMainImages의 data 호출
-      console.log('this.productImage',this.productImage)
+      console.log(this.productImage);
     },
     async addCart() {
-      if(this.total == 0) {
+      if(this.total == 0) { // 수량이 0개일 때 해당 alert 띄움
         return this.$swal("1개 이상의 수량을 선택해 주십시오.");
       }
       this.$swal.fire({
@@ -138,9 +138,9 @@ export default {
             cancelButtonText: 'CANCEL'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await this.$api("/api/cartInsert", {param:[this.productId, this.$store.state.user.email, this.total, this.totalPrice]});
+                await this.$api("/api/cartInsert", {param:[this.productId, this.$store.state.user.email, this.total, this.totalPrice]});  // productId, 상태관리 이메일, 수량, 총가격을 파라미터로 보내고, sql cartInsert를 통해 data Insert
                 this.$swal.fire('Saved.', '', 'success');
-                this.$router.push({path:'/cart'});
+                this.$router.push({path:'/cart'});  // /cart로 라우팅
             }
         });
     }

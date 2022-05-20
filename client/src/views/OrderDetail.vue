@@ -107,28 +107,28 @@ export default {
       statusList: []
     };
   },
-  created() {     // data가 정상적으로 들어오는지 확인
-    this.orderId = this.$route.query.order_id;
-    this.getOrderDetail();
-    this.getStatusList();
+  created() {
+    this.orderId = this.$route.query.order_id;  // path의 order_id를 orderId로 선언
+    this.getOrderDetail();  // created 단계에서 getOrderDetail를 실행시켜 data를 미리 호출
+    this.getStatusList(); // created 단계에서 getStatusList를 실행시켜 data를 미리 호출
   },
   methods: {      // 메소드 호출
-    getCurrencyFormat(value) {  // $currencyFormat 호출
+    getCurrencyFormat(value) {  // 가격의 ,을 새겨주는 $currencyFormat 호출
       return this.$currencyFormat(value);
     },
     async getOrderDetail() {    // getCartList 메소드 호출
-      let orderDetail = await this.$api("/api/orderDetail", {param:[this.orderId]});  // url를 따라 app.js의 /api/:alias를 타고 sql cartList의 data 호출
+      let orderDetail = await this.$api("/api/orderDetail", {param:[this.orderId]});  // url를 따라 app.js의 /api/:alias를 타고 orderId를 보내고 sql cartList를 통해 data 호출
       this.orderDetail = orderDetail
       console.log(this.orderDetail); // 데이터를 잘 받아오는지 확인
     },
     async getStatusList() {
-      let statusList = await this.$api("/api/statusList");
+      let statusList = await this.$api("/api/statusList");  // 해당 sql를 통해 status data 호출
       this.statusList = statusList;
     },
     goToList() {
-      this.$router.push({path:'/order_management'});
+      this.$router.push({path:'/order_management'});  // 해당 메소드 실행 시, /order_management로 라우팅
     },
-    async goToUpdate(order_id) {
+    async goToUpdate(order_id) {  // order_id를 받아 sweetAlert2 실행
       this.$swal.fire({
         title: '정말 수정하시겠습니까?',
         showCancelButton: true,
@@ -136,9 +136,9 @@ export default {
         cancelButtonText: 'CANCEL'
       }).then(async (result) => {
         if (result.isConfirmed) {
-            await this.$api("/api/orderUpdate", {param:[this.orderDetail[0].delivery_status, this.orderDetail[0].transport_document_number, order_id]});
+            await this.$api("/api/orderUpdate", {param:[this.orderDetail[0].delivery_status, this.orderDetail[0].transport_document_number, order_id]});  // status, 운송장 번호, order_id data를 파라미터로 보내고 sql orderUpdate를 통해 주문정보 수정
             this.$swal.fire('Saved.', '', 'success');
-            this.$router.push({path:'/order_management'});
+            this.$router.push({path:'/order_management'});  // /order_management로 라우팅
         }
       });
     }

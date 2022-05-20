@@ -32,18 +32,15 @@ export default {
       this.$router.push({path:'/'});
     }
   },
-  created() {     // data가 정상적으로 들어오는지 확인
-    this.user_email = this.$store.state.user.email;
-  },
   methods: {      // 메소드 호출
-    goToProductManagement() {  // 제품 이미지 클릭시 제품 상세페이지로 router되도록 설정
-      this.$router.push({path:'/sales'}); // path중 /detail이 들어가면 product_id를 파라미터로 받아 라우터 시킴
+    goToProductManagement() {  // 해당 div 클릭시 제품 관리페이지로 router되도록 설정
+      this.$router.push({path:'/sales'});
     },
-    goToUserManagement() {  // 제품 이미지 클릭시 제품 상세페이지로 router되도록 설정
-      this.$router.push({path:'/user_management'}); // path중 /detail이 들어가면 product_id를 파라미터로 받아 라우터 시킴
+    goToUserManagement() {  // 해당 div 클릭시 회원 관리페이지로 router되도록 설정
+      this.$router.push({path:'/user_management'});
     },
-    goToOrderManagement() {  // 제품 이미지 클릭시 제품 상세페이지로 router되도록 설정
-      this.$router.push({path:'/order_management'}); // path중 /detail이 들어가면 product_id를 파라미터로 받아 라우터 시킴
+    goToOrderManagement() {  // 해당 div 클릭시 회원 관리페이지로 router되도록 설정
+      this.$router.push({path:'/order_management'});
     }
   }
 }

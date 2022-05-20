@@ -26,11 +26,11 @@ export default {
       productList: []
     };
   },
-  created() {     // data가 정상적으로 들어오는지 확인
-    this.getProductList();
+  created() {
+    this.getProductList();  // created 단계에서 getProductList를 실행시켜 data 미리 호출
   },
   methods: {      // 메소드 호출
-    getCurrencyFormat(value) {  // $currencyFormat 호출
+    getCurrencyFormat(value) {  // 가격의 ,을 새겨주는 $currencyFormat 호출
       return this.$currencyFormat(value);
     },
     async getProductList() {    // getProductList 메소드 호출

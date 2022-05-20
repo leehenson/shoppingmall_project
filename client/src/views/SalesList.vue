@@ -38,11 +38,11 @@ export default {
       productList: []
     };
   },
-  created() {     // data가 정상적으로 들어오는지 확인
-    this.getProductList();
+  created() {
+    this.getProductList();  // created 단계에서 getProductList를 실행시켜 data 미리 호출
   },
   methods: {      // 메소드 호출
-    getCurrencyFormat(value) {  // $currencyFormat 호출
+    getCurrencyFormat(value) {  // 가격의 ,을 새겨주는 $currencyFormat 호출
       return this.$currencyFormat(value);
     },
     async getProductList() {    // getProductList 메소드 호출
@@ -50,18 +50,18 @@ export default {
       console.log(this.productList); // 데이터를 잘 받아오는지 확인
     },
     goToInsert() {
-      this.$router.push({path:'/create'});
+      this.$router.push({path:'/create'});  // /create로 라우팅
     },
-    goToDetail(product_id) {  // 제품 이미지 클릭시 제품 상세페이지로 router되도록 설정
+    goToDetail(product_id) {  // 제품 등록 버튼 클릭시 제품 등록페이지로 router되도록 설정
       this.$router.push({path:'/detail', query:{product_id:product_id}}); // path중 /detail이 들어가면 product_id를 파라미터로 받아 라우터 시킴
     },
-    goToUpdate(product_id) {
+    goToUpdate(product_id) {  // 수정 버튼 클릭시 제품 수정페이지로 router되도록 설정
       this.$router.push({path:'/update', query:{product_id:product_id}});
     },
-    goToImageInsert(product_id) {
+    goToImageInsert(product_id) { // 사진 등록 버튼 클릭시 사진 등록페이지로 router되도록 설정
       this.$router.push({path:'/image_insert', query:{product_id:product_id}});
     },
-    deleteProduct(product_id) {
+    deleteProduct(product_id) { // 삭제 버튼 클릭시 sweetAlert 실행
       this.$swal.fire({
         title: '정말 삭제하시겠습니까?',
         showCancelButton: true,
@@ -69,8 +69,8 @@ export default {
         cancelButtonText: 'CANCEL'
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await this.$api("/api/productDelete",{param:[product_id]});
-          this.getProductList();
+          await this.$api("/api/productDelete",{param:[product_id]}); // product_id data를 파라미터로 보내고, sql productDelete를 통해 data 삭제
+          this.getProductList();  // getProductList를 실행시켜 갱신
           this.$swal.fire('Deleted.', '', 'success')
         }
       });

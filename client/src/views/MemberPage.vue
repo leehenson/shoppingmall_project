@@ -28,15 +28,15 @@ export default {
       this.$router.push({path:'/'});
     }
   },
-  created() {     // data가 정상적으로 들어오는지 확인
-    this.user_email = this.$store.state.user.email;
+  created() {
+    this.user_email = this.$store.state.user.email; // 상태관리 되어있는 email를 user_email로 선언
   },
   methods: {      // 메소드 호출
-    goToOrder(user_email) {  // 제품 이미지 클릭시 제품 상세페이지로 router되도록 설정
-      this.$router.push({path:'/mypage_order', query:{user_email:user_email}}); // path중 /detail이 들어가면 product_id를 파라미터로 받아 라우터 시킴
+    goToOrder(user_email) {
+      this.$router.push({path:'/mypage_order', query:{user_email:user_email}}); // 해당 user_email를 path 주소에 넣어 해당 회원의 주문 페이지로 라우팅
     },
-    goToProfile(user_email) {  // 제품 이미지 클릭시 제품 상세페이지로 router되도록 설정
-      this.$router.push({path:'/mypage_profile', query:{user_email:user_email}}); // path중 /detail이 들어가면 product_id를 파라미터로 받아 라우터 시킴
+    goToProfile(user_email) {
+      this.$router.push({path:'/mypage_profile', query:{user_email:user_email}}); // 해당 user_email를 path 주소에 넣어 해당 회원의 회원 정보페이지로 라우팅
     }
   }
 }
