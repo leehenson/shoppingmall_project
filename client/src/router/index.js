@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router' // 해당 경로들을 라우팅할 수 있도록 import
 import ProductList from '../views/ProductList.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import ProductCreate from '../views/ProductCreate.vue'
@@ -22,7 +22,7 @@ import OrderManagement from '../views/OrderManagement.vue'
 import OrderDetail from '../views/OrderDetail.vue'
 
 
-const routes = [
+const routes = [  // import한 경로들의 path를 지정하여 라우팅할 수 있게끔 선언
   {
     path: '/',
     name: 'home',
@@ -131,7 +131,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(process.env.BASE_URL),  // 기존 path에 import한 경로들의 path를 추가해 라우팅
   routes
 })
 

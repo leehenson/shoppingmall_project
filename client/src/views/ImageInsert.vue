@@ -86,6 +86,7 @@
     </div>
   </main>
 </template>
+
 <script>
 export default {
     data() {  // 받아온 data를 template 코드에 쓸 수 있게 data 정의

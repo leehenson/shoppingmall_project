@@ -11,14 +11,14 @@ export default {
                 console.log(e);     // 일단 console.log로 에러 표현
             })).data;               // data retrun
         },
-        $base64(file) {
+        $base64(file) { //  8비트 이진 데이터를 문자 코드에 영향을 받지 않는 공통 ASCII 문자열로 바꾸는 인코딩 방식
             return new Promise(resolve => {
               var a = new FileReader();
               a.onload = e => resolve(e.target.result);
               a.readAsDataURL(file);
             });
         },
-        $currencyFormat(value, format='#,###') {
+        $currencyFormat(value, format='#,###') {    // 가격,등 세자리마다 ,을 찍어주는 메소드
             if (value == 0 || value == null) return 0;
 
             var currency = format.substring(0, 1);

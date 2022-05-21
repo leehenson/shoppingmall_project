@@ -80,6 +80,7 @@
         </div>
       </main>
 </template>
+
 <script>
 export default {
   data() {

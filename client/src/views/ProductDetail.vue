@@ -70,11 +70,8 @@
                     </div>
                   </div>
                   <div class="d-flex justify-content-between align-items-center">
-                    <div class="col-6 d-grid p-1">
+                    <div class="col-12 d-grid p-1">
                         <button type="button" class="btn btn-lg btn-outline-dark" @click="addCart">ADD CART</button>
-                    </div>
-                    <div class="col-6 d-grid p-1">
-                        <button type="button" class="btn btn-lg btn-outline-dark">BUY NOW</button>
                     </div>
                   </div>
                 </div>

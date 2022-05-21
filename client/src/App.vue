@@ -96,36 +96,36 @@ export default {
   methods: {
     kakaoLogin() {
       window.Kakao.Auth.login({
-        scope: 'profile_nickname, account_email, gender',
-        success: this.getProfile
+        scope: 'profile_nickname, account_email, gender', // 카카오계정에서 받아올 정보
+        success: this.getProfile  // 로그인 성공시 getProfile() 호출
       });
     },
-    getProfile(authObj) {
+    getProfile(authObj) { // authObj라는 이름으로 파라미터 받아오기
       console.log(authObj);
-      window.Kakao.API.request({
+      window.Kakao.API.request({  // 로그인한 유저의 정보 가져오기
         url: '/v2/user/me',
-        success: res => {
-          const kakao_account = res.kakao_account;
-          console.log(kakao_account);
-          this.login(kakao_account);
-          alert("로그인 성공!");
+        success: res => { // 성공시 콜백함수
+          const kakao_account = res.kakao_account;  // 로그인한 유저의 계정 정보를 받아오기
+          console.log(kakao_account); // 계정 정보 확인
+          this.login(kakao_account);  // 계정 정보를 kakao_login으로 보냄
+          alert("로그인 성공!");  // 해당 alert 호출
         }
       });
     },
     async kakao_login(kakao_account) {  // login겸 signup
-      await this.$api("/api/login", {
+      await this.$api("/api/login", { // 게정 정보를 kakaoLogin sql 파라미터로 보냄
         param: [
           {email:kakao_account.email, nickname:kakao_account.profile.nickname},
           {nickname:kakao_account.profile.nickname}
         ]
       });
 
-      this.$store.commit("user", kakao_account);  // store에 user 정보를 갱신
+      this.$store.commit("user", kakao_account);  // vuex를 이용하여 상태관리하도록 store에 user 정보를 갱신
     },
     kakaoLogout() {
       window.Kakao.Auth.logout((response) => {
         console.log(response);
-        this.$store.commit("user", {});
+        this.$store.commit("user", {}); // store에 user 정보의 data를 빈값으로 만듬
         alert("로그아웃");
 
       });
