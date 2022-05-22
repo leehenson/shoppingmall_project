@@ -1,6 +1,6 @@
 const express = require('express'); // express 웹서버 관련 모듈 불러오기
 const app = express();  // express() 함수 호출
-const port = 3000;
+const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const session = require('express-session'); // express-session 로그인 관련 모듈 불러오기
@@ -21,6 +21,8 @@ app.use(express.json({  // body request 요청을 할 때 파라미터를 json�
 }));
 
 app.use(bodyParser.json());
+
+app.use(express.static('dist'));    // dist에 있는 정적인 file들을 사용
 
 app.listen(port, () => { // 3000번 포트로 웹서버 구동
     console.log(`Server Started. port ${port}.`);  // 웹서버 구동 시, console로 메세지를 남김

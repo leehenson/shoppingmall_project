@@ -5,7 +5,7 @@
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse">            
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">            
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
                 <router-link class="nav-link" to="/">HOME</router-link>
@@ -30,7 +30,7 @@
               </li>
             </ul>
           </div>
-          <div class="collapse navbar-collapse justify-content-end">
+          <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">                      
               <li v-if="user.email==undefined" class="nav-item">
                 <router-link class="nav-link" to="/login">LOGIN</router-link>

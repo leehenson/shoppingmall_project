@@ -132,8 +132,5 @@ module.exports = {  // database의 data query로 가져오기
     },
     orderUpdate: {  // 받아온 파라미터들로 주문정보 변경하는 쿼리
         query: `UPDATE t_order SET delivery_status = ?, transport_document_number = ? WHERE order_id = ?`
-    },
-    sellerInfo: {   // 해당 email를 가진 t_user의 admin 정보 가져오기
-        query: `SELECT admin FROM t_user WHERE email = ?`
     }
 }
