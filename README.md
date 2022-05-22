@@ -60,7 +60,7 @@ EMAIL: seller
 PASSWORD: seller
 
 ### USER 정보
-EMAIL: test
+EMAIL: test  
 PASSWORD: test
 ## 구현 방법
 
