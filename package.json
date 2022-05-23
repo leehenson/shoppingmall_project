@@ -8,6 +8,7 @@
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
+    "postinstall": "npm install express",
     "start": "cd server && npm ci && node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
