@@ -22,7 +22,7 @@ app.use(express.json({  // body request 요청을 할 때 파라미터를 json�
 
 app.use(bodyParser.json());
 
-app.use(express.static('dist'));    // dist에 있는 정적인 file들을 사용
+app.use(express.static(__dirname + '/dist'));   // dist에 있는 정적인 file들을 사용
 
 app.listen(port, () => { // 3000번 포트로 웹서버 구동
     console.log(`Server Started. port ${port}.`);  // 웹서버 구동 시, console로 메세지를 남김
