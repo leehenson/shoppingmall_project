@@ -1,5 +1,24 @@
 {
   "dependencies": {
     "vuex": "^4.0.2"
-  }
+  },
+  "name": "shoppingmall_project",
+  "description": "옷과 패션에 관심이 많기도 하고, 쇼핑몰에는 회원가입, 로그인, 주문조회, 배송조회, 등의 기능이 있어 만들어보면서 많은 것도 배우고 알아갈 수 있을 거라고 생각해 만들어 보게됐습니다.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "cd server && npm ci & node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LARK1NG/shoppingmall_project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LARK1NG/shoppingmall_project/issues"
+  },
+  "homepage": "https://github.com/LARK1NG/shoppingmall_project#readme"
 }
