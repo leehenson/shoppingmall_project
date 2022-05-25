@@ -1,4 +1,4 @@
-const express = require('express'); // express 웹서버 관련 모듈 불러오기 heroku
+const express = require('express'); // express 웹서버 관련 모듈 불러오기
 const app = express();  // express() 함수 호출
 const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
@@ -37,15 +37,11 @@ fs.watchFile(__dirname + '/sql.js', (curr, prev) => {   // file 레파지토리�
     sql = require('./sql.js');  // sql.js 다시 불러오기
 });
 
-const db = {    // 데이터베이스 불러오기
-    database: "hh6fiss1exgkqpgb",
-    connectionLimit: 10,
-    host: "cxmgkzhk95kfgbq4.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "tfv5nwtb5cfn7ywv",
-    password: "pho39bi6z9dtba42"
-};
+const db = require("./app/models"); // 데이터베이스 불러오기
 
 const dbPool = require('mysql').createPool(db); // mariadb 모듈 불러오기, createPool로 db와 연동시키기
+
+db.sequelize.sync();    // 개발 중에는 기존 테이블을 삭제하고 데이터베이스를 다시 동기화해야 할 수 있습니다. force: true다음 코드로 사용
 
 app.post('/api/memberJoin', async (request, res) => {   // 회원가입 api
     const signUp = await req.db('memberJoin', request.body.user.email); // body에서 받아온 data를 sql memberJoin을 통해 똑같은 email이 있는지 확인
