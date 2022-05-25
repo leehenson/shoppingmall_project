@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "connect-history-api-fallback": "^1.6.0",
+    "cors": "^2.8.5",
+    "http": "^0.0.1-security",
     "mysql2": "^2.3.3",
     "sequelize": "^6.20.0",
     "vuex": "^4.0.2"
