@@ -1,13 +1,11 @@
 const express = require('express'); // express 웹서버 관련 모듈 불러오기
-const history = require('connect-history-api-fallback');
+const history = require('connect-history-api-fallback');    // redirect 에러 해결 모듈
 const app = express();  // express() 함수 호출
-const http = require('http');
 const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const session = require('express-session'); // express-session 로그인 관련 모듈 불러오기
 const fs = require('fs');   // filesystem으로 디렉토리에 접근할 수 있게 해주는 모듈 불러오기
-const cors = require('cors');
 
 app.use(session({   // session 처리 방법
     secret: 'secret code',  // session에 대한 key(secret code)
@@ -37,11 +35,11 @@ fs.watchFile(__dirname + '/sql.js', (curr, prev) => {   // file 레파지토리�
 });
 
 const db = {    // 데이터베이스 불러오기
-    database: "hh6fiss1exgkqpgb",
+    database: "dev",
     connectionLimit: 10,
-    host: "cxmgkzhk95kfgbq4.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "tfv5nwtb5cfn7ywv",
-    password: "pho39bi6z9dtba42"
+    host: "172.20.10.4",
+    user: "root",
+    password: "mariadb"
 };
 
 const dbPool = require('mysql').createPool(db); // mariadb 모듈 불러오기, createPool로 db와 연동시키기
