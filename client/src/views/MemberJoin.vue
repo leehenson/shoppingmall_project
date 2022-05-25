@@ -59,7 +59,7 @@
       </div>
     </div>
   </main>
-</template>
+</template> ->
 
 <script>
 export default {
