@@ -23,8 +23,6 @@ app.use(express.json({  // body request 요청을 할 때 파라미터를 json�
 
 app.use(bodyParser.json());
 
-app.use(cors());
-
 let sql = require('./sql.js');    // sql.js 불러오기
 
 // nodemon 모듈로 대체 가능
