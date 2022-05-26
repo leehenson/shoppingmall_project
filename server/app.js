@@ -6,6 +6,15 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const session = require('express-session'); // express-session 로그인 관련 모듈 불러오기
 const fs = require('fs');   // filesystem으로 디렉토리에 접근할 수 있게 해주는 모듈 불러오기
+const { sequelize } = require('./models');
+
+sequelize.sync({ force: false })
+.then(() => {
+    console.log('데이터베이스 연결 성공');
+})
+.catch((err) => {
+    console.error(err);
+});
 
 app.use(session({   // session 처리 방법
     secret: 'secret code',  // session에 대한 key(secret code)
