@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express'); // express 웹서버 관련 모듈 불러오기
 const history = require('connect-history-api-fallback');    // redirect 에러 해결 모듈
 const app = express();  // express() 함수 호출
@@ -7,15 +6,6 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const session = require('express-session'); // express-session 로그인 관련 모듈 불러오기
 const fs = require('fs');   // filesystem으로 디렉토리에 접근할 수 있게 해주는 모듈 불러오기
-const { sequelize } = require('../models');
-
-sequelize.sync({ force: false })
-.then(() => {
-    console.log('데이터베이스 연결 성공');
-})
-.catch((err) => {
-    console.error(err);
-});
 
 app.use(session({   // session 처리 방법
     secret: 'secret code',  // session에 대한 key(secret code)
@@ -42,7 +32,13 @@ fs.watchFile(__dirname + '/sql.js', (curr, prev) => {   // file 레파지토리�
     sql = require('./sql.js');  // sql.js 다시 불러오기
 });
 
-const db = {};  // 데이터베이스 불러오기
+const db = {    // 데이터베이스 불러오기
+    database: "dev",
+    connectionLimit: 10,
+    host: "172.20.10.4",
+    user: "root",
+    password: "mariadb"
+};
 
 const dbPool = require('mysql').createPool(db); // mariadb 모듈 불러오기, createPool로 db와 연동시키기
 
