@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "npm install express",
-    "start": "cd server && node app.js",
+    "start": "cd server && npm ci && node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
