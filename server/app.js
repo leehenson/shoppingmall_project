@@ -33,11 +33,11 @@ fs.watchFile(__dirname + '/sql.js', (curr, prev) => {   // file 레파지토리�
 });
 
 const db = {    // 데이터베이스 불러오기
-    database: "dev",
+    database: "m65p7x5zbrhxlzye",
     connectionLimit: 10,
-    host: "172.20.10.4",
-    user: "root",
-    password: "mariadb"
+    host: "cxmgkzhk95kfgbq4.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "ujp658q30bbihu1v",
+    password: "rv0mz9y0xv6gpd3e"
 };
 
 const dbPool = require('mysql').createPool(db); // mariadb 모듈 불러오기, createPool로 db와 연동시키기
