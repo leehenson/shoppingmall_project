@@ -10,7 +10,7 @@ const http = require("http"); // http 모듈 불러오기
 
 setInterval(() => {
   // heroku sleep mode 방지를 위해 10분 간격으로 트래픽 생성
-  http.get("https://kongshop.herokuapp.com/");
+  http.get("http://kongshop.herokuapp.com/");
 }, 600000);
 
 app.use(
