@@ -62,7 +62,7 @@
 
 ## 구현한 웹페이지
 
-Click [here](https://kongshop.herokuapp.com/)
+Click [here](http://kongshop.herokuapp.com/)
 
 ## 로그인 정보
 
